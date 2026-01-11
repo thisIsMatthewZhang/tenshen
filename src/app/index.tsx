@@ -1,19 +1,29 @@
-import { useState } from "react";
-import { Button, Text, View } from "react-native";
+// this is currently in src/app/index.tsx, 
+// but should likely be placed inside src/screens/Onboarding/GetStarted
+
+import { StyleSheet, Text, View } from "react-native";
+import NextButton from "../screens/Onboarding/components/NextButton";
 
 export default function Index() {
-  const [buttonText, setButtonText] = useState("Get Started");
 
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
-      <Button title={buttonText} onPress={() => setButtonText("You Clicked Me!!!")}></Button>
+    <View style={styles.container}>
+      <Text style={styles.text}>Welcome to the Tenshen Beta Test! Please select &quot;Get Started&quot; below to proceed with onboarding👇</Text>
+      <NextButton />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  text: {
+    fontSize: 24,
+    fontWeight: 700,
+    maxWidth: 300,
+  },
+
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
