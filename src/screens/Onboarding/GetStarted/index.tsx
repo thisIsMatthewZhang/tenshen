@@ -1,15 +1,15 @@
-// this is currently in src/app/index.tsx, 
-// but should likely be placed inside src/screens/Onboarding/GetStarted
+import { NextScreen } from "@/src/constants/nextScreenEnums";
 import { APP_BACKGROUND_COLOR, FONTS } from "@/src/constants/theme";
-import NextButton from "@/src/screens/Onboarding/components/NextButton";
+import OnboardingButton from "@/src/screens/Onboarding/components/OnboardingButton";
 import { StyleSheet, Text, View } from "react-native";
 
-export default function Index() {
+
+export default function GetStartedScreen() {
 
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Welcome to the Tenshen Beta Test! Please select &quot;Get Started&quot; below to proceed with onboarding👇</Text>
-      <NextButton buttonText="Get Started" currentScreen="GetStarted"/>
+      <OnboardingButton buttonText="Get Started" nextScreen={NextScreen.PickWorkoutBuddy}/>
     </View>
   );
 }

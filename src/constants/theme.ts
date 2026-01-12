@@ -5,7 +5,6 @@ export const GOLD = '#FFC107';
 export const BUTTONTEXT = '#000000';
 export const APP_BACKGROUND_COLOR = '#2F3036';
 
-
 export const FONTS = Platform.select({
   ios: {
     /** iOS `UIFontDescriptorSystemDesignDefault` */
