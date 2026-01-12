@@ -5,9 +5,14 @@ export default function NextButton({ buttonText }: { buttonText: string }) {
 
     return (
         <Pressable 
-            hitSlop={10} 
-            onPress={() => {}} 
-            style={styles.pressable}
+            hitSlop={5} 
+            onPress={() => { // fire off when user transitions to next onboarding screen
+                console.log("Onto the next onboarding screen!!!");
+            }} 
+            style={({pressed}) => {
+                return [styles.pressable, {opacity: pressed ? 0.5 : 1}];
+            }}
+            
         >
             <View style={styles.buttonView}>
                 <Text style={styles.text}> {buttonText} </Text>
