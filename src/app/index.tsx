@@ -2,6 +2,7 @@
 // but should likely be placed inside src/screens/Onboarding/GetStarted
 
 import { StyleSheet, Text, View } from "react-native";
+import { FONTS } from "../constants/theme";
 import NextButton from "../screens/Onboarding/components/NextButton";
 
 export default function Index() {
@@ -19,6 +20,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 700,
     maxWidth: 300,
+    ...FONTS
   },
 
   container: {
