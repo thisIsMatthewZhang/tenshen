@@ -1,13 +1,16 @@
 import { FONTS, GOLD } from "@/src/constants/theme";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
-export default function NextButton({ buttonText }: { buttonText: string }) {
+export default function NextButton
+(
+    { buttonText, currentScreen }: { buttonText: string, currentScreen: string }, 
+) {
 
     return (
         <Pressable 
             hitSlop={5} 
             onPress={() => { // fire off when user transitions to next onboarding screen
-                console.log("Onto the next onboarding screen!!!");
+                console.log(`Current screen: ${currentScreen}`);
             }} 
             style={({pressed}) => {
                 return [styles.pressable, {opacity: pressed ? 0.5 : 1}];
