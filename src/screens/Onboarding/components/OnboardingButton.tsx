@@ -1,25 +1,28 @@
-import { NextScreen } from "@/src/constants/nextScreenEnums";
 import { FONTS, GOLD } from "@/src/constants/theme";
-import { useRouter } from "expo-router";
+import { Href, useRouter } from "expo-router";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
-export default function OnboardingButton
-(
-    { buttonText, nextScreen }: { buttonText: string, nextScreen: NextScreen }, 
-) {
+type OnboardingRoute = "/pickworkoutbuddy" | "/gender" | "/experience";
+
+interface ButtonProps {
+    nextScreen: OnboardingRoute,
+    buttonText: string,
+}
+
+export default function OnboardingButton(props: ButtonProps) {
     const router = useRouter();
 
     return (
         <Pressable 
             hitSlop={5} 
-            onPress={() => router.push(`/(onboarding)/${nextScreen}`)} 
+            onPress={() => router.push(`${props.nextScreen}` as Href)} 
             style={({pressed}) => {
                 return [styles.pressable, {opacity: pressed ? 0.5 : 1}];
             }}
             
         >
             <View style={styles.buttonView}>
-                <Text style={styles.text}> {buttonText} </Text>
+                <Text style={styles.text}> {props.buttonText} </Text>
 
             </View>
         </Pressable>
