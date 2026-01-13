@@ -1,6 +1,9 @@
 import { ONBOARDING } from "@/src/constants/theme";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { useRef } from "react";
+import { Animated, Pressable, StyleSheet, Text, View } from "react-native";
 import OnboardingButton from "../components/OnboardingButton";
+
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 export default function PickWorkoutBuddy() {
 
@@ -18,27 +21,46 @@ export default function PickWorkoutBuddy() {
 }
 
 function AvatarContainer() {
+    const scaleAnim = useRef(new Animated.Value(1)).current;
+    
     return (
-        <Pressable 
-            style={({pressed}) => {
-                return [
-                    styles.avatarContainer, 
-                ];
+        <AnimatedPressable
+            style={[
+                styles.avatarContainer, 
+                { transform: [{ scale: scaleAnim }] }, 
+            ]}
+            hitSlop={5}
+            onPressIn={() => {
+                Animated.timing(scaleAnim, {
+                    toValue: 1.1,
+                    duration: 250,
+                    useNativeDriver: true,
+                }).start();
+            }}
+            onPressOut={() => {
+                Animated.timing(scaleAnim, {
+                    toValue: 1,
+                    duration: 250,
+                    useNativeDriver: true,
+                }).start();
+
             }}
             onPress={() => {
-                
+                scaleAnim.setValue(1.1);
             }}
         >
             
-        </Pressable>
+        </AnimatedPressable>
     );
 }
 
 const styles = StyleSheet.create({
+
     selectionContainer: {
         flexDirection: "row",
-        columnGap: 20,
-        width: "85%",
+        justifyContent: "center",
+        columnGap: 24,
+        width: "80%",
         height: "25%",
         marginBlock: 28
     },
