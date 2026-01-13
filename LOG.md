@@ -20,4 +20,5 @@
 - Read through what Expo Router does and how it's different from RN's Stack Navigation system
 - Implemented routing between screens using enums and then string literal unions
 - * Will need to check if user account exists to prevent from always starting at GetStarted screen*
+- Moved Onboarding styles to common theme file
 - 

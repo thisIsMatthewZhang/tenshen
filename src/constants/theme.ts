@@ -1,4 +1,4 @@
-import { Platform } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 
 
 export const GOLD = '#FFC107';
@@ -29,4 +29,27 @@ export const FONTS = Platform.select({
     rounded: "'SF Pro Rounded', 'Hiragino Maru Gothic ProN', Meiryo, 'MS PGothic', sans-serif",
     mono: "SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
   },
+});
+
+export const ONBOARDING = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#2F3036"
+  },
+  bigText: {
+    fontSize: 24,
+    fontWeight: 600,
+    maxWidth: 350,
+    color: "white",
+  },
+  smallText: {
+    fontSize: 16,
+    color: "white",
+    alignSelf: "flex-start",
+    marginInlineStart: 28,
+    opacity: 0.5
+  }
+
 });
