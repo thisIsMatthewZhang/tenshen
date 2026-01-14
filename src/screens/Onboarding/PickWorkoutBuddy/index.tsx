@@ -1,6 +1,7 @@
 import { ONBOARDING } from "@/src/constants/theme";
+import { Href, useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
-import { Animated, Image, ImageProps, Pressable, StyleSheet, Text, View } from "react-native";
+import { Animated, Image, ImageProps, Platform, Pressable, StyleSheet, Text, View } from "react-native";
 import OnboardingButton from "../components/OnboardingButton";
 const ruby = require('../../../../assets/avatars/Ruby.png');
 const rudy = require('../../../../assets/avatars/Rudy.png');
@@ -15,17 +16,22 @@ interface AvatarProps {
 }
 
 export default function PickWorkoutBuddyScreen() {
+    const router = useRouter();
     const [selected, setSelected] = useState<"Ruby" | "Rudy" | null>(null);
 
     return (
         <View style={ONBOARDING.container}>
-            <Text style={ONBOARDING.bigText}> Please choose which workout partner you want to do this journey with </Text>
-            <Text style={ONBOARDING.smallText}> You will be able to swap later. </Text>
+            <View style={styles.textContainer}>
+                <Text style={ONBOARDING.bigText}> Please choose which workout partner you want to do this journey with </Text>
+                <Text style={[ONBOARDING.smallText, { opacity: 0.5, top: 12 }]}> You will be able to swap later. </Text>
+            </View>
+
             <View style={styles.selectionContainer}>
                 <AvatarContainer avatar={ruby} name="Ruby" isSelected={selected === "Ruby"} onSelected={() => setSelected("Ruby")}/>
                 <AvatarContainer avatar={rudy} name="Rudy" isSelected={selected === "Rudy"} onSelected={() => setSelected("Rudy")}/>
             </View>
-            <OnboardingButton buttonText="Next" nextScreen='/gender'/>
+            <OnboardingButton buttonText="Next" router={() => router.push("/buddygreetin" as Href)}/>
+
         </View>
     );
 }
@@ -36,7 +42,7 @@ function AvatarContainer(props: AvatarProps) {
     useEffect(() => {
         Animated.timing(scaleAnim, {
             toValue: props.isSelected ? 1.1 : 1,
-            duration: 250,
+            duration: 100,
             useNativeDriver: true,
         }).start();
     }, [props.isSelected, scaleAnim]);
@@ -51,14 +57,14 @@ function AvatarContainer(props: AvatarProps) {
             onPressIn={() => {
                 Animated.timing(scaleAnim, {
                     toValue: props.isSelected ? 1.15 : 1.05,
-                    duration: 250,
+                    duration: 100,
                     useNativeDriver: true,
                 }).start();
             }}
             onPressOut={() => {
                 Animated.timing(scaleAnim, {
                     toValue: props.isSelected ? 1.1 : 1,
-                    duration: 250,
+                    duration: 100,
                     useNativeDriver: true,
                 }).start();
 
@@ -72,26 +78,54 @@ function AvatarContainer(props: AvatarProps) {
 }
 
 const styles = StyleSheet.create({
-
+    textContainer: {
+        flex: 1,
+        marginBlock: 12
+    },
     selectionContainer: {
         flexDirection: "row",
+        alignItems: "center",
         justifyContent: "center",
-        columnGap: 24,
-        width: "80%",
-        height: "25%",
-        marginBlock: 28
+        ...Platform.select({
+            "web": {
+                flex: 4,
+                columnGap: 48
+            },
+            "default": {
+                flex: 4,
+                marginBlock: 28,
+                columnGap: 24,
+            }
+        })
     },
     avatarContainer: {
-        flex: 1,
         alignItems: "center",
         justifyContent: "center",
         backgroundColor: "white",
         borderRadius: 10,
+        ...Platform.select({
+            "web": {
+                width: 300,
+                height: 300
+            },
+            "default": {
+                width: "40%",
+                height: "40%"
+            }
+        })
     },
     avatar: {
-        width: "100%",
-        height: "90%",
-        top: 12
+        top: 12,
+        ...Platform.select({
+            "web": {
+                width: "100%",
+                height: "100%"
+            },
+            "default": {
+                width: "100%",
+                height: "100%"
+            }
+        })
     },
     avatarName: {
         top: 28,

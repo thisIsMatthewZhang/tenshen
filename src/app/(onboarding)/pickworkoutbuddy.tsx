@@ -1,5 +1,5 @@
 import PickWorkoutBuddyScreen from "@/src/screens/Onboarding/PickWorkoutBuddy/index";
 
-export default function OnboardingRouteTwo() {
+export default function RouteThree() {
     return <PickWorkoutBuddyScreen />;
 }

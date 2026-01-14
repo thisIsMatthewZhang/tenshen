@@ -34,9 +34,9 @@ export const FONTS = Platform.select({
 export const ONBOARDING = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#2F3036"
+    justifyContent: "center",
+    backgroundColor: "#2F3036",
   },
   bigText: {
     fontSize: 24,
@@ -47,9 +47,6 @@ export const ONBOARDING = StyleSheet.create({
   smallText: {
     fontSize: 16,
     color: "white",
-    alignSelf: "flex-start",
-    marginInlineStart: 28,
-    opacity: 0.5
   }
 
 });

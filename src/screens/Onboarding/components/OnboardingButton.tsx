@@ -1,21 +1,17 @@
 import { FONTS, GOLD } from "@/src/constants/theme";
-import { Href, useRouter } from "expo-router";
-import { Pressable, StyleSheet, Text, View } from "react-native";
-
-type OnboardingRoute = "/pickworkoutbuddy" | "/gender" | "/experience" | "/buddygreeting";
+import { Platform, Pressable, StyleSheet, Text, View } from "react-native";
 
 interface ButtonProps {
-    nextScreen: OnboardingRoute,
     buttonText: string,
+    router: () => void
 }
 
-export default function OnboardingButton(props: ButtonProps) {
-    const router = useRouter();
 
+export default function OnboardingButton(props: ButtonProps) {
     return (
         <Pressable 
             hitSlop={5} 
-            onPress={() => router.push(`${props.nextScreen}` as Href)} 
+            onPress={props.router} 
             style={({pressed}) => {
                 return [styles.pressable, {opacity: pressed ? 0.5 : 1}];
             }}
@@ -32,8 +28,15 @@ export default function OnboardingButton(props: ButtonProps) {
 
 const styles = StyleSheet.create({
     pressable: {
-        width: "85%",
         marginBlockStart: 24,
+        ...Platform.select({
+            "web": {
+                width: "25%"
+            },
+            "default": {
+                width: "75%"
+            }
+        }),
     },
     buttonView: {
         width: "100%",
