@@ -2,7 +2,7 @@ import { FONTS, GOLD } from "@/src/constants/theme";
 import { Href, useRouter } from "expo-router";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
-type OnboardingRoute = "/pickworkoutbuddy" | "/gender" | "/experience";
+type OnboardingRoute = "/pickworkoutbuddy" | "/gender" | "/experience" | "/buddygreeting";
 
 interface ButtonProps {
     nextScreen: OnboardingRoute,
