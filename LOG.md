@@ -21,4 +21,7 @@
 - Implemented routing between screens using enums and then string literal unions
 - * Will need to check if user account exists to prevent from always starting at GetStarted screen*
 - Moved Onboarding styles to common theme file
-- 
+
+
+## Day Four (1/13/2026)
+- Tried figuring out RN's Animated API
