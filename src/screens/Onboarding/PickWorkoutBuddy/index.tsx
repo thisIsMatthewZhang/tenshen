@@ -1,12 +1,12 @@
+import { AnimatedPressable } from "@/src/components/AnimatedPressable";
 import { ONBOARDING } from "@/src/constants/theme";
 import { Href, useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
-import { Animated, Image, ImageProps, Platform, Pressable, StyleSheet, Text, View } from "react-native";
+import { Animated, Image, ImageProps, Platform, StyleSheet, Text, View } from "react-native";
 import OnboardingButton from "../components/OnboardingButton";
 const ruby = require('../../../../assets/avatars/Ruby.png');
 const rudy = require('../../../../assets/avatars/Rudy.png');
 
-const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 interface AvatarProps {
     avatar: ImageProps 

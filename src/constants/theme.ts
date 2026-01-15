@@ -47,6 +47,32 @@ export const ONBOARDING = StyleSheet.create({
   smallText: {
     fontSize: 16,
     color: "white",
-  }
+  },
+});
 
+export const BIG_GOLDEN_BUTTON = StyleSheet.create({
+    pressable: {
+        marginBlockStart: 24,
+        ...Platform.select({
+            "web": {
+                width: "25%"
+            },
+            "default": {
+                width: "75%"
+            }
+        }),
+    },
+    buttonView: {
+        width: "100%",
+        backgroundColor: GOLD,
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: 10,
+        paddingBlock: 12
+    },
+    text: {
+        fontSize: 20,
+        fontWeight: 700,
+        ...FONTS
+    }
 });
