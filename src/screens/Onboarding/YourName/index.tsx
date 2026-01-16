@@ -1,5 +1,5 @@
 import { GOLD, ONBOARDING } from "@/src/constants/theme";
-import { Href, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Platform, StyleSheet, Text, TextInput, View } from "react-native";
 import OnboardingButton from "../components/OnboardingButton";
@@ -43,7 +43,7 @@ export default function YourNameScreen() {
                 }
                 else {
                     setError('');
-                    router.push("/pickworkoutbuddy" as Href); 
+                    router.push({pathname: "/pickworkoutbuddy", params: { fullName, preferredName }}); 
                 }
             }}
             ></OnboardingButton>

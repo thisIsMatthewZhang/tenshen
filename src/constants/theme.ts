@@ -37,6 +37,7 @@ export const ONBOARDING = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#2F3036",
+    paddingBlock: 28
   },
   bigText: {
     fontSize: 24,

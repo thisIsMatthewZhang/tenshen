@@ -22,10 +22,16 @@
 - *Will need to check if user account exists to prevent from always starting at GetStarted screen*
 - Moved Onboarding styles to common theme file
 
-
 ## Day Four (1/13/2026)
 - Tried figuring out RN's Animated API
 - Read up on the importance of type safety
 - Got selection boxes to scale up when pressed on
 - Added toggling between avatar selections
 - Imported and added avatars to selection boxes
+
+## Day Five (1/14/2026)
+- Wrestled with using animations input validation in YourNameScreen
+- Just ended up generating standard error message
+- Remembered that I should also check the web app version works too
+- Refactor, refactor, refactor
+- *TODO: Do last onboarding pages (buddy's greeting and user information) and pass data between screens*

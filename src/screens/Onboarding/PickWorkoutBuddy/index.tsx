@@ -1,6 +1,6 @@
 import { AnimatedPressable } from "@/src/components/AnimatedPressable";
 import { ONBOARDING } from "@/src/constants/theme";
-import { Href, useRouter } from "expo-router";
+import { UnknownOutputParams, useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import { Animated, Image, ImageProps, Platform, StyleSheet, Text, View } from "react-native";
 import OnboardingButton from "../components/OnboardingButton";
@@ -15,14 +15,14 @@ interface AvatarProps {
     onSelected: () => void
 }
 
-export default function PickWorkoutBuddyScreen() {
+export default function PickWorkoutBuddyScreen({ fullName, preferredName }: UnknownOutputParams) {
     const router = useRouter();
     const [selected, setSelected] = useState<"Ruby" | "Rudy" | null>(null);
 
     return (
         <View style={ONBOARDING.container}>
             <View style={styles.textContainer}>
-                <Text style={ONBOARDING.bigText}> Please choose which workout partner you want to do this journey with </Text>
+                <Text style={ONBOARDING.bigText}> Hey {preferredName}! Please choose which workout partner you want to do this journey with </Text>
                 <Text style={[ONBOARDING.smallText, { opacity: 0.5, top: 12 }]}> You will be able to swap later. </Text>
             </View>
 
@@ -30,7 +30,7 @@ export default function PickWorkoutBuddyScreen() {
                 <AvatarContainer avatar={ruby} name="Ruby" isSelected={selected === "Ruby"} onSelected={() => setSelected("Ruby")}/>
                 <AvatarContainer avatar={rudy} name="Rudy" isSelected={selected === "Rudy"} onSelected={() => setSelected("Rudy")}/>
             </View>
-            <OnboardingButton buttonText="Next" router={() => router.push("/buddygreetin" as Href)}/>
+            <OnboardingButton buttonText="Next" router={() => router.push({pathname: "/buddygreeting", params: { fullName, preferredName, selected }})}/>
 
         </View>
     );
