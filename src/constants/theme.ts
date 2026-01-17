@@ -77,3 +77,23 @@ export const BIG_GOLDEN_BUTTON = StyleSheet.create({
         ...FONTS
     }
 });
+
+export const TEXT_INPUT = StyleSheet.create({
+    input: {
+        color: "white",
+        borderStyle: "solid",
+        borderWidth: 2,
+        borderColor: "white",
+        borderRadius: 10,
+        marginBlock: 10,
+        ...Platform.select({
+            "web": {
+                width: "25%",
+                padding: 10
+            },
+            "default": {
+                width: "75%"
+            }
+        }),
+    }
+});

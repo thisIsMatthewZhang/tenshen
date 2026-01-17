@@ -1,7 +1,7 @@
-import { GOLD, ONBOARDING } from "@/src/constants/theme";
+import { GOLD, ONBOARDING, TEXT_INPUT } from "@/src/constants/theme";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Platform, StyleSheet, Text, TextInput, View } from "react-native";
+import { Text, TextInput, View } from "react-native";
 import OnboardingButton from "../components/OnboardingButton";
 
 export default function YourNameScreen() {
@@ -19,7 +19,7 @@ export default function YourNameScreen() {
             autoCapitalize="words" 
             inputMode="text"
             value={fullName}
-            style={[styles.input, ONBOARDING.smallText]} 
+            style={[TEXT_INPUT.input, ONBOARDING.smallText]} 
             placeholder="Full Name" 
             placeholderTextColor={"white"}
             onChangeText={(text) => setFullName(text)}
@@ -29,7 +29,7 @@ export default function YourNameScreen() {
             autoCapitalize="words" 
             inputMode="text"
             value={preferredName}
-            style={[styles.input, ONBOARDING.smallText]} 
+            style={[TEXT_INPUT.input, ONBOARDING.smallText]} 
             placeholder="Preferred Name" 
             placeholderTextColor={"white"}
             onChangeText={(text) => setPreferredName(text)}
@@ -50,23 +50,3 @@ export default function YourNameScreen() {
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    input: {
-        color: "white",
-        borderStyle: "solid",
-        borderWidth: 2,
-        borderColor: "white",
-        borderRadius: 10,
-        marginBlock: 10,
-        ...Platform.select({
-            "web": {
-                width: "25%",
-                padding: 10
-            },
-            "default": {
-                width: "75%"
-            }
-        }),
-    }
-});
