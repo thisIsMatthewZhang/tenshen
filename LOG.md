@@ -61,3 +61,10 @@
 - _TODO: Integrate Rive animation into buddy greeting page and test that it works_
 
 ## Day Nine (1/18/2026)
+
+- Added some Rive code into BuddyGreetingScreen
+- _TODO: Shift plan to building as much UI as possible before buying subscription. Build Tab Bar for main app_
+
+## Day Ten (1/19/2026)
+
+-
