@@ -1,15 +1,54 @@
 import { ONBOARDING } from "@/src/constants/theme";
+import {
+    Fit,
+    RiveView,
+    useRive,
+    useRiveFile
+} from "@rive-app/react-native";
+import { requireNativeModule } from "expo";
 import { UnknownOutputParams, useRouter } from "expo-router";
-import { Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import OnboardingButton from "../components/OnboardingButton";
 
+export default function BuddyGreetingScreen({
+  fullName,
+  preferredName,
+  selected,
+}: UnknownOutputParams) {
+  const router = useRouter();
+  const { riveFile } = useRiveFile(requireNativeModule(""));
+  const { riveViewRef, setHybridRef } = useRive();
 
-export default function BuddyGreetingScreen({ fullName, preferredName, selected }: UnknownOutputParams) {
-    const router = useRouter();
-    return (
-        <View style={ONBOARDING.container}>
-            <Text> Sup {preferredName}!!! Call me {selected}. </Text>
-            <OnboardingButton buttonText="Next" router={() => { router.push({ pathname: "/setaccountcredentials", params: { fullName, preferredName, selected } }); }}/>
-        </View>
-    );
+  return (
+    <View style={ONBOARDING.container}>
+      <Text style={ONBOARDING.bigText}>
+        {" "}
+        Sup {preferredName}!!! Call me {selected}.{" "}
+      </Text>
+      {riveFile && (
+        <RiveView
+          hybridRef={setHybridRef}
+          file={riveFile}
+          style={styles.rive}
+          fit={Fit.Layout}
+        />
+      )}
+      <OnboardingButton
+        buttonText="Next"
+        router={() => {
+          router.push({
+            pathname: "/setaccountcredentials",
+            params: { fullName, preferredName, selected },
+          });
+        }}
+      />
+    </View>
+  );
 }
+
+const styles = StyleSheet.create({
+  rive: {
+    width: "100%",
+    height: 400,
+  },
+});

@@ -54,3 +54,10 @@
 - Set up routing logic from buddy greeting screen to account credentials screen
 - Added some basic logic to the two screens
 - _TODO: Apply more strict input validation for setting account credentials screen. Also need to import Rive runtime soon for workout buddy_
+
+## Day Eight (1/17/2026)
+
+- Added account sign up page with validation
+- _TODO: Integrate Rive animation into buddy greeting page and test that it works_
+
+## Day Nine (1/18/2026)
