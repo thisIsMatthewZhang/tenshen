@@ -67,4 +67,17 @@
 
 ## Day Ten (1/19/2026)
 
--
+- Added Tab Bar to main app
+  - Used Ionicons library from @expo/vector-icons
+- Running into an issue with Nitro Modules
+  - Will likely need to rebuild app with new native module installations
+- _TODO: Finalize design for Home tab and get Apple Developer Account to begin iOS testing_
+
+## Day Eleven (1/20/2026)
+
+- Some weird shit was happening today
+  - Got an error trying to start the web app ("react-native" package was being imported instead of "react-native-web")
+  - Thinking that Nitro Modules affected this
+- DateCircle component for Home screen
+  - Need props that will tell the current day and days of the current week (Date API)
+- _TODO: Try adding dates to each Circle and enroll in ADP before starting new build for iOS & Android_

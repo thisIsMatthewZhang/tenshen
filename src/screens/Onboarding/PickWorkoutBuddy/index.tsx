@@ -3,13 +3,13 @@ import { ONBOARDING } from "@/src/constants/theme";
 import { UnknownOutputParams, useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import {
-    Animated,
-    Image,
-    ImageProps,
-    Platform,
-    StyleSheet,
-    Text,
-    View,
+  Animated,
+  Image,
+  ImageProps,
+  Platform,
+  StyleSheet,
+  Text,
+  View,
 } from "react-native";
 import OnboardingButton from "../components/OnboardingButton";
 const ruby = require("../../../../assets/avatars/Ruby.png");
@@ -61,7 +61,7 @@ export default function PickWorkoutBuddyScreen({
         buttonText="Next"
         router={() =>
           router.push({
-            pathname: "/home",
+            pathname: "/buddygreeting",
             params: { fullName, preferredName, selected },
           })
         }
