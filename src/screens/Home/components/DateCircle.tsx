@@ -1,6 +1,6 @@
 import { GOLD, ONBOARDING } from "@/src/constants/theme";
+import { getDaysInMonth } from "@/src/scripts/getDaysInMonth";
 import { Pressable, StyleSheet, Text, View } from "react-native";
-
 export interface DateCircleProps {
   dateOfWeek: number;
   dayOfWeek: "Sun" | "M" | "Tu" | "W" | "Th" | "F" | "Sat";
@@ -18,7 +18,9 @@ export default function DateCircle({
     >
       <View style={styles.textContainer}>
         <Text style={[ONBOARDING.smallText, { fontWeight: "semibold" }]}>
-          {dateOfWeek}
+          {dateOfWeek > getDaysInMonth()
+            ? dateOfWeek - getDaysInMonth()
+            : dateOfWeek}
         </Text>
         <Text
           style={[

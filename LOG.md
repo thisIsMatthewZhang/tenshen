@@ -81,3 +81,12 @@
 - DateCircle component for Home screen
   - Need props that will tell the current day and days of the current week (Date API)
 - _TODO: Try adding dates to each Circle and enroll in ADP before starting new build for iOS & Android_
+
+## Day Twelve (1/21/2026)
+
+- Date circles look pretty good
+  - Got dates to display inside each circle w/ day of the week underneath
+  - Outlined current day of the week
+  - Will eventually need to mark days where workouts were completed
+  - Need to wait a week or two to test that days are displayed correctly after a month ends
+- Enrolled in ADP
