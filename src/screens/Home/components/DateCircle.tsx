@@ -4,12 +4,18 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 export interface DateCircleProps {
   dateOfWeek: number;
   dayOfWeek: "Sun" | "M" | "Tu" | "W" | "Th" | "F" | "Sat";
+  isCurrentDay: boolean;
 }
 
-export default function DateCircle({ dateOfWeek, dayOfWeek }: DateCircleProps) {
-  // TODO: Add props that will tell the date number and day of the week
+export default function DateCircle({
+  dateOfWeek,
+  dayOfWeek,
+  isCurrentDay,
+}: DateCircleProps) {
   return (
-    <Pressable style={styles.circle}>
+    <Pressable
+      style={[styles.circle, { borderColor: isCurrentDay ? GOLD : "#494A50" }]}
+    >
       <View style={styles.textContainer}>
         <Text style={[ONBOARDING.smallText, { fontWeight: "semibold" }]}>
           {dateOfWeek}
@@ -17,7 +23,7 @@ export default function DateCircle({ dateOfWeek, dayOfWeek }: DateCircleProps) {
         <Text
           style={[
             ONBOARDING.smallText,
-            { fontWeight: "bold", marginBlockStart: 4 },
+            { fontWeight: "semibold", marginBlockStart: 4 },
           ]}
         >
           {dayOfWeek}
@@ -35,19 +41,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#494A50",
-    borderWidth: 0.5,
+    borderWidth: 2,
     borderRadius: 20,
-    borderColor: "black",
-    // paddingInlineStart: 5,
     marginInline: 12,
   },
   textContainer: {
     alignItems: "center",
     justifyContent: "center",
     top: 12,
-  },
-  currentDay: {
-    // outline with GOLD if Circle is current day of the week
-    borderColor: GOLD,
   },
 });
