@@ -21,6 +21,7 @@
     "@react-navigation/native": "^7.1.27",
     "@react-navigation/native-stack": "^7.9.1",
     "@rive-app/react-native": "^0.1.5",
+    "date-fns": "^4.1.0",
     "expo": "~54.0.31",
     "expo-constants": "~18.0.13",
     "expo-dev-client": "~6.0.20",
