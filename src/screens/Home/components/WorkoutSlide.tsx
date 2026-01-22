@@ -13,7 +13,10 @@ export default function WorkoutSlide({ cardDetails }: WorkoutCards) {
         <FlatList
           data={cardDetails}
           renderItem={({ item }) => (
-            <WorkoutCard workoutName={item.workoutName} />
+            <WorkoutCard
+              workoutName={item.workoutName}
+              exercises={item.exercises}
+            />
           )}
           horizontal={true}
         />

@@ -102,4 +102,5 @@
 - Waited 2+ hours for the queue to reach my build
 - Installed development and provisional profile onto my iPhone
 - **Note to self: Build queueing took forever...Never use EAS again...just learn native languages**:|
--
+- Bruh...
+  - I uploaded Google Service files as literal strings and _not_ the actual files🤡🤡🤡
