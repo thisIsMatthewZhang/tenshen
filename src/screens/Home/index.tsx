@@ -1,8 +1,8 @@
 import { FONTS, GOLD, ICON_SIZE, ONBOARDING } from "@/src/constants/theme";
-import { FontAwesome6 } from "@expo/vector-icons";
-import { StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 import DateCircle from "./components/DateCircle";
 import { dates } from "./dates";
+const fireIcon = require("../../../assets/fire-icon.png");
 
 export default function HomeScreen() {
   return (
@@ -18,19 +18,14 @@ export default function HomeScreen() {
             />
           );
         })}
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <FontAwesome6 name="fire" size={ICON_SIZE} color="orange" />
+        <View style={styles.streak}>
+          {/* <FontAwesome6 name="fire" size={ICON_SIZE} color="orange" /> */}
+          <Image source={fireIcon} width={ICON_SIZE} height={ICON_SIZE} />
           <Text
             style={{
               color: GOLD,
               fontWeight: "semibold",
-              marginInlineStart: 8,
+              marginInlineStart: 4,
             }}
           >
             0
@@ -52,20 +47,24 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    width: "100%",
-    marginBlock: 16,
+    margin: 16,
+  },
+  streak: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    marginInlineStart: 8,
+  },
+
+  greetingContainer: {
+    alignItems: "center",
+    justifyContent: "center",
   },
   greetingText: {
     ...FONTS,
     color: "white",
     fontSize: 20,
     fontWeight: "bold",
-    marginInline: 16,
-    marginBlock: 16,
-  },
-
-  greetingContainer: {
-    alignItems: "center",
-    justifyContent: "center",
+    margin: 16,
   },
 });

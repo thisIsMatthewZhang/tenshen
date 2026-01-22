@@ -19,14 +19,17 @@ export default function DateCircle({
         styles.circle,
         {
           borderColor: isCurrentDay ? GOLD : "#494A50",
-          width: width * 0.1,
-          height: width * 0.1,
+          width: width * 0.075,
+          height: width * 0.075,
           borderRadius: Math.round(width / 2),
         },
       ]}
+      hitSlop={5}
     >
-      <View style={{ alignItems: "center", justifyContent: "center", top: 12 }}>
-        <Text style={[ONBOARDING.smallText, { fontWeight: "semibold" }]}>
+      <View style={{ alignItems: "center", justifyContent: "center", top: 10 }}>
+        <Text
+          style={[ONBOARDING.smallText, { fontSize: 12, fontWeight: "bold" }]}
+        >
           {dateOfWeek > getDaysInMonth()
             ? dateOfWeek - getDaysInMonth()
             : dateOfWeek}
@@ -34,7 +37,7 @@ export default function DateCircle({
         <Text
           style={[
             ONBOARDING.smallText,
-            { fontWeight: "semibold", marginBlockStart: 4 },
+            { fontSize: 12, fontWeight: "bold", marginBlockStart: 4 },
           ]}
         >
           {dayOfWeek}
@@ -46,7 +49,6 @@ export default function DateCircle({
 
 const styles = StyleSheet.create({
   circle: {
-    flex: 1,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#494A50",
