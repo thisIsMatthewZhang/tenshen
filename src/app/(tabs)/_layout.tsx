@@ -1,4 +1,4 @@
-import { GOLD, TAB_ICON_SIZE } from "@/src/constants/theme";
+import { GOLD, ICON_SIZE } from "@/src/constants/theme";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Tabs } from "expo-router";
 import { View } from "react-native";
@@ -21,7 +21,7 @@ export default function TabLayout() {
         options={{
           title: "Home",
           tabBarIcon: ({ color }) => (
-            <Ionicons name="home" color={color} size={TAB_ICON_SIZE} />
+            <Ionicons name="home" color={color} size={ICON_SIZE} />
           ),
         }}
       />
@@ -30,7 +30,7 @@ export default function TabLayout() {
         options={{
           title: "Workout",
           tabBarIcon: ({ color }) => (
-            <Ionicons name="barbell-sharp" color={color} size={TAB_ICON_SIZE} />
+            <Ionicons name="barbell-sharp" color={color} size={ICON_SIZE} />
           ),
         }}
       />
@@ -39,7 +39,7 @@ export default function TabLayout() {
         options={{
           title: "Community",
           tabBarIcon: ({ color }) => (
-            <Ionicons name="people-sharp" color={color} size={TAB_ICON_SIZE} />
+            <Ionicons name="people-sharp" color={color} size={ICON_SIZE} />
           ),
         }}
       />
@@ -48,7 +48,7 @@ export default function TabLayout() {
         options={{
           title: "Profile",
           tabBarIcon: ({ color }) => (
-            <Ionicons name="person" color={color} size={TAB_ICON_SIZE} />
+            <Ionicons name="person" color={color} size={ICON_SIZE} />
           ),
         }}
       />

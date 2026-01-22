@@ -89,4 +89,7 @@
   - Outlined current day of the week
   - Will eventually need to mark days where workouts were completed
   - Need to wait a week or two to test that days are displayed correctly after a month ends
-- Enrolled in ADP
+- Added Google Service Files to EAS server development environment variables
+- Enrolled in ADP, but...
+  - Status is still _pending_
+  - Wait 24-48 hours before calling support

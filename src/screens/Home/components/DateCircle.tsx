@@ -1,6 +1,6 @@
 import { GOLD, ONBOARDING } from "@/src/constants/theme";
 import { getDaysInMonth } from "@/src/scripts/getDaysInMonth";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
 export interface DateCircleProps {
   dateOfWeek: number;
   dayOfWeek: "Sun" | "M" | "Tu" | "W" | "Th" | "F" | "Sat";
@@ -12,11 +12,20 @@ export default function DateCircle({
   dayOfWeek,
   isCurrentDay,
 }: DateCircleProps) {
+  const width = Dimensions.get("window").width;
   return (
     <Pressable
-      style={[styles.circle, { borderColor: isCurrentDay ? GOLD : "#494A50" }]}
+      style={[
+        styles.circle,
+        {
+          borderColor: isCurrentDay ? GOLD : "#494A50",
+          width: width * 0.1,
+          height: width * 0.1,
+          borderRadius: Math.round(width / 2),
+        },
+      ]}
     >
-      <View style={styles.textContainer}>
+      <View style={{ alignItems: "center", justifyContent: "center", top: 12 }}>
         <Text style={[ONBOARDING.smallText, { fontWeight: "semibold" }]}>
           {dateOfWeek > getDaysInMonth()
             ? dateOfWeek - getDaysInMonth()
@@ -38,18 +47,10 @@ export default function DateCircle({
 const styles = StyleSheet.create({
   circle: {
     flex: 1,
-    width: 12,
-    height: 36,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#494A50",
     borderWidth: 2,
-    borderRadius: 20,
-    marginInline: 12,
-  },
-  textContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-    top: 12,
+    marginInline: 8,
   },
 });
