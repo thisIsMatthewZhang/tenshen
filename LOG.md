@@ -89,7 +89,17 @@
   - Outlined current day of the week
   - Will eventually need to mark days where workouts were completed
   - Need to wait a week or two to test that days are displayed correctly after a month ends
+- Added streak icon to the right of the date circles, as well
+  - Counter is stuck at 0
 - Added Google Service Files to EAS server development environment variables
 - Enrolled in ADP, but...
   - Status is still _pending_
   - Wait 24-48 hours before calling support
+    _TODO: Check AD account and create dev build if synced, create workout card component_
+
+## Day Thirteen (1/22/2026)
+
+- Waited 2+ hours for the queue to reach my build
+- Installed development and provisional profile onto my iPhone
+- **Note to self: Build queueing took forever...Never use EAS again...just learn native languages**:|
+-

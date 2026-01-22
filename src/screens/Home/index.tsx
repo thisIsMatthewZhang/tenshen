@@ -1,8 +1,14 @@
 import { FONTS, GOLD, ICON_SIZE, ONBOARDING } from "@/src/constants/theme";
 import { Image, StyleSheet, Text, View } from "react-native";
 import DateCircle from "./components/DateCircle";
+import { WorkoutCardProps } from "./components/WorkoutCard";
+import WorkoutSlide from "./components/WorkoutSlide";
 import { dates } from "./dates";
 const fireIcon = require("../../../assets/fire-icon.png");
+const cardDetails: WorkoutCardProps[] = [
+  { workoutName: "Test 1" },
+  { workoutName: "Test 2" },
+];
 
 export default function HomeScreen() {
   return (
@@ -38,6 +44,7 @@ export default function HomeScreen() {
           I am 💪
         </Text>
       </View>
+      <WorkoutSlide cardDetails={cardDetails} />
     </View>
   );
 }

@@ -3,7 +3,7 @@ import { DateCircleProps } from "./components/DateCircle";
 
 const startDate: Date = getStartDateOfCurrentWeek();
 
-export const dates: Array<DateCircleProps> = [
+export const dates: DateCircleProps[] = [
   {
     dateOfWeek: startDate.getDate() - 1,
     dayOfWeek: "Sun",
