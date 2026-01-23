@@ -1,4 +1,5 @@
 import { FONTS, GOLD } from "@/src/constants/theme";
+import { LinearGradient } from "expo-linear-gradient";
 import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
 import ExtraOptions from "./ExtraOptions";
 export interface WorkoutCardProps {
@@ -13,7 +14,12 @@ export default function WorkoutCard({
 }: WorkoutCardProps) {
   return (
     <Pressable>
-      <View style={styles.card}>
+      <LinearGradient
+        style={styles.card}
+        colors={["#FFDF81", "#CC9A06", "#997404"] as const}
+        locations={[0.25, 0.5, 0.75] as const}
+        dither={false}
+      >
         <Text style={styles.workoutName}> {workoutName} </Text>
         <ExtraOptions />
         <FlatList
@@ -25,14 +31,8 @@ export default function WorkoutCard({
             </View>
           )}
         />
-      </View>
+      </LinearGradient>
     </Pressable>
-    // <LinearGradient
-    //   style={styles.card}
-    //   colors={["#FFDF81", "#CC9A06", "#997404"] as const}
-    //   locations={[0.25, 0.5, 0.75] as const}
-    //   dither={false}
-    // ></LinearGradient>
   );
 }
 

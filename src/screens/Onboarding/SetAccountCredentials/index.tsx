@@ -14,7 +14,7 @@ export default function SetAccountCredentialsScreen({
   selected,
 }: UnknownOutputParams) {
   const router = useRouter();
-  const [form, setForm] = useState({
+  const [credential, setCredential] = useState({
     email: "",
     password: "",
     confirmPassword: "",
@@ -32,11 +32,11 @@ export default function SetAccountCredentialsScreen({
         aria-label="Email"
         autoCapitalize="none"
         inputMode="email"
-        value={form.email}
+        value={credential.email}
         onEndEditing={() => {
           setErrors({
             ...errors,
-            email: emailRegex.test(form.email)
+            email: emailRegex.test(credential.email)
               ? ""
               : "Please give a valid email address.",
           });
@@ -44,7 +44,7 @@ export default function SetAccountCredentialsScreen({
         style={[TEXT_INPUT.input, ONBOARDING.smallText]}
         placeholder="Email"
         placeholderTextColor="white"
-        onChangeText={(text) => setForm({ ...form, email: text })}
+        onChangeText={(text) => setCredential({ ...credential, email: text })}
       />
       <Text style={{ color: GOLD }}> {errors.email} </Text>
       <TextInput
@@ -53,34 +53,40 @@ export default function SetAccountCredentialsScreen({
         inputMode="text"
         textContentType="newPassword" // only iOS supports this for autofill purposes
         passwordRules="required: upper; required: lower; required: special; required: digit; minlength: 8; maxlength: 20"
-        value={form.password}
+        value={credential.password}
         onEndEditing={() => {
           setErrors({
             ...errors,
-            password: passwordRegex.test(form.password)
+            password: passwordRegex.test(credential.password)
               ? ""
               : "Invalid Password",
+            confirmPassword:
+              credential.password === credential.confirmPassword
+                ? ""
+                : "Passwords do not match",
           });
         }}
         style={[TEXT_INPUT.input, ONBOARDING.smallText]}
         placeholder="New Password"
         placeholderTextColor="white"
-        onChangeText={(text) => setForm({ ...form, password: text })}
+        onChangeText={(text) =>
+          setCredential({ ...credential, password: text })
+        }
         secureTextEntry={true}
       />
       <Text style={{ color: GOLD }}> {errors.password} </Text>
       <TextInput
-        aria-label="Password"
+        aria-label="Confirm Password"
         autoCapitalize="none"
         inputMode="text"
         textContentType="newPassword" // only iOS supports this for autofill purposes
         passwordRules="required: upper; required: lower; required: special; required: digit; minlength: 8; maxlength: 20"
-        value={form.confirmPassword}
+        value={credential.confirmPassword}
         onEndEditing={() => {
           setErrors({
             ...errors,
             confirmPassword:
-              form.confirmPassword === form.password
+              credential.confirmPassword === credential.password
                 ? ""
                 : "Passwords do not match",
           });
@@ -88,15 +94,20 @@ export default function SetAccountCredentialsScreen({
         style={[TEXT_INPUT.input, ONBOARDING.smallText]}
         placeholder="Confirm Password"
         placeholderTextColor="white"
-        onChangeText={(text) => setForm({ ...form, confirmPassword: text })}
+        onChangeText={(text) =>
+          setCredential({ ...credential, confirmPassword: text })
+        }
         secureTextEntry={true}
       />
       <Text style={{ color: GOLD }}> {errors.confirmPassword} </Text>
       <OnboardingButton
         buttonText="Time to work out!"
         router={() => {
-          if (Object.values(errors).every((value) => !value)) {
-            const data = { fullName, preferredName, selected, ...form };
+          if (
+            Object.values(credential).every((key) => key) &&
+            Object.values(errors).every((value) => !value)
+          ) {
+            const data = { fullName, preferredName, selected, ...credential };
             router.navigate({ pathname: "/home", params: data });
           }
         }}

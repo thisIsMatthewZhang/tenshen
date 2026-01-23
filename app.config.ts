@@ -16,6 +16,9 @@ export default {
       infoPlist: {
         ITSAppUsesNonExemptEncryption: false,
       },
+      config: {
+        usesNonModularIncludes: true,
+      },
     },
     android: {
       adaptiveIcon: {
@@ -48,9 +51,6 @@ export default {
           },
         },
       ],
-      "@react-native-firebase/app",
-      "@react-native-firebase/auth",
-      "@react-native-firebase/crashlytics",
       [
         "expo-build-properties",
         {

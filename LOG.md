@@ -95,12 +95,21 @@
 - Enrolled in ADP, but...
   - Status is still _pending_
   - Wait 24-48 hours before calling support
-    _TODO: Check AD account and create dev build if synced, create workout card component_
+- _TODO: Check AD account and create dev build if synced, create workout card component_
 
 ## Day Thirteen (1/22/2026)
 
 - Waited 2+ hours for the queue to reach my build
 - Installed development and provisional profile onto my iPhone
-- **Note to self: Build queueing took forever...Never use EAS again...just learn native languages**:|
+- **Note to self: Build queueing took forever...Never use EAS again...just learn native languages**(joke...mostly:|)
 - Bruh...
   - I uploaded Google Service files as literal strings and _not_ the actual files🤡🤡🤡
+  - This is so annoying...but learned a lot
+- Had an issue with EAS Build being unable to find Google Services files
+  - Solved by creating an _app.config.ts_ that effectively replaced _app.json_
+  - Gave EAS Build access to GOOGLE_SERVICES_PLIST and GOOGLE_SERVICES_JSON env variables this way
+- Another BIG issue with RN Firebase and XCode's header modules
+  - Had to remove Firebase from my app completely
+  - Issue comes from RN Firebase's iOS native code conflicting with the way EAS + Expo build iOS apps
+  - Will see if _Firebase JS SDK_ works better
+- _TODO: (1) Create new build for Android, (2) flesh out UI in Figma, (3) work on workout card components_
