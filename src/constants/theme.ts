@@ -46,6 +46,10 @@ export const PATTERN = StyleSheet.create({
     maxWidth: 350,
     color: "white",
   },
+  mediumText: {
+    fontSize: 20,
+    color: "white",
+  },
   smallText: {
     fontSize: 16,
     color: "white",

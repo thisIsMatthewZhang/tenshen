@@ -1,5 +1,4 @@
 import { FlatList, StyleSheet } from "react-native";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import WorkoutCard, { WorkoutCardProps } from "./WorkoutCard";
 
 interface WorkoutCards {
@@ -8,20 +7,16 @@ interface WorkoutCards {
 
 export default function WorkoutSlide({ cardDetails }: WorkoutCards) {
   return (
-    <SafeAreaProvider>
-      <SafeAreaView style={styles.container} edges={{ top: "off" }}>
-        <FlatList
-          data={cardDetails}
-          renderItem={({ item }) => (
-            <WorkoutCard
-              workoutName={item.workoutName}
-              exercises={item.exercises}
-            />
-          )}
-          horizontal={true}
+    <FlatList
+      data={cardDetails}
+      renderItem={({ item }) => (
+        <WorkoutCard
+          workoutName={item.workoutName}
+          exercises={item.exercises}
         />
-      </SafeAreaView>
-    </SafeAreaProvider>
+      )}
+      horizontal={true}
+    />
   );
 }
 

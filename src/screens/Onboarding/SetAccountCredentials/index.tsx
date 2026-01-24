@@ -33,18 +33,18 @@ export default function SetAccountCredentialsScreen({
         autoCapitalize="none"
         inputMode="email"
         value={credential.email}
-        onEndEditing={() => {
+        style={[TEXT_INPUT.input, PATTERN.smallText]}
+        placeholder="Email"
+        placeholderTextColor="white"
+        onChangeText={(text) => {
+          setCredential({ ...credential, email: text });
           setErrors({
             ...errors,
-            email: emailRegex.test(credential.email)
+            email: emailRegex.test(text)
               ? ""
               : "Please give a valid email address.",
           });
         }}
-        style={[TEXT_INPUT.input, PATTERN.smallText]}
-        placeholder="Email"
-        placeholderTextColor="white"
-        onChangeText={(text) => setCredential({ ...credential, email: text })}
       />
       <Text style={{ color: GOLD }}> {errors.email} </Text>
       <TextInput
@@ -54,24 +54,20 @@ export default function SetAccountCredentialsScreen({
         textContentType="newPassword" // only iOS supports this for autofill purposes
         passwordRules="required: upper; required: lower; required: special; required: digit; minlength: 8; maxlength: 20"
         value={credential.password}
-        onEndEditing={() => {
+        style={[TEXT_INPUT.input, PATTERN.smallText]}
+        placeholder="New Password"
+        placeholderTextColor="white"
+        onChangeText={(text) => {
+          setCredential({ ...credential, password: text });
           setErrors({
             ...errors,
-            password: passwordRegex.test(credential.password)
-              ? ""
-              : "Invalid Password",
+            password: passwordRegex.test(text) ? "" : "Invalid Password",
             confirmPassword:
-              credential.password === credential.confirmPassword
+              text === credential.confirmPassword
                 ? ""
                 : "Passwords do not match",
           });
         }}
-        style={[TEXT_INPUT.input, PATTERN.smallText]}
-        placeholder="New Password"
-        placeholderTextColor="white"
-        onChangeText={(text) =>
-          setCredential({ ...credential, password: text })
-        }
         secureTextEntry={true}
       />
       <Text style={{ color: GOLD }}> {errors.password} </Text>
@@ -79,24 +75,19 @@ export default function SetAccountCredentialsScreen({
         aria-label="Confirm Password"
         autoCapitalize="none"
         inputMode="text"
-        textContentType="newPassword" // only iOS supports this for autofill purposes
         passwordRules="required: upper; required: lower; required: special; required: digit; minlength: 8; maxlength: 20"
         value={credential.confirmPassword}
-        onEndEditing={() => {
-          setErrors({
-            ...errors,
-            confirmPassword:
-              credential.confirmPassword === credential.password
-                ? ""
-                : "Passwords do not match",
-          });
-        }}
         style={[TEXT_INPUT.input, PATTERN.smallText]}
         placeholder="Confirm Password"
         placeholderTextColor="white"
-        onChangeText={(text) =>
-          setCredential({ ...credential, confirmPassword: text })
-        }
+        onChangeText={(text) => {
+          setCredential({ ...credential, confirmPassword: text });
+          setErrors({
+            ...errors,
+            confirmPassword:
+              text === credential.password ? "" : "Passwords do not match",
+          });
+        }}
         secureTextEntry={true}
       />
       <Text style={{ color: GOLD }}> {errors.confirmPassword} </Text>
@@ -105,7 +96,8 @@ export default function SetAccountCredentialsScreen({
         router={() => {
           if (
             Object.values(credential).every((key) => key) &&
-            Object.values(errors).every((value) => !value)
+            Object.values(errors).every((value) => !value) &&
+            credential.password === credential.confirmPassword
           ) {
             const data = { fullName, preferredName, selected, ...credential };
             router.navigate({ pathname: "/home", params: data });
