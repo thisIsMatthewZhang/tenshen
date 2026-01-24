@@ -1,4 +1,4 @@
-import { GOLD, ONBOARDING, TEXT_INPUT } from "@/src/constants/theme";
+import { GOLD, PATTERN, TEXT_INPUT } from "@/src/constants/theme";
 import { UnknownOutputParams, useRouter } from "expo-router";
 import { useState } from "react";
 import { Text, TextInput, View } from "react-native";
@@ -26,8 +26,8 @@ export default function SetAccountCredentialsScreen({
   });
 
   return (
-    <View style={ONBOARDING.container}>
-      <Text style={ONBOARDING.bigText}>Time to sign up!</Text>
+    <View style={PATTERN.container}>
+      <Text style={PATTERN.bigText}>Time to sign up!</Text>
       <TextInput
         aria-label="Email"
         autoCapitalize="none"
@@ -41,7 +41,7 @@ export default function SetAccountCredentialsScreen({
               : "Please give a valid email address.",
           });
         }}
-        style={[TEXT_INPUT.input, ONBOARDING.smallText]}
+        style={[TEXT_INPUT.input, PATTERN.smallText]}
         placeholder="Email"
         placeholderTextColor="white"
         onChangeText={(text) => setCredential({ ...credential, email: text })}
@@ -66,7 +66,7 @@ export default function SetAccountCredentialsScreen({
                 : "Passwords do not match",
           });
         }}
-        style={[TEXT_INPUT.input, ONBOARDING.smallText]}
+        style={[TEXT_INPUT.input, PATTERN.smallText]}
         placeholder="New Password"
         placeholderTextColor="white"
         onChangeText={(text) =>
@@ -91,7 +91,7 @@ export default function SetAccountCredentialsScreen({
                 : "Passwords do not match",
           });
         }}
-        style={[TEXT_INPUT.input, ONBOARDING.smallText]}
+        style={[TEXT_INPUT.input, PATTERN.smallText]}
         placeholder="Confirm Password"
         placeholderTextColor="white"
         onChangeText={(text) =>

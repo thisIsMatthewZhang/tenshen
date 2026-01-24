@@ -1,5 +1,6 @@
-import { FONTS, GOLD, ICON_SIZE, ONBOARDING } from "@/src/constants/theme";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { FONTS, GOLD, ICON_SIZE, PATTERN } from "@/src/constants/theme";
+import { Image, StyleSheet, Text } from "react-native";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import DateCircle from "./components/DateCircle";
 import WorkoutSlide from "./components/WorkoutSlide";
 import { dates } from "./dates";
@@ -8,8 +9,8 @@ const fireIcon = require("../../../assets/fire-icon.png");
 
 export default function HomeScreen() {
   return (
-    <View style={[ONBOARDING.container]}>
-      <View style={styles.circleContainer}>
+    <SafeAreaProvider style={[PATTERN.container]}>
+      <SafeAreaView style={styles.circleContainer} edges={{ top: "off" }}>
         {dates.map((day) => {
           return (
             <DateCircle
@@ -20,8 +21,7 @@ export default function HomeScreen() {
             />
           );
         })}
-        <View style={styles.streak}>
-          {/* <FontAwesome6 name="fire" size={ICON_SIZE} color="orange" /> */}
+        <SafeAreaView style={styles.streak}>
           <Image source={fireIcon} width={ICON_SIZE} height={ICON_SIZE} />
           <Text
             style={{
@@ -32,18 +32,18 @@ export default function HomeScreen() {
           >
             0
           </Text>
-        </View>
-      </View>
-      <View style={styles.greetingContainer}>
+        </SafeAreaView>
+      </SafeAreaView>
+      <SafeAreaView style={styles.greetingContainer}>
         <Text style={[styles.greetingText, { color: GOLD }]}>
           Hey Matthew!{" "}
           <Text style={[styles.greetingText, { color: "white" }]}>
             You ready to start this workout journey together!? I know I am 💪
           </Text>
         </Text>
-      </View>
+      </SafeAreaView>
       <WorkoutSlide cardDetails={cardDetails} />
-    </View>
+    </SafeAreaProvider>
   );
 }
 

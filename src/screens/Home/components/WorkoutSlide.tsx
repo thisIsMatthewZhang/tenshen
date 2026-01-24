@@ -9,7 +9,7 @@ interface WorkoutCards {
 export default function WorkoutSlide({ cardDetails }: WorkoutCards) {
   return (
     <SafeAreaProvider>
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={styles.container} edges={{ top: "off" }}>
         <FlatList
           data={cardDetails}
           renderItem={({ item }) => (

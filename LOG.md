@@ -113,3 +113,12 @@
   - Issue comes from RN Firebase's iOS native code conflicting with the way EAS + Expo build iOS apps
   - Will see if _Firebase JS SDK_ works better
 - _TODO: (1) Create new build for Android, (2) flesh out UI in Figma, (3) work on workout card components_
+
+## Day Fourteen (1/23/2026)
+
+- Installed new build for Android with Rive included
+  - Should now be allowed to import native C++ (.riv) runtimes
+- Started working on layout for showing user's completed workouts
+  - Decided to focus on this (instead of cards) since I have a clearer vision for it
+- Learned the use of SafeAreaProvider and SafeAreaView
+- _TODO: (1) Finish out the display for completed workouts, (2) figure out how I'm gonna get a workout dataset_

@@ -17,7 +17,7 @@ export default function WorkoutCard({
       <LinearGradient
         style={styles.card}
         colors={["#FFDF81", "#CC9A06", "#997404"] as const}
-        locations={[0.25, 0.5, 0.75] as const}
+        locations={[0.1, 0.5, 0.75] as const}
         dither={false}
       >
         <Text style={styles.workoutName}> {workoutName} </Text>

@@ -1,11 +1,11 @@
-import { ONBOARDING } from "@/src/constants/theme";
-import {
-    Fit,
-    RiveView,
-    useRive,
-    useRiveFile
-} from "@rive-app/react-native";
-import { requireNativeModule } from "expo";
+import { PATTERN } from "@/src/constants/theme";
+// import {
+//     Fit,
+//     RiveView,
+//     useRive,
+//     useRiveFile
+// } from "@rive-app/react-native";
+// import { requireNativeModule } from "expo";
 import { UnknownOutputParams, useRouter } from "expo-router";
 import { StyleSheet, Text, View } from "react-native";
 import OnboardingButton from "../components/OnboardingButton";
@@ -16,23 +16,23 @@ export default function BuddyGreetingScreen({
   selected,
 }: UnknownOutputParams) {
   const router = useRouter();
-  const { riveFile } = useRiveFile(requireNativeModule(""));
-  const { riveViewRef, setHybridRef } = useRive();
+  // const { riveFile } = useRiveFile(requireNativeModule(""));
+  // const { riveViewRef, setHybridRef } = useRive();
 
   return (
-    <View style={ONBOARDING.container}>
-      <Text style={ONBOARDING.bigText}>
+    <View style={PATTERN.container}>
+      <Text style={PATTERN.bigText}>
         {" "}
         Sup {preferredName}!!! Call me {selected}.{" "}
       </Text>
-      {riveFile && (
+      {/* {riveFile && (
         <RiveView
           hybridRef={setHybridRef}
           file={riveFile}
           style={styles.rive}
           fit={Fit.Layout}
         />
-      )}
+      )} */}
       <OnboardingButton
         buttonText="Next"
         router={() => {

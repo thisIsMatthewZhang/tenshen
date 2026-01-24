@@ -1,4 +1,4 @@
-import { GOLD, ONBOARDING, TEXT_INPUT } from "@/src/constants/theme";
+import { GOLD, PATTERN, TEXT_INPUT } from "@/src/constants/theme";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Text, TextInput, View } from "react-native";
@@ -11,15 +11,15 @@ export default function YourNameScreen() {
   const [error, setError] = useState("");
 
   return (
-    <View style={ONBOARDING.container}>
-      <Text style={[ONBOARDING.bigText]}> What&apos;s your name? </Text>
+    <View style={PATTERN.container}>
+      <Text style={[PATTERN.bigText]}> What&apos;s your name? </Text>
 
       <TextInput
         aria-label="Full Name"
         autoCapitalize="words"
         inputMode="text"
         value={fullName}
-        style={[TEXT_INPUT.input, ONBOARDING.smallText]}
+        style={[TEXT_INPUT.input, PATTERN.smallText]}
         placeholder="Full Name"
         placeholderTextColor={"white"}
         onChangeText={(text) => setFullName(text)}
@@ -29,7 +29,7 @@ export default function YourNameScreen() {
         autoCapitalize="words"
         inputMode="text"
         value={preferredName}
-        style={[TEXT_INPUT.input, ONBOARDING.smallText]}
+        style={[TEXT_INPUT.input, PATTERN.smallText]}
         placeholder="Preferred Name"
         placeholderTextColor={"white"}
         onChangeText={(text) => setPreferredName(text)}

@@ -32,7 +32,7 @@ export const FONTS = Platform.select({
   },
 });
 
-export const ONBOARDING = StyleSheet.create({
+export const PATTERN = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
