@@ -130,4 +130,7 @@
   - Everything is being aligned to the center
   - Might just need to skip for now
   - NVM LOLLL...literally fixed the problem by removing 'flex: 1' from everything
-- _TODO: (1) Begin working on Workout screen_
+- Workout partner dilemma
+  - Too many exercises to animate in a reasonable amount of time
+  - At most 10 common exercises (push-ups, squats, sit-ups, etc.) sounds feasible for MVP
+- _TODO: (1) Consider animating 5-10 exercises in Rive for MVP, (2) Figure how to limit exercises shown to 3, (3) Begin working on Workout screen_

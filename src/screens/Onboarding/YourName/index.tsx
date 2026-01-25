@@ -12,7 +12,7 @@ export default function YourNameScreen() {
 
   return (
     <View style={PATTERN.container}>
-      <Text style={[PATTERN.bigText]}> What&apos;s your name? </Text>
+      <Text style={[PATTERN.bigText]}>What&apos;s your name?</Text>
 
       <TextInput
         aria-label="Full Name"

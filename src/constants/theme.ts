@@ -54,6 +54,13 @@ export const PATTERN = StyleSheet.create({
     fontSize: 16,
     color: "white",
   },
+  separator: {
+    width: "100%",
+    height: 1,
+    backgroundColor: "white",
+    opacity: 0.5,
+    marginVertical: 16,
+  },
 });
 
 export const BIG_GOLDEN_BUTTON = StyleSheet.create({

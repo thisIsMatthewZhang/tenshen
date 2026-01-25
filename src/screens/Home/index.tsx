@@ -1,28 +1,21 @@
 import WorkoutHistory from "@/src/components/WorkoutHistory";
 import { FONTS, GOLD, ICON_SIZE, PATTERN } from "@/src/constants/theme";
+import { useWeeklyDates } from "@/src/hooks/useWeeklyDates";
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import DateCircle from "./components/DateCircle";
-import WorkoutSlide from "./components/WorkoutSlide";
-import { dates } from "./dates";
-import { cardDetails } from "./workouts";
 const fireIcon = require("../../../assets/fire-icon.png");
 
 export default function HomeScreen() {
+  const dates = useWeeklyDates();
+
   return (
     <SafeAreaProvider style={[PATTERN.container, { paddingVertical: 0 }]}>
       <SafeAreaView>
         <ScrollView>
           <View style={styles.circleContainer}>
             {dates.map((day) => {
-              return (
-                <DateCircle
-                  key={day.dayOfWeek}
-                  dateOfWeek={day.dateOfWeek}
-                  dayOfWeek={day.dayOfWeek}
-                  isCurrentDay={day.isCurrentDay}
-                />
-              );
+              return <DateCircle key={day.dayOfWeek} {...day} />;
             })}
             <View style={styles.streak}>
               <Image source={fireIcon} width={ICON_SIZE} height={ICON_SIZE} />
@@ -46,7 +39,7 @@ export default function HomeScreen() {
               </Text>
             </Text>
           </View>
-          <WorkoutSlide cardDetails={cardDetails} />
+          {/* <WorkoutSlide cardDetails={cardDetails} /> */}
           <WorkoutHistory />
         </ScrollView>
       </SafeAreaView>

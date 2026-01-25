@@ -3,13 +3,13 @@ import { PATTERN } from "@/src/constants/theme";
 import { UnknownOutputParams, useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import {
-    Animated,
-    Image,
-    ImageProps,
-    Platform,
-    StyleSheet,
-    Text,
-    View,
+  Animated,
+  Image,
+  ImageProps,
+  Platform,
+  StyleSheet,
+  Text,
+  View,
 } from "react-native";
 import OnboardingButton from "../components/OnboardingButton";
 const ruby = require("../../../../assets/avatars/Ruby.png");
@@ -33,13 +33,11 @@ export default function PickWorkoutBuddyScreen({
     <View style={PATTERN.container}>
       <View style={styles.textContainer}>
         <Text style={PATTERN.bigText}>
-          {" "}
           Hey {preferredName}! Please choose which workout partner you want to
-          do this journey with{" "}
+          do this journey with👇
         </Text>
         <Text style={[PATTERN.smallText, { opacity: 0.5, top: 12 }]}>
-          {" "}
-          You will be able to swap later.{" "}
+          You will be able to swap later.
         </Text>
       </View>
 

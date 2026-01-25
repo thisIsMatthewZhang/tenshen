@@ -1,5 +1,5 @@
-import { View } from "react-native";
+import WorkoutScreen from "@/src/screens/Workout";
 
 export default function WorkoutTab() {
-  return <View></View>;
+  return <WorkoutScreen />;
 }

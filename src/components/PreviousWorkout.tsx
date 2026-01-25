@@ -38,7 +38,7 @@ export default function PreviousWorkout() {
           }}
         />
       </View>
-      <View style={styles.separator} />
+      <View style={PATTERN.separator} />
     </>
   );
 }
@@ -57,12 +57,5 @@ const styles = StyleSheet.create({
   },
   workoutDateAndDuration: {
     flexDirection: "row",
-  },
-  separator: {
-    width: "100%",
-    height: 1,
-    backgroundColor: "white",
-    opacity: 0.5,
-    marginVertical: 16,
   },
 });
