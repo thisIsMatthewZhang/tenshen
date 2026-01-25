@@ -38,7 +38,7 @@ export const PATTERN = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#2F3036",
-    paddingBlock: 28,
+    paddingVertical: 4,
   },
   bigText: {
     fontSize: 24,
@@ -58,7 +58,7 @@ export const PATTERN = StyleSheet.create({
 
 export const BIG_GOLDEN_BUTTON = StyleSheet.create({
   pressable: {
-    marginBlockStart: 24,
+    marginTop: 24,
     ...Platform.select({
       web: {
         width: "25%",
@@ -74,7 +74,7 @@ export const BIG_GOLDEN_BUTTON = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 10,
-    paddingBlock: 12,
+    paddingVertical: 12,
   },
   text: {
     fontSize: 20,
@@ -90,7 +90,7 @@ export const TEXT_INPUT = StyleSheet.create({
     borderWidth: 2,
     borderColor: "white",
     borderRadius: 10,
-    marginBlock: 10,
+    marginVertical: 10,
     ...Platform.select({
       web: {
         width: "25%",

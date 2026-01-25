@@ -122,3 +122,12 @@
   - Decided to focus on this (instead of cards) since I have a clearer vision for it
 - Learned the use of SafeAreaProvider and SafeAreaView
 - _TODO: (1) Finish out the display for completed workouts, (2) figure out how I'm gonna get a workout dataset_
+
+## Day Fifteen (1/24/2026)
+
+- _Mostly_ got workout history UI
+  - Weird issue with listing exercises in a FlatList
+  - Everything is being aligned to the center
+  - Might just need to skip for now
+  - NVM LOLLL...literally fixed the problem by removing 'flex: 1' from everything
+- _TODO: (1) Begin working on Workout screen_

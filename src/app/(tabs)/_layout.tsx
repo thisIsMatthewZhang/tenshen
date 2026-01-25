@@ -11,7 +11,7 @@ export default function TabLayout() {
         // tabBarActiveBackgroundColor: "#EAF2FF",
         tabBarBackground: () => (
           <View
-            style={{ backgroundColor: "#EAF2FF", minHeight: "100%" }}
+            style={{ backgroundColor: "#494A50", minHeight: "100%" }}
           ></View>
         ),
       }}
@@ -34,7 +34,7 @@ export default function TabLayout() {
           ),
         }}
       />
-      <Tabs.Screen
+      {/* <Tabs.Screen
         name="community/index"
         options={{
           title: "Community",
@@ -42,7 +42,7 @@ export default function TabLayout() {
             <Ionicons name="people-sharp" color={color} size={ICON_SIZE} />
           ),
         }}
-      />
+      /> */}
       <Tabs.Screen
         name="profile/index"
         options={{

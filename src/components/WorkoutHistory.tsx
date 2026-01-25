@@ -1,13 +1,17 @@
 import { FlatList } from "react-native";
-import PreviousWorkout from "../screens/Home/components/PreviousWorkout";
+import PreviousWorkout from "./PreviousWorkout";
 
 export default function WorkoutHistory() {
   return (
     <FlatList
       scrollEnabled={false}
-      data={[{}]}
-      renderItem={({ item }) => <PreviousWorkout />}
-      style={{ alignSelf: "flex-start", marginHorizontal: 16 }}
+      data={[{}, {}, {}, {}, {}, {}]}
+      renderItem={({ item }) => {
+        return <PreviousWorkout />;
+      }}
+      style={{
+        marginTop: 16,
+      }}
     />
   );
 }

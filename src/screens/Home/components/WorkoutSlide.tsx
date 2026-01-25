@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet } from "react-native";
+import { FlatList } from "react-native";
 import WorkoutCard, { WorkoutCardProps } from "./WorkoutCard";
 
 interface WorkoutCards {
@@ -16,12 +16,8 @@ export default function WorkoutSlide({ cardDetails }: WorkoutCards) {
         />
       )}
       horizontal={true}
+      showsHorizontalScrollIndicator={false}
+      showsVerticalScrollIndicator={false}
     />
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
