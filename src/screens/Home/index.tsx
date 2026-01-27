@@ -46,7 +46,6 @@ export default function HomeScreen() {
               </Text>
             </Text>
           </View>
-          {/* <WorkoutSlide cardDetails={cardDetails} /> */}
           <WorkoutHistory />
         </ScrollView>
       </SafeAreaView>
