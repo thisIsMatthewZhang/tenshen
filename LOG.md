@@ -147,6 +147,14 @@
 - _TODO: (1) Build out layout for Profile screen and settings_
 
 ## Day Seventeen (1/26/2026)
+
 - Did the layout for Profile screen
 - Created new dev build with react-native-gifted-charts and react-native-svg
-- *TODO: (1) Test charts and calendar, (2) clean up code, (3) start thinking about backend steps*
+- _TODO: (1) Test charts and calendar, (2) clean up code, (3) start thinking about backend steps_
+
+## Day Eighteen (1/27/2026)
+
+- Important change needed in ChooseWorkoutBuddy screen
+  - Use the actual Rive sprites instead of annoying images
+  - Currently has a bug when pressing and releasing too fast on the container
+  - State machines should help with visual misalignments

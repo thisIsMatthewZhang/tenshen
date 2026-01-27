@@ -35,7 +35,6 @@ export const FONTS = Platform.select({
 export const PATTERN = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
     backgroundColor: "#2F3036",
   },
   bigText: {
@@ -107,6 +106,7 @@ export const TEXT_INPUT = StyleSheet.create({
       },
       default: {
         width: "75%",
+        padding: 12,
       },
     }),
   },

@@ -10,7 +10,7 @@ export default function HomeScreen() {
   const dates = useWeeklyDates();
 
   return (
-    <SafeAreaProvider style={[PATTERN.container, { paddingVertical: 8 }]}>
+    <SafeAreaProvider style={PATTERN.container}>
       <SafeAreaView>
         <ScrollView>
           <View style={styles.circleContainer}>

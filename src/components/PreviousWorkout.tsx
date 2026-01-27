@@ -3,9 +3,19 @@
 import DoneExercise from "@/src/components/DoneExercise";
 import ProfilePhoto from "@/src/components/ProfilePhoto";
 import { PATTERN } from "@/src/constants/theme";
+import { useEffect, useState } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 
+const exercises = [{}, {}, {}, {}];
+
 export default function PreviousWorkout() {
+  const [displayedExercises, setDisplayedExercises] = useState<object[]>([]);
+  const maxExercises = 3;
+
+  useEffect(() => {
+    setDisplayedExercises(exercises.slice(0, maxExercises));
+  }, []);
+
   return (
     <>
       <View style={styles.container}>
@@ -32,11 +42,23 @@ export default function PreviousWorkout() {
         </View>
         <FlatList
           scrollEnabled={false}
-          data={[{}, {}, {}]}
+          data={displayedExercises}
           renderItem={({ item }) => {
             return <DoneExercise />;
           }}
         />
+        {exercises.length > maxExercises ? (
+          <Text
+            style={[
+              PATTERN.smallText,
+              { fontWeight: "bold", textDecorationLine: "underline", top: 4 },
+            ]}
+          >
+            View {exercises.length - maxExercises} more exercise(s)
+          </Text>
+        ) : (
+          <></>
+        )}
       </View>
       <View style={PATTERN.separator} />
     </>
@@ -45,7 +67,7 @@ export default function PreviousWorkout() {
 
 const styles = StyleSheet.create({
   container: {
-    margin: 16,
+    margin: 12,
   },
   header: {
     flexDirection: "row",

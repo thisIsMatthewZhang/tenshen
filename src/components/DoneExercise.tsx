@@ -11,6 +11,7 @@ export default function DoneExercise() {
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "flex-start",
+          marginBottom: 12,
         },
       ]}
     >

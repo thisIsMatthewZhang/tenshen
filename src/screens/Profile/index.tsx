@@ -2,8 +2,15 @@ import ProfilePhoto from "@/src/components/ProfilePhoto";
 import WorkoutHistory from "@/src/components/WorkoutHistory";
 import { GOLD, ICON_SIZE, PATTERN } from "@/src/constants/theme";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { ComponentPropsWithoutRef } from "react";
-import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { ComponentPropsWithoutRef, useRef } from "react";
+import {
+  Animated,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 interface CounterProps {
@@ -17,6 +24,7 @@ interface DashboardButtonProps {
 }
 
 export default function ProfileScreen() {
+  const shadeAnim = useRef(new Animated.Value(1)).current;
   const Counter = ({ title, count }: CounterProps) => {
     return (
       <View style={{ alignItems: "center", justifyContent: "center" }}>
@@ -32,7 +40,7 @@ export default function ProfileScreen() {
         <Text
           style={[
             PATTERN.smallText,
-            { fontWeight: "bold", color: "black", marginHorizontal: 8 },
+            { fontWeight: "bold", color: "black", marginHorizontal: 4 },
           ]}
         >
           {title}
@@ -56,7 +64,28 @@ export default function ProfileScreen() {
             <Ionicons name="settings-sharp" size={ICON_SIZE} color={GOLD} />
           </View>
           <View style={PATTERN.center}>
-            <ProfilePhoto scale={0.2} />
+            <Pressable
+              style={({ pressed }) => {
+                return { opacity: pressed ? 0.5 : 1 };
+              }}
+            >
+              <ProfilePhoto scale={0.2} />
+              <View
+                style={{
+                  alignSelf: "flex-end",
+                  backgroundColor: GOLD,
+                  borderRadius: 20,
+                  padding: 4,
+                  bottom: "25%",
+                }}
+              >
+                <Ionicons
+                  name="pencil-sharp"
+                  size={ICON_SIZE - 12}
+                  color="black"
+                />
+              </View>
+            </Pressable>
             <Text
               style={[PATTERN.mediumText, { fontWeight: "bold", marginTop: 8 }]}
             >
@@ -103,19 +132,6 @@ export default function ProfileScreen() {
                   { fontWeight: "bold", marginLeft: 16 },
                 ]}
               >
-                Progress
-              </Text>
-              <View style={[PATTERN.separator, { marginVertical: 4 }]} />
-            </View>
-          </View>
-          <View style={styles.header}>
-            <View>
-              <Text
-                style={[
-                  PATTERN.smallText,
-                  { fontWeight: "bold", marginLeft: 16 },
-                ]}
-              >
                 Workout History
               </Text>
               <View style={[PATTERN.separator, { marginVertical: 4 }]} />
@@ -142,7 +158,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     backgroundColor: GOLD,
     borderRadius: 5,
-    paddingVertical: 8,
+    padding: 8,
     marginHorizontal: 8,
   },
   counters: {

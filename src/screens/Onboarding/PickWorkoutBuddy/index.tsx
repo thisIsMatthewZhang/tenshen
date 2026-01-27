@@ -1,5 +1,5 @@
 import { AnimatedPressable } from "@/src/components/AnimatedPressable";
-import { PATTERN } from "@/src/constants/theme";
+import { GOLD, PATTERN } from "@/src/constants/theme";
 import { UnknownOutputParams, useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -11,6 +11,7 @@ import {
   Text,
   View,
 } from "react-native";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import OnboardingButton from "../components/OnboardingButton";
 const ruby = require("../../../../assets/avatars/Ruby.png");
 const rudy = require("../../../../assets/avatars/Rudy.png");
@@ -28,43 +29,59 @@ export default function PickWorkoutBuddyScreen({
 }: UnknownOutputParams) {
   const router = useRouter();
   const [selected, setSelected] = useState<"Ruby" | "Rudy" | null>(null);
+  const [error, setError] = useState("");
 
   return (
-    <View style={PATTERN.container}>
-      <View style={styles.textContainer}>
-        <Text style={PATTERN.bigText}>
-          Hey {preferredName}! Please choose which workout partner you want to
-          do this journey with👇
-        </Text>
-        <Text style={[PATTERN.smallText, { opacity: 0.5, top: 12 }]}>
-          You will be able to swap later.
-        </Text>
-      </View>
-
-      <View style={styles.selectionContainer}>
-        <AvatarContainer
-          avatar={ruby}
-          name="Ruby"
-          isSelected={selected === "Ruby"}
-          onSelected={() => setSelected("Ruby")}
+    <SafeAreaProvider>
+      <SafeAreaView style={[PATTERN.container, PATTERN.center]}>
+        <View style={styles.textContainer}>
+          <Text style={PATTERN.bigText}>
+            Hey {preferredName}! Please choose which workout partner you want to
+            do this journey with👇
+          </Text>
+          <Text style={[PATTERN.smallText, { opacity: 0.5, top: 12 }]}>
+            You will be able to swap later.
+          </Text>
+        </View>
+        {/* NOTE: Change to be Rive sprites instead of using difficult images*/}
+        <View style={styles.selectionContainer}>
+          <AvatarContainer
+            avatar={ruby}
+            name="Ruby"
+            isSelected={selected === "Ruby"}
+            onSelected={() => {
+              setSelected("Ruby");
+              setError("");
+            }}
+          />
+          <AvatarContainer
+            avatar={rudy}
+            name="Rudy"
+            isSelected={selected === "Rudy"}
+            onSelected={() => {
+              setSelected("Rudy");
+              setError("");
+            }}
+          />
+        </View>
+        <Text style={[PATTERN.smallText, { color: GOLD }]}>{error}</Text>
+        <OnboardingButton
+          buttonText="Next"
+          router={() => {
+            if (!selected) {
+              setError("Please pick a workout partner.");
+            } else {
+              setSelected(null);
+              setError("");
+              router.push({
+                pathname: "/buddygreeting",
+                params: { fullName, preferredName, selected },
+              });
+            }
+          }}
         />
-        <AvatarContainer
-          avatar={rudy}
-          name="Rudy"
-          isSelected={selected === "Rudy"}
-          onSelected={() => setSelected("Rudy")}
-        />
-      </View>
-      <OnboardingButton
-        buttonText="Next"
-        router={() =>
-          router.push({
-            pathname: "/buddygreeting",
-            params: { fullName, preferredName, selected },
-          })
-        }
-      />
-    </View>
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
 

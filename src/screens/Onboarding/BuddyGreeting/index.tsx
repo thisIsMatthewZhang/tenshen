@@ -8,6 +8,7 @@ import { PATTERN } from "@/src/constants/theme";
 // import { requireNativeModule } from "expo";
 import { UnknownOutputParams, useRouter } from "expo-router";
 import { StyleSheet, Text, View } from "react-native";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import OnboardingButton from "../components/OnboardingButton";
 
 export default function BuddyGreetingScreen({
@@ -20,12 +21,13 @@ export default function BuddyGreetingScreen({
   // const { riveViewRef, setHybridRef } = useRive();
 
   return (
-    <View style={PATTERN.container}>
-      <Text style={PATTERN.bigText}>
-        {" "}
-        Sup {preferredName}!!! Call me {selected}.{" "}
-      </Text>
-      {/* {riveFile && (
+    <SafeAreaProvider>
+      <SafeAreaView style={[PATTERN.container, PATTERN.center]}>
+        <View style={[PATTERN.center, { width: "100%" }]}>
+          <Text style={PATTERN.bigText}>
+            Sup {preferredName}!!! Call me {selected}.
+          </Text>
+          {/* {riveFile && (
         <RiveView
           hybridRef={setHybridRef}
           file={riveFile}
@@ -33,16 +35,18 @@ export default function BuddyGreetingScreen({
           fit={Fit.Layout}
         />
       )} */}
-      <OnboardingButton
-        buttonText="Next"
-        router={() => {
-          router.push({
-            pathname: "/setaccountcredentials",
-            params: { fullName, preferredName, selected },
-          });
-        }}
-      />
-    </View>
+          <OnboardingButton
+            buttonText="Next"
+            router={() => {
+              router.push({
+                pathname: "/setaccountcredentials",
+                params: { fullName, preferredName, selected },
+              });
+            }}
+          />
+        </View>
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
 
