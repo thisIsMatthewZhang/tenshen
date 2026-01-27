@@ -145,3 +145,8 @@
   - ExtraOptions component now reacts to presses
 - Should have pre-made programs (which is a collection of workouts/routines that you can stick to each week) and single workouts/routines
 - _TODO: (1) Build out layout for Profile screen and settings_
+
+## Day Seventeen (1/26/2026)
+- Did the layout for Profile screen
+- Created new dev build with react-native-gifted-charts and react-native-svg
+- *TODO: (1) Test charts and calendar, (2) clean up code, (3) start thinking about backend steps*
