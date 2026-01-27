@@ -1,7 +1,11 @@
 import { Dimensions, Pressable, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function ProfilePhoto() {
+interface ProfilePhotoProps {
+  scale?: number;
+}
+
+export default function ProfilePhoto({ scale = 0.125 }: ProfilePhotoProps) {
   const width = Dimensions.get("window").width;
 
   return (
@@ -9,8 +13,8 @@ export default function ProfilePhoto() {
       style={[
         styles.circle,
         {
-          width: width * 0.125,
-          height: width * 0.125,
+          width: width * scale,
+          height: width * scale,
           borderRadius: Math.round(width / 2),
         },
       ]}

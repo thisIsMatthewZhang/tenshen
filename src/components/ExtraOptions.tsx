@@ -27,20 +27,52 @@ export default function ExtraOptions() {
       >
         <View style={styles.outerView}>
           <View style={styles.innerView}>
-            <Pressable>
-              <Text style={PATTERN.smallText}>Replace Workout</Text>
+            <Pressable style={styles.option}>
+              <Ionicons
+                name="swap-horizontal-sharp"
+                size={ICON_SIZE}
+                color="white"
+              />
+              <Text style={[PATTERN.smallText, { marginHorizontal: 8 }]}>
+                Replace Workout
+              </Text>
             </Pressable>
+
             <View style={PATTERN.separator} />
-            <Pressable>
-              <Text style={PATTERN.smallText}>Edit Workout</Text>
+
+            <Pressable style={styles.option}>
+              <Ionicons name="pencil-sharp" size={ICON_SIZE} color="white" />
+              <Text style={[PATTERN.smallText, { marginHorizontal: 8 }]}>
+                Edit Workout
+              </Text>
             </Pressable>
+
             <View style={PATTERN.separator} />
-            <Pressable>
-              <Text style={[PATTERN.smallText, { color: "red" }]}>
+
+            <Pressable style={styles.option}>
+              <Ionicons name="share-sharp" size={ICON_SIZE} color="white" />
+              <Text style={[PATTERN.smallText, { marginHorizontal: 8 }]}>
+                Share Workout
+              </Text>
+            </Pressable>
+
+            <View style={PATTERN.separator} />
+
+            <Pressable style={styles.option}>
+              <Ionicons
+                name="remove-circle-sharp"
+                size={ICON_SIZE}
+                color="red"
+              />
+              <Text
+                style={[
+                  PATTERN.smallText,
+                  { marginHorizontal: 8, color: "red" },
+                ]}
+              >
                 Delete Workout
               </Text>
             </Pressable>
-            <View style={PATTERN.separator} />
           </View>
         </View>
       </Modal>
@@ -54,12 +86,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-end",
     backgroundColor: APP_BACKGROUND_COLOR,
-    opacity: 0.9,
+    opacity: 0.95,
   },
   innerView: {
     width: "100%",
     height: 250,
     backgroundColor: "black",
-    paddingVertical: 20,
+    paddingVertical: 16,
+  },
+  option: {
+    marginHorizontal: 8,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
   },
 });

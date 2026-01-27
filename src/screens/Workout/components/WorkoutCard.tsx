@@ -37,9 +37,7 @@ export default function WorkoutCard({
         }}
         style={[styles.startButton, { backgroundColor: buttonHighlight }]}
       >
-        <Text
-          style={[PATTERN.mediumText, { fontWeight: "bold", color: "black" }]}
-        >
+        <Text style={[PATTERN.mediumText, { fontWeight: 600, color: "black" }]}>
           Start Workout
         </Text>
       </Pressable>

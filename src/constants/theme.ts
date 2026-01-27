@@ -36,9 +36,7 @@ export const PATTERN = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
     backgroundColor: "#2F3036",
-    paddingVertical: 4,
   },
   bigText: {
     fontSize: 24,
@@ -60,6 +58,10 @@ export const PATTERN = StyleSheet.create({
     backgroundColor: "white",
     opacity: 0.5,
     marginVertical: 16,
+  },
+  center: {
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 

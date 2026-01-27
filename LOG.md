@@ -134,3 +134,14 @@
   - Too many exercises to animate in a reasonable amount of time
   - At most 10 common exercises (push-ups, squats, sit-ups, etc.) sounds feasible for MVP
 - _TODO: (1) Consider animating 5-10 exercises in Rive for MVP, (2) Figure how to limit exercises shown to 3, (3) Begin working on Workout screen_
+
+## Day Sixteen (1/25/2026)
+
+- Fixed part of the date logic on Home
+  - Still need to account for midnight edge case if user leaves app open over night
+- Worked a lot on WorkoutScreen UI
+  - Following Hevy's layout
+  - Moved WorkoutSlide to this screen
+  - ExtraOptions component now reacts to presses
+- Should have pre-made programs (which is a collection of workouts/routines that you can stick to each week) and single workouts/routines
+- _TODO: (1) Build out layout for Profile screen and settings_

@@ -10,12 +10,19 @@ export default function HomeScreen() {
   const dates = useWeeklyDates();
 
   return (
-    <SafeAreaProvider style={[PATTERN.container, { paddingVertical: 0 }]}>
+    <SafeAreaProvider style={[PATTERN.container, { paddingVertical: 8 }]}>
       <SafeAreaView>
         <ScrollView>
           <View style={styles.circleContainer}>
             {dates.map((day) => {
-              return <DateCircle key={day.dayOfWeek} {...day} />;
+              return (
+                <DateCircle
+                  key={day.dayOfWeek}
+                  dateOfWeek={day.dateOfWeek}
+                  dayOfWeek={day.dayOfWeek}
+                  isCurrentDay={day.isCurrentDay}
+                />
+              );
             })}
             <View style={styles.streak}>
               <Image source={fireIcon} width={ICON_SIZE} height={ICON_SIZE} />

@@ -18,15 +18,5 @@ export default function WorkoutSlide({ cardDetails }: WorkoutCards) {
         />
       ))}
     </View>
-    // <FlatList
-    //   data={cardDetails}
-    //   renderItem={({ item }) => (
-    //     <WorkoutCard
-    //       workoutName={item.workoutName}
-    //       exercises={item.exercises}
-    //     />
-    //   )}
-    //   showsVerticalScrollIndicator={false}
-    // />
   );
 }
