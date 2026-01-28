@@ -1,3 +1,4 @@
+import WorkoutBuilder from "@/src/components/WorkoutBuilder";
 import { GOLD, ICON_SIZE, PATTERN } from "@/src/constants/theme";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Pressable, ScrollView, StyleSheet, Text } from "react-native";
@@ -22,6 +23,7 @@ export default function WorkoutScreen() {
               styles.createWorkoutBtn,
               { opacity: pressed ? 0.5 : 1 },
             ]}
+            onPress={() => <WorkoutBuilder />}
           >
             <Text
               style={[

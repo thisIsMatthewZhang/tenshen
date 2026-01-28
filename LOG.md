@@ -158,3 +158,9 @@
   - Use the actual Rive sprites instead of annoying images
   - Currently has a bug when pressing and releasing too fast on the container
   - State machines should help with visual misalignments
+- Added and fixed UI throughout app
+- Possible alternatives to Analytics (since Firebase JS SDK does not support it)
+  - Posthog
+  - Aptabase
+  - Amplitude
+- _TODO: (1) Design and build out workout creation screen, (2) improve more code and UI (ExtraOptions!)_

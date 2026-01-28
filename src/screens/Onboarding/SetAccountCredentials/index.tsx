@@ -15,6 +15,7 @@ export default function SetAccountCredentialsScreen({
   selected,
 }: UnknownOutputParams) {
   const router = useRouter();
+  const [focused, setFocused] = useState<0 | 1 | 2 | null>(null);
   const [credential, setCredential] = useState({
     email: "",
     password: "",
@@ -31,11 +32,17 @@ export default function SetAccountCredentialsScreen({
       <SafeAreaView style={[PATTERN.container, PATTERN.center]}>
         <Text style={PATTERN.bigText}>Time to sign up!</Text>
         <TextInput
+          onFocus={() => setFocused(0)}
+          onEndEditing={() => setFocused(null)}
           aria-label="Email"
           autoCapitalize="none"
           inputMode="email"
           value={credential.email}
-          style={[TEXT_INPUT.input, PATTERN.smallText]}
+          style={[
+            TEXT_INPUT.input,
+            PATTERN.smallText,
+            { borderColor: focused === 0 ? "#002d9f" : "white" },
+          ]}
           placeholder="Email"
           placeholderTextColor="white"
           onChangeText={(text) => {
@@ -50,13 +57,19 @@ export default function SetAccountCredentialsScreen({
         />
         <Text style={{ color: GOLD }}> {errors.email} </Text>
         <TextInput
+          onFocus={() => setFocused(1)}
+          onEndEditing={() => setFocused(null)}
           aria-label="Password"
           autoCapitalize="none"
           inputMode="text"
           textContentType="newPassword" // only iOS supports this for autofill purposes
           passwordRules="required: upper; required: lower; required: special; required: digit; minlength: 8; maxlength: 20"
           value={credential.password}
-          style={[TEXT_INPUT.input, PATTERN.smallText]}
+          style={[
+            TEXT_INPUT.input,
+            PATTERN.smallText,
+            { borderColor: focused === 1 ? "#002d9f" : "white" },
+          ]}
           placeholder="New Password"
           placeholderTextColor="white"
           onChangeText={(text) => {
@@ -74,12 +87,18 @@ export default function SetAccountCredentialsScreen({
         />
         <Text style={{ color: GOLD }}> {errors.password} </Text>
         <TextInput
+          onFocus={() => setFocused(2)}
+          onEndEditing={() => setFocused(null)}
           aria-label="Confirm Password"
           autoCapitalize="none"
           inputMode="text"
           passwordRules="required: upper; required: lower; required: special; required: digit; minlength: 8; maxlength: 20"
           value={credential.confirmPassword}
-          style={[TEXT_INPUT.input, PATTERN.smallText]}
+          style={[
+            TEXT_INPUT.input,
+            PATTERN.smallText,
+            { borderColor: focused === 2 ? "#002d9f" : "white" },
+          ]}
           placeholder="Confirm Password"
           placeholderTextColor="white"
           onChangeText={(text) => {

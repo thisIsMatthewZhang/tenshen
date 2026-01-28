@@ -9,6 +9,7 @@ export default function YourNameScreen() {
   const router = useRouter();
   const [fullName, setFullName] = useState("");
   const [preferredName, setPreferredName] = useState("");
+  const [selected, setSelected] = useState<0 | 1 | null>(null);
   const [error, setError] = useState("");
 
   return (
@@ -18,21 +19,35 @@ export default function YourNameScreen() {
           <Text style={[PATTERN.bigText]}>What&apos;s your name?</Text>
 
           <TextInput
+            onFocus={() => setSelected(0)}
+            onEndEditing={() => setSelected(null)}
             aria-label="Full Name"
             autoCapitalize="words"
             inputMode="text"
             value={fullName}
-            style={[TEXT_INPUT.input, PATTERN.smallText]}
+            style={[
+              TEXT_INPUT.input,
+              PATTERN.smallText,
+              { borderColor: selected === 0 ? "#002d9f" : "white" },
+            ]}
             placeholder="Full Name"
             placeholderTextColor={"white"}
             onChangeText={(text) => setFullName(text)}
           />
           <TextInput
+            onFocus={() => setSelected(1)}
+            onEndEditing={() => setSelected(null)}
             aria-label="Preferred Name"
             autoCapitalize="words"
             inputMode="text"
             value={preferredName}
-            style={[TEXT_INPUT.input, PATTERN.smallText]}
+            style={[
+              TEXT_INPUT.input,
+              PATTERN.smallText,
+              {
+                borderColor: selected === 1 ? "#002d9f" : "white",
+              },
+            ]}
             placeholder="Preferred Name"
             placeholderTextColor={"white"}
             onChangeText={(text) => setPreferredName(text)}
