@@ -25,8 +25,24 @@ export default function ExtraOptions() {
         }}
         allowSwipeDismissal={true}
       >
-        <View style={styles.outerView}>
-          <View style={styles.innerView}>
+        <Pressable
+          onPress={() => setModalVisible(false)}
+          style={styles.outerView}
+        >
+          <Pressable style={styles.innerView}>
+            <View style={styles.header}>
+              <Text style={[PATTERN.mediumText, { textAlign: "center" }]}>
+                Pull Day
+              </Text>
+              <Pressable
+                onPress={() => setModalVisible(false)}
+                style={{ marginHorizontal: 12 }}
+              >
+                <Ionicons name="close-sharp" size={ICON_SIZE} color={"white"} />
+              </Pressable>
+            </View>
+            <View style={PATTERN.separator} />
+
             <Pressable style={styles.option}>
               <Ionicons
                 name="swap-horizontal-sharp"
@@ -73,8 +89,8 @@ export default function ExtraOptions() {
                 Delete Workout
               </Text>
             </Pressable>
-          </View>
-        </View>
+          </Pressable>
+        </Pressable>
       </Modal>
     </Pressable>
   );
@@ -90,9 +106,16 @@ const styles = StyleSheet.create({
   },
   innerView: {
     width: "100%",
-    height: 250,
+    height: 325,
     backgroundColor: "black",
-    paddingVertical: 16,
+    paddingVertical: 12,
+  },
+  header: {
+    width: "60%",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    alignSelf: "flex-end",
   },
   option: {
     marginHorizontal: 8,
