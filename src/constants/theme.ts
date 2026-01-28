@@ -4,6 +4,8 @@ export const GOLD = "#FFC107";
 export const BUTTONTEXT = "#000000";
 export const APP_BACKGROUND_COLOR = "#2F3036";
 export const ICON_SIZE = 28;
+export const BLUE_DARKER = "#308CFC";
+export const BLUE_LIGHTER = "#56A7FF";
 
 export const FONTS = Platform.select({
   ios: {

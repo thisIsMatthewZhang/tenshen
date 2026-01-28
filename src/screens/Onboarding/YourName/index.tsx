@@ -28,7 +28,7 @@ export default function YourNameScreen() {
             style={[
               TEXT_INPUT.input,
               PATTERN.smallText,
-              { borderColor: selected === 0 ? "#002d9f" : "white" },
+              { borderColor: selected === 0 ? "#308cfc" : "white" },
             ]}
             placeholder="Full Name"
             placeholderTextColor={"white"}
@@ -45,7 +45,7 @@ export default function YourNameScreen() {
               TEXT_INPUT.input,
               PATTERN.smallText,
               {
-                borderColor: selected === 1 ? "#002d9f" : "white",
+                borderColor: selected === 1 ? "#308cfc" : "white",
               },
             ]}
             placeholder="Preferred Name"

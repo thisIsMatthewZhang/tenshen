@@ -1,4 +1,4 @@
-import { GOLD, PATTERN, TEXT_INPUT } from "@/src/constants/theme";
+import { BLUE_DARKER, GOLD, PATTERN, TEXT_INPUT } from "@/src/constants/theme";
 import { UnknownOutputParams, useRouter } from "expo-router";
 import { useState } from "react";
 import { Text, TextInput } from "react-native";
@@ -41,7 +41,7 @@ export default function SetAccountCredentialsScreen({
           style={[
             TEXT_INPUT.input,
             PATTERN.smallText,
-            { borderColor: focused === 0 ? "#002d9f" : "white" },
+            { borderColor: focused === 0 ? BLUE_DARKER : "white" },
           ]}
           placeholder="Email"
           placeholderTextColor="white"
@@ -68,7 +68,7 @@ export default function SetAccountCredentialsScreen({
           style={[
             TEXT_INPUT.input,
             PATTERN.smallText,
-            { borderColor: focused === 1 ? "#002d9f" : "white" },
+            { borderColor: focused === 1 ? BLUE_DARKER : "white" },
           ]}
           placeholder="New Password"
           placeholderTextColor="white"
@@ -97,7 +97,7 @@ export default function SetAccountCredentialsScreen({
           style={[
             TEXT_INPUT.input,
             PATTERN.smallText,
-            { borderColor: focused === 2 ? "#002d9f" : "white" },
+            { borderColor: focused === 2 ? BLUE_DARKER : "white" },
           ]}
           placeholder="Confirm Password"
           placeholderTextColor="white"

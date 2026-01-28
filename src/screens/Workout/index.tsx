@@ -1,12 +1,15 @@
 import WorkoutBuilder from "@/src/components/WorkoutBuilder";
 import { GOLD, ICON_SIZE, PATTERN } from "@/src/constants/theme";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import WorkoutSlide from "./components/WorkoutSlide";
 import { cardDetails } from "./workouts";
 
 export default function WorkoutScreen() {
+  // Parent toggles Modal visibility and passes these as props to WorkoutBuilder modal
+  const [modalVisible, setModalVisible] = useState(false);
   return (
     <SafeAreaProvider>
       <SafeAreaView style={PATTERN.container}>
@@ -23,8 +26,9 @@ export default function WorkoutScreen() {
               styles.createWorkoutBtn,
               { opacity: pressed ? 0.5 : 1 },
             ]}
-            onPress={() => <WorkoutBuilder />}
+            onPress={() => setModalVisible(!modalVisible)}
           >
+            <WorkoutBuilder state={modalVisible} setState={setModalVisible} />
             <Text
               style={[
                 PATTERN.smallText,

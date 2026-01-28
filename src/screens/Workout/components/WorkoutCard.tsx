@@ -1,4 +1,10 @@
-import { FONTS, GOLD, PATTERN } from "@/src/constants/theme";
+import {
+  BLUE_DARKER,
+  BLUE_LIGHTER,
+  FONTS,
+  GOLD,
+  PATTERN,
+} from "@/src/constants/theme";
 import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
 import { Dimensions, Pressable, StyleSheet, Text } from "react-native";
@@ -14,9 +20,9 @@ export default function WorkoutCard({
   workoutName,
   exercises,
 }: WorkoutCardProps) {
-  const [buttonHighlight, setButtonColor] = useState<"#56A7FF" | "#002d9f">(
-    "#56A7FF",
-  );
+  const [buttonHighlight, setButtonColor] = useState<
+    typeof BLUE_LIGHTER | typeof BLUE_DARKER
+  >(BLUE_LIGHTER);
 
   return (
     <LinearGradient
@@ -30,10 +36,10 @@ export default function WorkoutCard({
       <Text>{exercises.toString().split(",").join(", ")}</Text>
       <Pressable
         onPressIn={() => {
-          setButtonColor("#002d9f");
+          setButtonColor(BLUE_DARKER);
         }}
         onPressOut={() => {
-          setButtonColor("#56A7FF");
+          setButtonColor(BLUE_LIGHTER);
         }}
         style={[styles.startButton, { backgroundColor: buttonHighlight }]}
       >
