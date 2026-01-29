@@ -164,3 +164,15 @@
   - Aptabase
   - Amplitude
 - _TODO: (1) Design and build out workout creation screen, (2) improve more code and UI (ExtraOptions!)_
+
+## Day Nineteen (1/28/2026)
+
+- Changed input fields by removing borders except the bottom border
+  - Looks better this way imho
+  - Also highlights them with blue when focused
+- Got basic structure down for WorkoutBuilder modal
+  - Just need to do ExerciseCard layout
+- Looking forward to hooking everything up with a backend soon😁
+- _TODO: (1) Make the layout for ExerciseCard, (2) replace with an empty state if no exercise has been added yet, (3) go into Rive and separate artboards for Ruby and Rudy_
+
+## Day Twenty (1/29/2026)

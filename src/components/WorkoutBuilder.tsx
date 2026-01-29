@@ -1,3 +1,4 @@
+import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
 import {
   Dimensions,
@@ -9,23 +10,25 @@ import {
   TextInput,
   View,
 } from "react-native";
+import { TimerPickerModal } from "react-native-timer-picker";
 import {
   APP_BACKGROUND_COLOR,
+  BLUE_DARKER,
   BLUE_LIGHTER,
   GOLD,
   PATTERN,
-  TEXT_INPUT
+  TEXT_INPUT,
 } from "../constants/theme";
-
 interface WorkoutBuilderProps {
   state: boolean;
   setState: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface ButtonProps {
-  title: "Cancel" | "Done 👍" | "Add Exercise +";
+  title: "Cancel" | "Done 👍" | "Add Exercise +" | "Confirm 👍";
   bgColor: string;
   textColor: string;
+  onPress?: () => void;
   width?: DimensionValue;
 }
 
@@ -34,11 +37,16 @@ export default function WorkoutBuilder({
   setState,
 }: WorkoutBuilderProps) {
   const [exerciseAdded, setExerciseAdded] = useState<boolean>(false);
+  const [showTimerPicker, setShowTimerPicker] = useState<boolean>(false);
+  const [timer, setTimer] = useState<"Rest Timer" | string>("Rest Timer");
 
-  const Button = ({ title, bgColor, textColor, width }: ButtonProps) => {
-    const getButtonProps = ({ ...props }: ButtonProps) => {
-      return props;
-    };
+  const Button = ({
+    title,
+    bgColor,
+    textColor,
+    onPress,
+    width,
+  }: ButtonProps) => {
     const buttonStyles = {
       width: width,
       backgroundColor: bgColor,
@@ -57,15 +65,7 @@ export default function WorkoutBuilder({
             },
           ];
         }}
-        onPress={() => {
-          const buttonProps = getButtonProps({
-            title,
-            bgColor,
-            textColor,
-            width,
-          });
-          if (buttonProps.title === "Cancel") setState(false);
-        }}
+        onPress={onPress}
       >
         <View style={PATTERN.center}>
           <Text
@@ -81,7 +81,54 @@ export default function WorkoutBuilder({
     );
   };
   const ExeciseCard = () => {
-    return <View style={styles.card}></View>;
+    return (
+      <View style={styles.card}>
+        <View style={styles.header}>
+          <Text style={[PATTERN.bigText, { color: "black" }]}>Squats</Text>
+          <Pressable
+            style={styles.timer}
+            onPress={() => setShowTimerPicker(true)}
+          >
+            <Text
+              style={[
+                PATTERN.smallText,
+                {
+                  color: BLUE_DARKER,
+                  fontWeight: 600,
+                  textDecorationLine: "underline",
+                },
+              ]}
+            >
+              {timer}
+            </Text>
+            <TimerPickerModal
+              closeOnOverlayPress
+              LinearGradient={LinearGradient}
+              setIsVisible={setShowTimerPicker}
+              visible={showTimerPicker}
+              onConfirm={({ minutes, seconds }) => {
+                setTimer(minutes + "m " + seconds + "s");
+                setShowTimerPicker(false);
+              }}
+              onCancel={() => setShowTimerPicker(false)}
+              hideHours={true}
+              secondInterval={15}
+              styles={{ theme: "dark" }}
+              confirmButton={
+                <Button
+                  title="Confirm 👍"
+                  bgColor={BLUE_LIGHTER}
+                  textColor="white"
+                />
+              }
+              cancelButton={
+                <Button title="Cancel" bgColor="red" textColor="black" />
+              }
+            />
+          </Pressable>
+        </View>
+      </View>
+    );
   };
 
   return (
@@ -93,8 +140,18 @@ export default function WorkoutBuilder({
     >
       <View style={styles.outerView}>
         <View style={styles.topButtons}>
-          <Button title="Cancel" bgColor="red" textColor="black" />
-          <Button title="Done 👍" bgColor={BLUE_LIGHTER} textColor="white" />
+          <Button
+            title="Cancel"
+            bgColor="red"
+            textColor="black"
+            onPress={() => setState(false)}
+          />
+          <Button
+            title="Done 👍"
+            bgColor={BLUE_LIGHTER}
+            textColor="white"
+            onPress={() => console.error("non implemented")}
+          />
         </View>
         <View style={[styles.innerView, PATTERN.center]}>
           <TextInput
@@ -110,6 +167,7 @@ export default function WorkoutBuilder({
             title="Add Exercise +"
             bgColor={BLUE_LIGHTER}
             textColor="black"
+            onPress={() => console.error("not implemented")}
             width={"90%"}
           />
         </View>
@@ -135,6 +193,12 @@ const styles = StyleSheet.create({
   innerView: {
     width: "100%",
   },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  timer: {},
   allCards: {},
   card: {
     width: Dimensions.get("screen").width * 0.9,
