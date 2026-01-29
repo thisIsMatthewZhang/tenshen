@@ -41,7 +41,7 @@ export default function SetAccountCredentialsScreen({
           style={[
             TEXT_INPUT.input,
             PATTERN.smallText,
-            { borderColor: focused === 0 ? BLUE_DARKER : "white" },
+            { borderBottomColor: focused === 0 ? BLUE_DARKER : "white" },
           ]}
           placeholder="Email"
           placeholderTextColor="white"
@@ -68,7 +68,7 @@ export default function SetAccountCredentialsScreen({
           style={[
             TEXT_INPUT.input,
             PATTERN.smallText,
-            { borderColor: focused === 1 ? BLUE_DARKER : "white" },
+            { borderBottomColor: focused === 1 ? BLUE_DARKER : "white" },
           ]}
           placeholder="New Password"
           placeholderTextColor="white"
@@ -97,7 +97,7 @@ export default function SetAccountCredentialsScreen({
           style={[
             TEXT_INPUT.input,
             PATTERN.smallText,
-            { borderColor: focused === 2 ? BLUE_DARKER : "white" },
+            { borderBottomColor: focused === 2 ? BLUE_DARKER : "white" },
           ]}
           placeholder="Confirm Password"
           placeholderTextColor="white"

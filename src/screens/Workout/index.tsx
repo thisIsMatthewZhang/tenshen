@@ -1,5 +1,5 @@
 import WorkoutBuilder from "@/src/components/WorkoutBuilder";
-import { GOLD, ICON_SIZE, PATTERN } from "@/src/constants/theme";
+import { BLUE_LIGHTER, ICON_SIZE, PATTERN } from "@/src/constants/theme";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text } from "react-native";
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 20,
-    backgroundColor: GOLD,
+    borderRadius: 10,
+    backgroundColor: BLUE_LIGHTER,
   },
 });

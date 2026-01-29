@@ -97,9 +97,8 @@ export const TEXT_INPUT = StyleSheet.create({
   input: {
     color: "white",
     borderStyle: "solid",
-    borderWidth: 2,
-    borderColor: "white",
-    borderRadius: 10,
+    borderBottomWidth: 2,
+    borderBottomColor: "white",
     marginVertical: 10,
     ...Platform.select({
       web: {

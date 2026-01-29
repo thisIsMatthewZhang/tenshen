@@ -1,5 +1,21 @@
-import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
-import { APP_BACKGROUND_COLOR, PATTERN } from "../constants/theme";
+import { useState } from "react";
+import {
+  Dimensions,
+  DimensionValue,
+  Modal,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
+import {
+  APP_BACKGROUND_COLOR,
+  BLUE_LIGHTER,
+  GOLD,
+  PATTERN,
+  TEXT_INPUT
+} from "../constants/theme";
 
 interface WorkoutBuilderProps {
   state: boolean;
@@ -7,32 +23,51 @@ interface WorkoutBuilderProps {
 }
 
 interface ButtonProps {
-  title: string;
+  title: "Cancel" | "Done 👍" | "Add Exercise +";
   bgColor: string;
   textColor: string;
+  width?: DimensionValue;
 }
 
 export default function WorkoutBuilder({
   state,
   setState,
 }: WorkoutBuilderProps) {
-  const Button = ({ title, bgColor, textColor }: ButtonProps) => {
+  const [exerciseAdded, setExerciseAdded] = useState<boolean>(false);
+
+  const Button = ({ title, bgColor, textColor, width }: ButtonProps) => {
+    const getButtonProps = ({ ...props }: ButtonProps) => {
+      return props;
+    };
+    const buttonStyles = {
+      width: width,
+      backgroundColor: bgColor,
+      borderRadius: 10,
+      paddingHorizontal: 12,
+      paddingVertical: 8,
+      margin: 8,
+    };
     return (
       <Pressable
         style={({ pressed }) => {
-          return { opacity: pressed ? 0.5 : 1 };
+          return [
+            buttonStyles,
+            {
+              opacity: pressed ? 0.5 : 1,
+            },
+          ];
         }}
-        onPress={() => setState(false)}
+        onPress={() => {
+          const buttonProps = getButtonProps({
+            title,
+            bgColor,
+            textColor,
+            width,
+          });
+          if (buttonProps.title === "Cancel") setState(false);
+        }}
       >
-        <View
-          style={{
-            backgroundColor: bgColor,
-            borderRadius: 20,
-            paddingHorizontal: 12,
-            paddingVertical: 8,
-            margin: 8,
-          }}
-        >
+        <View style={PATTERN.center}>
           <Text
             style={[
               PATTERN.smallText,
@@ -45,6 +80,9 @@ export default function WorkoutBuilder({
       </Pressable>
     );
   };
+  const ExeciseCard = () => {
+    return <View style={styles.card}></View>;
+  };
 
   return (
     <Modal
@@ -56,7 +94,24 @@ export default function WorkoutBuilder({
       <View style={styles.outerView}>
         <View style={styles.topButtons}>
           <Button title="Cancel" bgColor="red" textColor="black" />
-          <Button title="Done👍" bgColor="#308cfc" textColor="white" />
+          <Button title="Done 👍" bgColor={BLUE_LIGHTER} textColor="white" />
+        </View>
+        <View style={[styles.innerView, PATTERN.center]}>
+          <TextInput
+            style={[TEXT_INPUT.input, { fontSize: 24 }]}
+            placeholder="Workout Name"
+            placeholderTextColor={"white"}
+            maxLength={40}
+          />
+          <View style={styles.allCards}>
+            <ExeciseCard />
+          </View>
+          <Button
+            title="Add Exercise +"
+            bgColor={BLUE_LIGHTER}
+            textColor="black"
+            width={"90%"}
+          />
         </View>
       </View>
     </Modal>
@@ -76,5 +131,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     paddingHorizontal: 12,
+  },
+  innerView: {
+    width: "100%",
+  },
+  allCards: {},
+  card: {
+    width: Dimensions.get("screen").width * 0.9,
+    height: 175,
+    backgroundColor: GOLD,
+    borderRadius: 20,
+    margin: 8,
+    padding: 12,
   },
 });

@@ -2,14 +2,13 @@ import ProfilePhoto from "@/src/components/ProfilePhoto";
 import WorkoutHistory from "@/src/components/WorkoutHistory";
 import { GOLD, ICON_SIZE, PATTERN } from "@/src/constants/theme";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { ComponentPropsWithoutRef, useRef } from "react";
+import { ComponentPropsWithoutRef } from "react";
 import {
-  Animated,
   Pressable,
   ScrollView,
   StyleSheet,
   Text,
-  View,
+  View
 } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
@@ -24,7 +23,6 @@ interface DashboardButtonProps {
 }
 
 export default function ProfileScreen() {
-  const shadeAnim = useRef(new Animated.Value(1)).current;
   const Counter = ({ title, count }: CounterProps) => {
     return (
       <View style={{ alignItems: "center", justifyContent: "center" }}>
