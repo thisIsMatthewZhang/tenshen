@@ -59,13 +59,13 @@ export default function WorkoutBuilder({
             onPress={() => console.error("non implemented")}
           />
         </View>
+        <TextInput
+          style={[TEXT_INPUT.input, { fontSize: 24 }]}
+          placeholder="Workout Name"
+          placeholderTextColor={"white"}
+          maxLength={40}
+        />
         <View style={[styles.innerView, PATTERN.center]}>
-          <TextInput
-            style={[TEXT_INPUT.input, { fontSize: 24 }]}
-            placeholder="Workout Name"
-            placeholderTextColor={"white"}
-            maxLength={40}
-          />
           <View style={styles.allCards}>
             <ExerciseCard
               timer={timer}

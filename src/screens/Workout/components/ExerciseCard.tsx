@@ -3,8 +3,10 @@ import {
     BLUE_DARKER,
     BLUE_LIGHTER,
     GOLD,
+    ICON_SIZE,
     PATTERN,
 } from "@/src/constants/theme";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { LinearGradient } from "expo-linear-gradient";
 import { ComponentPropsWithoutRef } from "react";
 import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
@@ -15,6 +17,18 @@ interface ExerciseCardProps {
   onPress: () => void;
   pickerProps: ComponentPropsWithoutRef<typeof TimerPickerModal>;
 }
+
+const AddSetButton = () => {
+  return (
+    <Pressable
+      style={({ pressed }) => {
+        return [{ opacity: pressed ? 0.85 : 1 }];
+      }}
+    >
+      <Ionicons name="add-circle-sharp" size={ICON_SIZE} color={BLUE_LIGHTER} />
+    </Pressable>
+  );
+};
 const setSegment = () => {};
 
 export default function ExerciseCard({
@@ -74,6 +88,9 @@ export default function ExerciseCard({
             { backgroundColor: "black", marginVertical: 0 },
           ]}
         />
+        <View style={styles.emptySegment}>
+          <AddSetButton />
+        </View>
       </View>
     </View>
   );
@@ -82,10 +99,11 @@ export default function ExerciseCard({
 const styles = StyleSheet.create({
   card: {
     width: Dimensions.get("screen").width * 0.9,
-    height: 200,
+    // height: 200,
     backgroundColor: GOLD,
     borderRadius: 20,
     margin: 8,
+    paddingVertical: 8,
   },
   title: {
     flexDirection: "row",
@@ -99,7 +117,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginHorizontal: 16,
+    paddingHorizontal: 16,
   },
   cardBottom: { width: "100%" },
+  emptySegment: {
+    width: "100%",
+    alignItems: "flex-start",
+    justifyContent: "center",
+    paddingHorizontal: 16,
+  },
+  setSegment: { width: "100%" },
 });
