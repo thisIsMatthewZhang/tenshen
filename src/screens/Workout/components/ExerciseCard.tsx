@@ -1,41 +1,51 @@
-import { Button } from "@/src/components/WorkoutBuilder";
 import {
     BLUE_DARKER,
     BLUE_LIGHTER,
     GOLD,
-    ICON_SIZE,
     PATTERN,
 } from "@/src/constants/theme";
-import Ionicons from "@expo/vector-icons/Ionicons";
 import { LinearGradient } from "expo-linear-gradient";
-import { ComponentPropsWithoutRef } from "react";
+import { ComponentPropsWithoutRef, useState } from "react";
 import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
 import { TimerPickerModal } from "react-native-timer-picker";
+import Button from "./Button";
 
 interface ExerciseCardProps {
   timer: string;
   onPress: () => void;
   pickerProps: ComponentPropsWithoutRef<typeof TimerPickerModal>;
 }
+interface SetSegmentProps {
+  setNumber: number;
+  weight: number | "-";
+  reps: number | "-";
+}
 
-const AddSetButton = () => {
+const SetSegment = ({ setNumber, weight, reps }: SetSegmentProps) => {
   return (
-    <Pressable
-      style={({ pressed }) => {
-        return [{ opacity: pressed ? 0.85 : 1 }];
-      }}
+    <View
+      style={[
+        styles.segment,
+        {
+          backgroundColor:
+            setNumber % 2 === 0 ? "rgba(255, 255, 255, 0.5)" : "none",
+        },
+      ]}
     >
-      <Ionicons name="add-circle-sharp" size={ICON_SIZE} color={BLUE_LIGHTER} />
-    </Pressable>
+      <Text style={[PATTERN.smallText, { color: "black" }]}>{setNumber}</Text>
+      <Text style={[PATTERN.smallText, { color: "black" }]}>{weight}</Text>
+      <Text style={[PATTERN.smallText, { color: "black" }]}>{reps}</Text>
+    </View>
   );
 };
-const setSegment = () => {};
 
 export default function ExerciseCard({
   timer,
   onPress,
   pickerProps,
 }: ExerciseCardProps) {
+  const [segments, setSegments] = useState<SetSegmentProps[]>([]);
+  const [segmentCounter, setSegmentCounter] = useState<number>(1);
   return (
     <View style={styles.card}>
       <View style={styles.title}>
@@ -77,10 +87,22 @@ export default function ExerciseCard({
         </Pressable>
       </View>
       <View style={styles.cardBottom}>
-        <View style={styles.headers}>
-          <Text>Sets</Text>
-          <Text>Lbs</Text>
-          <Text>Reps</Text>
+        <View style={styles.header}>
+          <Text
+            style={[PATTERN.smallText, { fontWeight: "bold", color: "black" }]}
+          >
+            Sets
+          </Text>
+          <Text
+            style={[PATTERN.smallText, { fontWeight: "bold", color: "black" }]}
+          >
+            Lbs
+          </Text>
+          <Text
+            style={[PATTERN.smallText, { fontWeight: "bold", color: "black" }]}
+          >
+            Reps
+          </Text>
         </View>
         <View
           style={[
@@ -88,8 +110,29 @@ export default function ExerciseCard({
             { backgroundColor: "black", marginVertical: 0 },
           ]}
         />
+        {segments.map((segment) => {
+          return (
+            <SetSegment
+              key={segment.setNumber}
+              setNumber={segment.setNumber}
+              weight={segment.weight}
+              reps={segment.reps}
+            />
+          );
+        })}
         <View style={styles.emptySegment}>
-          <AddSetButton />
+          <Button
+            title="Add Set +"
+            bgColor={BLUE_DARKER}
+            textColor="white"
+            onPress={() => {
+              setSegments([
+                ...segments,
+                { setNumber: segmentCounter, weight: "-", reps: "-" },
+              ]);
+              setSegmentCounter((value) => value + 1);
+            }}
+          />
         </View>
       </View>
     </View>
@@ -99,7 +142,7 @@ export default function ExerciseCard({
 const styles = StyleSheet.create({
   card: {
     width: Dimensions.get("screen").width * 0.9,
-    // height: 200,
+    maxHeight: 300,
     backgroundColor: GOLD,
     borderRadius: 20,
     margin: 8,
@@ -112,19 +155,26 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     marginVertical: 8,
   },
-
-  headers: {
+  header: {
+    width: "100%",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     paddingHorizontal: 16,
   },
+  segment: {
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 28,
+    paddingVertical: 12,
+  },
   cardBottom: { width: "100%" },
   emptySegment: {
     width: "100%",
-    alignItems: "flex-start",
+    alignItems: "center",
     justifyContent: "center",
-    paddingHorizontal: 16,
+    // paddingHorizontal: 16,
   },
-  setSegment: { width: "100%" },
 });

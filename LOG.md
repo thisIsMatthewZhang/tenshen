@@ -176,3 +176,16 @@
 - _TODO: (1) Make the layout for ExerciseCard, (2) replace with an empty state if no exercise has been added yet, (3) go into Rive and separate artboards for Ruby and Rudy_
 
 ## Day Twenty (1/29/2026)
+
+- Layout is posing a bit of a challenge
+  - Had to fix top buttons and name input to the top to prevent it from being affected by the UI changes
+  - Got the rest timer down, luckily
+  - Adding sets to an exercise card is becoming a problem - currently causes entire card to change in height and it looks jarring
+  - Gemini suggested giving a max height and enabling scrolling if number of set segments exceed the height (might be what I have to do if I can't find another solution)
+- Got the empty state to show up when no exercise cards are present (using GIANT RUDY HEAD)
+- Separated Rudy and Ruby into separate files
+  - Rudy's animation won't transfer to Ruby, so need to figure out how to fix that :|
+- Internet went down so couldn't make more progress (Xfinity get it together plz)
+- _TODO: (1) Test segment adding functionality and fix if needed (probably will be), (2) make sure segment editing is possible (i.e. deleting), (3) allow removing ExerciseCard_
+
+## Day Twenty-One (1/30/2026)

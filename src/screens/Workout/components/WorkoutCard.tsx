@@ -10,7 +10,7 @@ import { useState } from "react";
 import { Dimensions, Pressable, StyleSheet, Text } from "react-native";
 import ExtraOptions from "../../../components/ExtraOptions";
 export interface WorkoutCardProps {
-  id: number;
+  id?: number;
   workoutName: string;
   exercises: string[];
 }

@@ -1,9 +1,9 @@
 import ExerciseCard from "@/src/screens/Workout/components/ExerciseCard";
 import { useState } from "react";
 import {
-  DimensionValue,
+  Image,
   Modal,
-  Pressable,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -15,27 +15,22 @@ import {
   PATTERN,
   TEXT_INPUT,
 } from "../constants/theme";
+import Button from "../screens/Workout/components/Button";
+const rudy = require("../../assets/avatars/Rudy.png");
 
 interface WorkoutBuilderProps {
   state: boolean;
   setState: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-interface ButtonProps {
-  title: "Cancel" | "Done 👍" | "Add Exercise +" | "Confirm 👍";
-  bgColor: string;
-  textColor: string;
-  onPress?: () => void;
-  width?: DimensionValue;
-}
-
 export default function WorkoutBuilder({
   state,
   setState,
 }: WorkoutBuilderProps) {
-  const [exerciseAdded, setExerciseAdded] = useState<boolean>(false);
+  const [isEmpty, setIsEmpty] = useState<boolean>(false);
   const [showTimerPicker, setShowTimerPicker] = useState<boolean>(false);
   const [timer, setTimer] = useState<"Rest Timer" | string>("Rest Timer");
+  const [workoutName, setWorkoutName] = useState<string>("");
 
   return (
     <Modal
@@ -44,44 +39,73 @@ export default function WorkoutBuilder({
       onRequestClose={() => setState(!state)}
       allowSwipeDismissal={true}
     >
-      <View style={styles.outerView}>
-        <View style={styles.topButtons}>
-          <Button
-            title="Cancel"
-            bgColor="red"
-            textColor="black"
-            onPress={() => setState(false)}
-          />
-          <Button
-            title="Done 👍"
-            bgColor={BLUE_LIGHTER}
-            textColor="white"
-            onPress={() => console.error("non implemented")}
+      <ScrollView contentContainerStyle={styles.outerView}>
+        <View
+          style={{
+            position: "absolute",
+            alignItems: "center",
+            justifyContent: "center",
+            bottom: "77.5%",
+          }}
+        >
+          <View style={styles.topButtons}>
+            <Button
+              title="Cancel"
+              bgColor="red"
+              textColor="black"
+              onPress={() => setState(false)}
+            />
+            <Button
+              title="Done 👍"
+              bgColor={BLUE_LIGHTER}
+              textColor="white"
+              onPress={() => console.error("non implemented")}
+            />
+          </View>
+          <TextInput
+            style={[TEXT_INPUT.input, { fontSize: 24 }]}
+            placeholder="Workout Name"
+            placeholderTextColor={"white"}
+            maxLength={40}
+            value={workoutName}
+            onChangeText={(text) => setWorkoutName(text)}
           />
         </View>
-        <TextInput
-          style={[TEXT_INPUT.input, { fontSize: 24 }]}
-          placeholder="Workout Name"
-          placeholderTextColor={"white"}
-          maxLength={40}
-        />
         <View style={[styles.innerView, PATTERN.center]}>
           <View style={styles.allCards}>
-            <ExerciseCard
-              timer={timer}
-              onPress={() => setShowTimerPicker(true)}
-              pickerProps={{
-                setIsVisible: setShowTimerPicker,
-                visible: showTimerPicker,
-                onConfirm({ minutes, seconds }) {
-                  setTimer(minutes + "m " + seconds + "s");
-                  setShowTimerPicker(false);
-                },
-                onCancel() {
-                  setShowTimerPicker(false);
-                },
-              }}
-            />
+            {isEmpty ? (
+              <View
+                style={{
+                  width: "100%",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <View>
+                  <Image source={rudy} width={25} height={25} />
+                </View>
+                <Text style={PATTERN.bigText}>
+                  Ready to build a workout routine? Let&apos;s get started!
+                </Text>
+              </View>
+            ) : (
+              <ExerciseCard
+                timer={timer}
+                onPress={() => setShowTimerPicker(true)}
+                pickerProps={{
+                  setIsVisible: setShowTimerPicker,
+                  visible: showTimerPicker,
+                  onConfirm({ minutes, seconds }) {
+                    setTimer(minutes + "m " + seconds + "s");
+                    setShowTimerPicker(false);
+                  },
+                  onCancel() {
+                    setShowTimerPicker(false);
+                  },
+                }}
+              />
+            )}
           </View>
           <Button
             title="Add Exercise +"
@@ -91,48 +115,10 @@ export default function WorkoutBuilder({
             width={"90%"}
           />
         </View>
-      </View>
+      </ScrollView>
     </Modal>
   );
 }
-
-export const Button = ({
-  title,
-  bgColor,
-  textColor,
-  onPress,
-  width,
-}: ButtonProps) => {
-  const buttonStyles = {
-    width: width,
-    backgroundColor: bgColor,
-    borderRadius: 10,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    margin: 8,
-  };
-  return (
-    <Pressable
-      style={({ pressed }) => {
-        return [
-          buttonStyles,
-          {
-            opacity: pressed ? 0.5 : 1,
-          },
-        ];
-      }}
-      onPress={onPress}
-    >
-      <View style={PATTERN.center}>
-        <Text
-          style={[PATTERN.smallText, { color: textColor, fontWeight: "bold" }]}
-        >
-          {title}
-        </Text>
-      </View>
-    </Pressable>
-  );
-};
 
 const styles = StyleSheet.create({
   outerView: {
@@ -152,5 +138,5 @@ const styles = StyleSheet.create({
     width: "100%",
   },
 
-  allCards: {},
+  allCards: { width: "100%", alignItems: "center" },
 });
