@@ -2,7 +2,6 @@ import {
   APP_BACKGROUND_COLOR,
   BLUE_LIGHTER,
   PATTERN,
-  TEXT_INPUT,
 } from "@/src/constants/theme";
 import ExerciseCard from "@/src/screens/Workout/components/ExerciseCard";
 import { useState } from "react";
@@ -16,7 +15,7 @@ import {
   View,
 } from "react-native";
 import Button from "./Button";
-const rudy = require("../../assets/avatars/Rudy.png");
+const ruby = require("../../../../assets/avatars/Ruby.png");
 
 interface WorkoutBuilderProps {
   state: boolean;
@@ -39,15 +38,8 @@ export default function WorkoutBuilder({
       onRequestClose={() => setState(!state)}
       allowSwipeDismissal={true}
     >
-      <ScrollView contentContainerStyle={styles.outerView}>
-        <View
-          style={{
-            position: "absolute",
-            alignItems: "center",
-            justifyContent: "center",
-            bottom: "77.5%",
-          }}
-        >
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        <View style={styles.headerContainer}>
           <View style={styles.topButtons}>
             <Button
               title="Cancel"
@@ -63,7 +55,7 @@ export default function WorkoutBuilder({
             />
           </View>
           <TextInput
-            style={[TEXT_INPUT.input, { fontSize: 24 }]}
+            style={styles.workoutNameInput}
             placeholder="Workout Name"
             placeholderTextColor={"white"}
             maxLength={40}
@@ -71,42 +63,33 @@ export default function WorkoutBuilder({
             onChangeText={(text) => setWorkoutName(text)}
           />
         </View>
-        <View style={[styles.innerView, PATTERN.center]}>
-          <View style={styles.allCards}>
-            {isEmpty ? (
-              <View
-                style={{
-                  width: "100%",
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <View>
-                  <Image source={rudy} width={25} height={25} />
-                </View>
-                <Text style={PATTERN.bigText}>
-                  Ready to build a workout routine? Let&apos;s get started!
-                </Text>
-              </View>
-            ) : (
-              <ExerciseCard
-                timer={timer}
-                onPress={() => setShowTimerPicker(true)}
-                pickerProps={{
-                  setIsVisible: setShowTimerPicker,
-                  visible: showTimerPicker,
-                  onConfirm({ minutes, seconds }) {
-                    setTimer(minutes + "m " + seconds + "s");
-                    setShowTimerPicker(false);
-                  },
-                  onCancel() {
-                    setShowTimerPicker(false);
-                  },
-                }}
-              />
-            )}
-          </View>
+        <View style={styles.cardsContainer}>
+          {isEmpty ? (
+            <View style={styles.emptyState}>
+              <Image source={ruby} style={{ width: 25, height: 25 }} />
+              <Text style={PATTERN.bigText}>
+                Ready to build a workout routine? Let&apos;s get started!
+              </Text>
+            </View>
+          ) : (
+            <ExerciseCard
+              timer={timer}
+              onPress={() => setShowTimerPicker(true)}
+              pickerProps={{
+                setIsVisible: setShowTimerPicker,
+                visible: showTimerPicker,
+                onConfirm({ minutes, seconds }) {
+                  setTimer(minutes + "m " + seconds + "s");
+                  setShowTimerPicker(false);
+                },
+                onCancel() {
+                  setShowTimerPicker(false);
+                },
+              }}
+            />
+          )}
+        </View>
+        <View style={styles.footerContainer}>
           <Button
             title="Add Exercise +"
             bgColor={BLUE_LIGHTER}
@@ -121,11 +104,25 @@ export default function WorkoutBuilder({
 }
 
 const styles = StyleSheet.create({
-  outerView: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+  scrollContent: {
+    flexGrow: 1,
     backgroundColor: APP_BACKGROUND_COLOR,
+  },
+  headerContainer: {
+    width: "100%",
+    alignItems: "center",
+    paddingTop: 60,
+    marginBottom: 20,
+  },
+  workoutNameInput: {
+    width: "85%",
+    fontSize: 24,
+    color: "white",
+    borderStyle: "solid",
+    borderBottomWidth: 2,
+    borderBottomColor: "white",
+    padding: 12,
+    marginVertical: 12,
   },
   topButtons: {
     width: "100%",
@@ -134,9 +131,19 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: 12,
   },
+  footerContainer: {
+    width: "100%",
+    alignItems: "center",
+    marginTop: 16,
+  },
   innerView: {
     width: "100%",
   },
+  emptyState: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 20,
+  },
 
-  allCards: { width: "100%", alignItems: "center" },
+  cardsContainer: { width: "100%", alignItems: "center" },
 });

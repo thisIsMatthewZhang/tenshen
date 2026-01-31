@@ -146,7 +146,7 @@ export default function ExerciseCard({
 const styles = StyleSheet.create({
   card: {
     width: Dimensions.get("screen").width * 0.9,
-    maxHeight: 300,
+    // maxHeight: 300,
     backgroundColor: GOLD,
     borderRadius: 20,
     margin: 8,
