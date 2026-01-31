@@ -189,3 +189,12 @@
 - _TODO: (1) Test segment adding functionality and fix if needed (probably will be), (2) make sure segment editing is possible (i.e. deleting), (3) allow removing ExerciseCard_
 
 ## Day Twenty-One (1/30/2026)
+
+- Fixed the container flow inside WorkoutBuilder
+  - Did this via a combination of applying 'flexGrow: 1' to the ScrollView and making each container (header, cards, footer button) siblings of ScrollView
+  - Also a simpler-looking document structure
+- Tested the button for adding sets to an exercise and it looks good
+- Struggled with RN gestures
+  - Probably something to read over tomorrow before implementing 'swipe to delete'
+- Fixed YourName and SetAccountCredentials to shift fields up when keyboard is shown
+- _TODO: (1) Learn gesture handling, (2) implement 'swipe to delete'_

@@ -1,74 +1,125 @@
 import { GOLD, PATTERN, TEXT_INPUT } from "@/src/constants/theme";
 import { useRouter } from "expo-router";
-import { useState } from "react";
-import { Text, TextInput, View } from "react-native";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { useEffect, useMemo, useState } from "react";
+import { Animated, Keyboard, Text, TextInput } from "react-native";
 import OnboardingButton from "../components/OnboardingButton";
 
 export default function YourNameScreen() {
   const router = useRouter();
-  const [fullName, setFullName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [preferredName, setPreferredName] = useState("");
-  const [selected, setSelected] = useState<0 | 1 | null>(null);
+  const [selected, setSelected] = useState<0 | 1 | 2 | null>(null);
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
+  const translateY = useMemo(() => new Animated.Value(0), []);
   const [error, setError] = useState("");
 
-  return (
-    <SafeAreaProvider>
-      <SafeAreaView style={[PATTERN.container, PATTERN.center]}>
-        <View style={[PATTERN.center, { width: "100%" }]}>
-          <Text style={[PATTERN.bigText]}>What&apos;s your name?</Text>
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      (e) => {
+        setKeyboardHeight(e.endCoordinates.height);
+        Animated.timing(translateY, {
+          toValue: -keyboardHeight / 3,
+          duration: 200,
+          useNativeDriver: true,
+        }).start();
+      },
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      () => {
+        setKeyboardHeight(0);
+        // Animate screen down
+        Animated.timing(translateY, {
+          toValue: 0,
+          duration: 200,
+          useNativeDriver: true,
+        }).start();
+      },
+    );
 
-          <TextInput
-            onFocus={() => setSelected(0)}
-            onEndEditing={() => setSelected(null)}
-            aria-label="Full Name"
-            autoCapitalize="words"
-            inputMode="text"
-            value={fullName}
-            style={[
-              TEXT_INPUT.input,
-              PATTERN.smallText,
-              { borderBottomColor: selected === 0 ? "#308cfc" : "white" },
-            ]}
-            placeholder="Full Name"
-            placeholderTextColor={"white"}
-            onChangeText={(text) => setFullName(text)}
-          />
-          <TextInput
-            onFocus={() => setSelected(1)}
-            onEndEditing={() => setSelected(null)}
-            aria-label="Preferred Name"
-            autoCapitalize="words"
-            inputMode="text"
-            value={preferredName}
-            style={[
-              TEXT_INPUT.input,
-              PATTERN.smallText,
-              {
-                borderBottomColor: selected === 1 ? "#308cfc" : "white",
-              },
-            ]}
-            placeholder="Preferred Name"
-            placeholderTextColor={"white"}
-            onChangeText={(text) => setPreferredName(text)}
-          />
-          <Text style={{ color: GOLD }}> {error} </Text>
-          <OnboardingButton
-            buttonText="Next"
-            router={() => {
-              if (!fullName || !preferredName) {
-                setError("Please give your full name and preferred name");
-              } else {
-                setError("");
-                router.push({
-                  pathname: "/pickworkoutbuddy",
-                  params: { fullName, preferredName },
-                });
-              }
-            }}
-          ></OnboardingButton>
-        </View>
-      </SafeAreaView>
-    </SafeAreaProvider>
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, [translateY, keyboardHeight]);
+
+  return (
+    <Animated.View
+      style={[
+        PATTERN.center,
+        PATTERN.container,
+        { transform: [{ translateY }] },
+      ]}
+    >
+      <Text style={[PATTERN.bigText]}>What&apos;s your name?</Text>
+
+      <TextInput
+        onFocus={() => setSelected(0)}
+        onEndEditing={() => setSelected(null)}
+        aria-label="First Name"
+        autoCapitalize="words"
+        inputMode="text"
+        value={firstName}
+        style={[
+          TEXT_INPUT.input,
+          PATTERN.smallText,
+          { borderBottomColor: selected === 0 ? "#308cfc" : "white" },
+        ]}
+        placeholder="First Name"
+        placeholderTextColor={"white"}
+        onChangeText={(text) => setFirstName(text)}
+      />
+      <TextInput
+        onFocus={() => setSelected(1)}
+        onEndEditing={() => setSelected(null)}
+        aria-label="Last Name"
+        autoCapitalize="words"
+        inputMode="text"
+        value={lastName}
+        style={[
+          TEXT_INPUT.input,
+          PATTERN.smallText,
+          { borderBottomColor: selected === 1 ? "#308cfc" : "white" },
+        ]}
+        placeholder="Last Name"
+        placeholderTextColor={"white"}
+        onChangeText={(text) => setLastName(text)}
+      />
+      <TextInput
+        onFocus={() => setSelected(2)}
+        onEndEditing={() => setSelected(null)}
+        aria-label="Preferred Name"
+        autoCapitalize="words"
+        inputMode="text"
+        value={preferredName}
+        style={[
+          TEXT_INPUT.input,
+          PATTERN.smallText,
+          {
+            borderBottomColor: selected === 2 ? "#308cfc" : "white",
+          },
+        ]}
+        placeholder="Preferred Name"
+        placeholderTextColor={"white"}
+        onChangeText={(text) => setPreferredName(text)}
+      />
+      <Text style={{ color: GOLD }}> {error} </Text>
+      <OnboardingButton
+        buttonText="Next"
+        router={() => {
+          if (!firstName || !lastName || !preferredName) {
+            setError("Please give your full name and preferred name");
+          } else {
+            setError("");
+            router.push({
+              pathname: "/pickworkoutbuddy",
+              params: { firstName, lastName, preferredName },
+            });
+          }
+        }}
+      ></OnboardingButton>
+    </Animated.View>
   );
 }
