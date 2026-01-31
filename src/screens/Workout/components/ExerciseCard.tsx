@@ -6,7 +6,15 @@ import {
 } from "@/src/constants/theme";
 import { LinearGradient } from "expo-linear-gradient";
 import { ComponentPropsWithoutRef, useState } from "react";
-import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
+import {
+    Dimensions,
+    Platform,
+    Pressable,
+    StyleSheet,
+    Text,
+    TextInput,
+    View,
+} from "react-native";
 import { TimerPickerModal } from "react-native-timer-picker";
 import Button from "./Button";
 import ExerciseCardOptions from "./ExerciseCardOptions";
@@ -18,11 +26,13 @@ interface ExerciseCardProps {
 }
 interface SetSegmentProps {
   setNumber: number;
-  weight: number | "-";
-  reps: number | "-";
+  weight: string;
+  reps: string;
 }
 
 const SetSegment = ({ setNumber, weight, reps }: SetSegmentProps) => {
+  const [weightInput, setWeightInput] = useState(weight);
+  const [repInput, setRepInput] = useState(reps);
   return (
     <View
       style={[
@@ -34,8 +44,26 @@ const SetSegment = ({ setNumber, weight, reps }: SetSegmentProps) => {
       ]}
     >
       <Text style={[PATTERN.smallText, { color: "black" }]}>{setNumber}</Text>
-      <Text style={[PATTERN.smallText, { color: "black" }]}>{weight}</Text>
-      <Text style={[PATTERN.smallText, { color: "black" }]}>{reps}</Text>
+      <TextInput
+        maxLength={2}
+        keyboardType="decimal-pad"
+        aria-label="Weight"
+        style={[PATTERN.smallText, { color: "black" }]}
+        placeholder="-"
+        placeholderTextColor={"black"}
+        value={weightInput}
+        onChangeText={(text) => setWeightInput(text)}
+      />
+      <TextInput
+        maxLength={2}
+        keyboardType="decimal-pad"
+        aria-label="Reps"
+        style={[PATTERN.smallText, { color: "black" }]}
+        placeholder="-"
+        placeholderTextColor={"black"}
+        value={repInput}
+        onChangeText={(text) => setRepInput(text)}
+      />
     </View>
   );
 };
@@ -47,6 +75,7 @@ export default function ExerciseCard({
 }: ExerciseCardProps) {
   const [segments, setSegments] = useState<SetSegmentProps[]>([]);
   const [segmentCounter, setSegmentCounter] = useState<number>(1);
+
   return (
     <View style={styles.card}>
       <View style={styles.title}>
@@ -116,6 +145,7 @@ export default function ExerciseCard({
         />
         {segments.map((segment) => {
           return (
+            // these are the segments being rerendered each time set adder is pressed
             <SetSegment
               key={segment.setNumber}
               setNumber={segment.setNumber}
@@ -131,8 +161,13 @@ export default function ExerciseCard({
             textColor="white"
             onPress={() => {
               setSegments([
+                // new segment being appended to the original array of segments
                 ...segments,
-                { setNumber: segmentCounter, weight: "-", reps: "-" },
+                {
+                  setNumber: segmentCounter,
+                  weight: "",
+                  reps: "",
+                },
               ]);
               setSegmentCounter((value) => value + 1);
             }}
@@ -146,7 +181,6 @@ export default function ExerciseCard({
 const styles = StyleSheet.create({
   card: {
     width: Dimensions.get("screen").width * 0.9,
-    // maxHeight: 300,
     backgroundColor: GOLD,
     borderRadius: 20,
     margin: 8,
@@ -172,7 +206,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     paddingHorizontal: 28,
-    paddingVertical: 8,
+    paddingVertical: Platform.OS === "ios" ? 12 : 0,
   },
   cardBottom: { width: "100%" },
   emptySegment: {
