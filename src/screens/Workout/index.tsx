@@ -1,11 +1,11 @@
-import WorkoutBuilder from "@/src/components/WorkoutBuilder";
 import { BLUE_LIGHTER, ICON_SIZE, PATTERN } from "@/src/constants/theme";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { cardDetails } from "./cardDetails";
+import WorkoutBuilder from "./components/WorkoutBuilder";
 import WorkoutSlide from "./components/WorkoutSlide";
-import { cardDetails } from "./workouts";
 
 export default function WorkoutScreen() {
   // Parent toggles Modal visibility and passes these as props to WorkoutBuilder modal

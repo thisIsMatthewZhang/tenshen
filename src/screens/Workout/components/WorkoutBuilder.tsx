@@ -1,3 +1,9 @@
+import {
+  APP_BACKGROUND_COLOR,
+  BLUE_LIGHTER,
+  PATTERN,
+  TEXT_INPUT,
+} from "@/src/constants/theme";
 import ExerciseCard from "@/src/screens/Workout/components/ExerciseCard";
 import { useState } from "react";
 import {
@@ -9,13 +15,7 @@ import {
   TextInput,
   View,
 } from "react-native";
-import {
-  APP_BACKGROUND_COLOR,
-  BLUE_LIGHTER,
-  PATTERN,
-  TEXT_INPUT,
-} from "../constants/theme";
-import Button from "../screens/Workout/components/Button";
+import Button from "./Button";
 const rudy = require("../../assets/avatars/Rudy.png");
 
 interface WorkoutBuilderProps {

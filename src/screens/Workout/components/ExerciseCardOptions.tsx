@@ -1,21 +1,17 @@
 import {
-  APP_BACKGROUND_COLOR,
-  ICON_SIZE,
-  PATTERN,
+    APP_BACKGROUND_COLOR,
+    ICON_SIZE,
+    PATTERN,
 } from "@/src/constants/theme";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useState } from "react";
 import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
 
-export default function ExtraOptions() {
+export default function WorkoutCardExtraOptions() {
   const [modalVisible, setModalVisible] = useState(false);
   return (
     <Pressable onPress={() => setModalVisible(!modalVisible)}>
-      <Ionicons
-        style={{ position: "absolute", alignSelf: "flex-end", bottom: 0 }}
-        name="ellipsis-vertical"
-        size={ICON_SIZE}
-      />
+      <Ionicons name="ellipsis-vertical" size={ICON_SIZE} />
       <Modal
         animationType="slide"
         visible={modalVisible}
@@ -31,16 +27,23 @@ export default function ExtraOptions() {
         >
           <Pressable style={styles.innerView}>
             <View style={styles.header}>
-              <Text style={[PATTERN.mediumText, { textAlign: "center" }]}>
-                Pull Day
-              </Text>
               <Pressable
                 onPress={() => setModalVisible(false)}
-                style={{ marginHorizontal: 12 }}
+                style={{ marginHorizontal: 12, alignSelf: "flex-end" }}
               >
                 <Ionicons name="close-sharp" size={ICON_SIZE} color={"white"} />
               </Pressable>
             </View>
+            <Pressable style={styles.option}>
+              <Ionicons
+                name="swap-vertical-sharp"
+                size={ICON_SIZE}
+                color="white"
+              />
+              <Text style={[PATTERN.smallText, { marginHorizontal: 8 }]}>
+                Reorder Exercise
+              </Text>
+            </Pressable>
             <View style={PATTERN.separator} />
 
             <Pressable style={styles.option}>
@@ -50,25 +53,7 @@ export default function ExtraOptions() {
                 color="white"
               />
               <Text style={[PATTERN.smallText, { marginHorizontal: 8 }]}>
-                Replace Workout
-              </Text>
-            </Pressable>
-
-            <View style={PATTERN.separator} />
-
-            <Pressable style={styles.option}>
-              <Ionicons name="pencil-sharp" size={ICON_SIZE} color="white" />
-              <Text style={[PATTERN.smallText, { marginHorizontal: 8 }]}>
-                Edit Workout
-              </Text>
-            </Pressable>
-
-            <View style={PATTERN.separator} />
-
-            <Pressable style={styles.option}>
-              <Ionicons name="share-sharp" size={ICON_SIZE} color="white" />
-              <Text style={[PATTERN.smallText, { marginHorizontal: 8 }]}>
-                Share Workout
+                Replace Exercise
               </Text>
             </Pressable>
 
@@ -86,7 +71,7 @@ export default function ExtraOptions() {
                   { marginHorizontal: 8, color: "red" },
                 ]}
               >
-                Delete Workout
+                Delete Exercise
               </Text>
             </Pressable>
           </Pressable>
@@ -106,16 +91,13 @@ const styles = StyleSheet.create({
   },
   innerView: {
     width: "100%",
-    height: 325,
+    height: 250,
     backgroundColor: "black",
     paddingVertical: 12,
   },
   header: {
-    width: "60%",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    alignSelf: "flex-end",
+    // justifyContent: "space-between",
+    // alignSelf: "flex-end",
   },
   option: {
     marginHorizontal: 8,

@@ -10,6 +10,8 @@ export const cardDetails: WorkoutCardProps[] = [
       "Preacher Curl (Barbell)",
       "Cable Face Pull",
       "Rows (Barbell)",
+      "Incline Bicep Curl (Dumbbell)",
+      "Hammer Curl (Dumbbell)",
     ],
   },
   {

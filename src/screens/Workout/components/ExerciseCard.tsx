@@ -9,6 +9,7 @@ import { ComponentPropsWithoutRef, useState } from "react";
 import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
 import { TimerPickerModal } from "react-native-timer-picker";
 import Button from "./Button";
+import ExerciseCardOptions from "./ExerciseCardOptions";
 
 interface ExerciseCardProps {
   timer: string;
@@ -49,42 +50,45 @@ export default function ExerciseCard({
   return (
     <View style={styles.card}>
       <View style={styles.title}>
-        <Text style={[PATTERN.bigText, { color: "black" }]}>Squats</Text>
-        <Pressable onPress={onPress}>
-          <Text
-            style={[
-              PATTERN.smallText,
-              {
-                color: BLUE_DARKER,
-                fontWeight: 800,
-                textDecorationLine: "underline",
-              },
-            ]}
-          >
-            {timer}
-          </Text>
-          <TimerPickerModal
-            closeOnOverlayPress
-            LinearGradient={LinearGradient}
-            setIsVisible={pickerProps.setIsVisible}
-            visible={pickerProps.visible}
-            onConfirm={pickerProps.onConfirm}
-            onCancel={pickerProps.onCancel}
-            hideHours={true}
-            secondInterval={15}
-            styles={{ theme: "dark" }}
-            confirmButton={
-              <Button
-                title="Confirm 👍"
-                bgColor={BLUE_LIGHTER}
-                textColor="white"
-              />
-            }
-            cancelButton={
-              <Button title="Cancel" bgColor="red" textColor="black" />
-            }
-          />
-        </Pressable>
+        <View>
+          <Text style={[PATTERN.bigText, { color: "black" }]}>Squats</Text>
+          <Pressable onPress={onPress}>
+            <Text
+              style={[
+                PATTERN.smallText,
+                {
+                  color: BLUE_DARKER,
+                  fontWeight: 800,
+                  textDecorationLine: "underline",
+                },
+              ]}
+            >
+              {timer}
+            </Text>
+            <TimerPickerModal
+              closeOnOverlayPress
+              LinearGradient={LinearGradient}
+              setIsVisible={pickerProps.setIsVisible}
+              visible={pickerProps.visible}
+              onConfirm={pickerProps.onConfirm}
+              onCancel={pickerProps.onCancel}
+              hideHours={true}
+              secondInterval={15}
+              styles={{ theme: "dark" }}
+              confirmButton={
+                <Button
+                  title="Confirm 👍"
+                  bgColor={BLUE_LIGHTER}
+                  textColor="white"
+                />
+              }
+              cancelButton={
+                <Button title="Cancel" bgColor="red" textColor="black" />
+              }
+            />
+          </Pressable>
+        </View>
+        <ExerciseCardOptions />
       </View>
       <View style={styles.cardBottom}>
         <View style={styles.header}>
@@ -168,7 +172,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     paddingHorizontal: 28,
-    paddingVertical: 12,
+    paddingVertical: 8,
   },
   cardBottom: { width: "100%" },
   emptySegment: {

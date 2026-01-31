@@ -8,7 +8,7 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
 import { Dimensions, Pressable, StyleSheet, Text } from "react-native";
-import ExtraOptions from "../../../components/ExtraOptions";
+import WorkoutCardOptions from "./WorkoutCardOptions";
 export interface WorkoutCardProps {
   id?: number;
   workoutName: string;
@@ -32,8 +32,10 @@ export default function WorkoutCard({
       dither={false}
     >
       <Text style={styles.workoutName}> {workoutName} </Text>
-      <ExtraOptions />
-      <Text>{exercises.toString().split(",").join(", ")}</Text>
+      <WorkoutCardOptions />
+      <Text numberOfLines={2}>
+        {exercises.toString().split(",").join(", ")}
+      </Text>
       <Pressable
         onPressIn={() => {
           setButtonColor(BLUE_DARKER);
