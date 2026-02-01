@@ -17,8 +17,9 @@ import {
 } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Swipeable from "react-native-gesture-handler/ReanimatedSwipeable";
-import Animated, {
+import Reanimated, {
   SharedValue,
+  useAnimatedReaction,
   useAnimatedStyle,
 } from "react-native-reanimated";
 import { TimerPickerModal } from "react-native-timer-picker";
@@ -43,18 +44,51 @@ const SetSegment = ({ setNumber, weight, reps }: SetSegmentProps) => {
     prog: SharedValue<number>,
     drag: SharedValue<number>,
   ) => {
+    let width: number = 0;
+    useAnimatedReaction(
+      () => drag.value,
+      (prepared, previous) => {
+        width = prepared;
+      },
+    );
+
     const animatedStyle = useAnimatedStyle(() => {
-      return { transform: [{ translateX: drag.value + 50 }] };
+      return { transform: [{ translateX: drag.value + 75 }] };
     });
     return (
-      <Animated.View style={[animatedStyle, { backgroundColor: "red" }]}>
-        <Text style={[PATTERN.smallText, { color: "black" }]}>Delete</Text>
-      </Animated.View>
+      <Reanimated.View
+        style={[
+          animatedStyle,
+          {
+            width: width + 75,
+            backgroundColor: "red",
+            justifyContent: "center",
+          },
+        ]}
+      >
+        <Pressable
+          style={({ pressed }) => {
+            return {
+              width: width + 75,
+              alignItems: "center",
+              opacity: pressed ? 0.5 : 1,
+            };
+          }}
+        >
+          <Text
+            style={[PATTERN.smallText, { color: "black", fontWeight: 600 }]}
+          >
+            Delete
+          </Text>
+        </Pressable>
+      </Reanimated.View>
     );
   };
 
   return (
     <Swipeable
+      overshootRight={false}
+      rightThreshold={50}
       renderRightActions={RightAction}
       childrenContainerStyle={[
         styles.segment,
