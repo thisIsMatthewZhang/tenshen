@@ -62,7 +62,6 @@ const SetSegment = ({ setNumber, weight, reps }: SetSegmentProps) => {
           {
             width: width + 75,
             backgroundColor: "red",
-            justifyContent: "center",
           },
         ]}
       >
@@ -70,7 +69,9 @@ const SetSegment = ({ setNumber, weight, reps }: SetSegmentProps) => {
           style={({ pressed }) => {
             return {
               width: width + 75,
+              height: "100%",
               alignItems: "center",
+              justifyContent: "center",
               opacity: pressed ? 0.5 : 1,
             };
           }}
