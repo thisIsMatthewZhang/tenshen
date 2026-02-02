@@ -198,3 +198,15 @@
   - Probably something to read over tomorrow before implementing 'swipe to delete'
 - Fixed YourName and SetAccountCredentials to shift fields up when keyboard is shown
 - _TODO: (1) Learn gesture handling, (2) implement 'swipe to delete'_
+
+## Day Twenty-Two (1/31/2026)
+
+- Got swipeable delete button to display properly
+  - Did this buy dynamically 'reacting' to the change in drag value and apply it to the width
+  - needed useAnimatedReaction to react to SharedValue (drag) changes without accessing it during render
+- Apparently react-native-gesture-handler API was made to replace RN's default gesture handling system (Gesture Responder System)
+  - Offers improvements such as better performance, compatibility with native touch handling systems, and close ties to react-native-reanimated
+  - https://docs.swmansion.com/react-native-gesture-handler/docs/
+- Learned a little bit about the JS thread and UI thread in RN's architecture
+  - Should read the docs for more knowledge: https://reactnative.dev/architecture/overview
+- _TODO: (1) Handle press event on delete segment button, (2) also handle the same event when user deletes exercise card, (3) read docs_
