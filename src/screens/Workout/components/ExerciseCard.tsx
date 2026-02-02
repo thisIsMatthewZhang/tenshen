@@ -5,7 +5,7 @@ import {
   PATTERN,
 } from "@/src/constants/theme";
 import { LinearGradient } from "expo-linear-gradient";
-import { ComponentPropsWithoutRef, useState } from "react";
+import { useState } from "react";
 import {
   Dimensions,
   Platform,
@@ -27,11 +27,10 @@ import uuid from "react-native-uuid";
 import Button from "./Button";
 import ExerciseCardOptions from "./ExerciseCardOptions";
 
-interface ExerciseCardProps {
-  timer: string;
-  onPress: () => void;
-  pickerProps: ComponentPropsWithoutRef<typeof TimerPickerModal>;
+export interface ExerciseCardProps {
+  exerciseName: string;
 }
+
 interface SetSegmentProps {
   id: string;
   setNumber: number;
@@ -40,13 +39,7 @@ interface SetSegmentProps {
   onDelete: () => void;
 }
 
-const SetSegment = ({
-  id,
-  setNumber,
-  weight,
-  reps,
-  onDelete,
-}: SetSegmentProps) => {
+const SetSegment = ({ setNumber, weight, reps, onDelete }: SetSegmentProps) => {
   const [weightInput, setWeightInput] = useState(weight);
   const [repInput, setRepInput] = useState(reps);
   const RightAction = (
@@ -134,20 +127,20 @@ const SetSegment = ({
   );
 };
 
-export default function ExerciseCard({
-  timer,
-  onPress,
-  pickerProps,
-}: ExerciseCardProps) {
+export default function ExerciseCard({ exerciseName }: ExerciseCardProps) {
   const [segments, setSegments] = useState<SetSegmentProps[]>([]);
+  const [showTimerPicker, setShowTimerPicker] = useState<boolean>(false);
+  const [timer, setTimer] = useState<"Rest Timer" | string>("Rest Timer");
 
   return (
     <GestureHandlerRootView>
       <View style={styles.card}>
         <View style={styles.title}>
           <View>
-            <Text style={[PATTERN.bigText, { color: "black" }]}>Squats</Text>
-            <Pressable onPress={onPress}>
+            <Text style={[PATTERN.bigText, { color: "black" }]}>
+              {exerciseName}
+            </Text>
+            <Pressable onPress={() => setShowTimerPicker(true)}>
               <Text
                 style={[
                   PATTERN.smallText,
@@ -163,10 +156,13 @@ export default function ExerciseCard({
               <TimerPickerModal
                 closeOnOverlayPress
                 LinearGradient={LinearGradient}
-                setIsVisible={pickerProps.setIsVisible}
-                visible={pickerProps.visible}
-                onConfirm={pickerProps.onConfirm}
-                onCancel={pickerProps.onCancel}
+                setIsVisible={setShowTimerPicker}
+                visible={showTimerPicker}
+                onConfirm={({ minutes, seconds }) => {
+                  setTimer(minutes + "m " + seconds + "s");
+                  setShowTimerPicker(false);
+                }}
+                onCancel={() => setShowTimerPicker(false)}
                 hideHours={true}
                 secondInterval={15}
                 styles={{ theme: "dark" }}
@@ -305,6 +301,5 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
-    // paddingHorizontal: 16,
   },
 });

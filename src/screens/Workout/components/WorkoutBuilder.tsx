@@ -3,7 +3,9 @@ import {
   BLUE_LIGHTER,
   PATTERN,
 } from "@/src/constants/theme";
-import ExerciseCard from "@/src/screens/Workout/components/ExerciseCard";
+import ExerciseCard, {
+  ExerciseCardProps,
+} from "@/src/screens/Workout/components/ExerciseCard";
 import { useState } from "react";
 import {
   Image,
@@ -14,9 +16,18 @@ import {
   TextInput,
   View,
 } from "react-native";
+import uuid from "react-native-uuid";
 import Button from "./Button";
 const ruby = require("../../../../assets/avatars/Ruby.png");
 
+const fakeExerciseCards: ExerciseCardProps[] = [
+  { exerciseName: "Squats" },
+  { exerciseName: "Push-Ups" },
+  { exerciseName: "Bench Press (Barbell)" },
+  { exerciseName: "Pull-Ups" },
+  { exerciseName: "Sit-Ups" },
+  { exerciseName: "Bicep Curls (Dumbbell)" },
+];
 interface WorkoutBuilderProps {
   state: boolean;
   setState: React.Dispatch<React.SetStateAction<boolean>>;
@@ -27,8 +38,6 @@ export default function WorkoutBuilder({
   setState,
 }: WorkoutBuilderProps) {
   const [isEmpty, setIsEmpty] = useState<boolean>(false);
-  const [showTimerPicker, setShowTimerPicker] = useState<boolean>(false);
-  const [timer, setTimer] = useState<"Rest Timer" | string>("Rest Timer");
   const [workoutName, setWorkoutName] = useState<string>("");
 
   return (
@@ -72,21 +81,14 @@ export default function WorkoutBuilder({
               </Text>
             </View>
           ) : (
-            <ExerciseCard
-              timer={timer}
-              onPress={() => setShowTimerPicker(true)}
-              pickerProps={{
-                setIsVisible: setShowTimerPicker,
-                visible: showTimerPicker,
-                onConfirm({ minutes, seconds }) {
-                  setTimer(minutes + "m " + seconds + "s");
-                  setShowTimerPicker(false);
-                },
-                onCancel() {
-                  setShowTimerPicker(false);
-                },
-              }}
-            />
+            fakeExerciseCards.map((card) => {
+              return (
+                <ExerciseCard
+                  key={uuid.v4()}
+                  exerciseName={card.exerciseName}
+                />
+              );
+            })
           )}
         </View>
         <View style={styles.footerContainer}>

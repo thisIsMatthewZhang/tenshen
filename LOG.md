@@ -210,3 +210,12 @@
 - Learned a little bit about the JS thread and UI thread in RN's architecture
   - Should read the docs for more knowledge: https://reactnative.dev/architecture/overview
 - _TODO: (1) Handle press event on delete segment button, (2) also handle the same event when user deletes exercise card, (3) read docs_
+
+## Day Twenty-Three (2/1/2026)
+
+- Literally spent all my time today trying to get delete button to work on segments
+  - Gave in and asked Gemini to help me finish
+  - 'key' prop was the real culprit of all things (a problem with React mistracking the SetSegment components)
+- Deleting ExerciseCard _should_ be handled similarly
+  - Need a temporary file to store test cards and then dynamically display them on WorkoutBuilder
+    _TODO: (1) Handle deleting ExerciseCard, (2) read up about RN architecture_
