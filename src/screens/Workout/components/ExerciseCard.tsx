@@ -23,6 +23,7 @@ import Reanimated, {
   useAnimatedStyle,
 } from "react-native-reanimated";
 import { TimerPickerModal } from "react-native-timer-picker";
+import uuid from "react-native-uuid";
 import Button from "./Button";
 import ExerciseCardOptions from "./ExerciseCardOptions";
 
@@ -32,12 +33,20 @@ interface ExerciseCardProps {
   pickerProps: ComponentPropsWithoutRef<typeof TimerPickerModal>;
 }
 interface SetSegmentProps {
+  id: string;
   setNumber: number;
   weight: string;
   reps: string;
+  onDelete: () => void;
 }
 
-const SetSegment = ({ setNumber, weight, reps }: SetSegmentProps) => {
+const SetSegment = ({
+  id,
+  setNumber,
+  weight,
+  reps,
+  onDelete,
+}: SetSegmentProps) => {
   const [weightInput, setWeightInput] = useState(weight);
   const [repInput, setRepInput] = useState(reps);
   const RightAction = (
@@ -47,7 +56,7 @@ const SetSegment = ({ setNumber, weight, reps }: SetSegmentProps) => {
     let width: number = 0;
     useAnimatedReaction(
       () => drag.value,
-      (prepared, previous) => {
+      (prepared) => {
         width = prepared;
       },
     );
@@ -75,6 +84,7 @@ const SetSegment = ({ setNumber, weight, reps }: SetSegmentProps) => {
               opacity: pressed ? 0.5 : 1,
             };
           }}
+          onPress={onDelete}
         >
           <Text
             style={[PATTERN.smallText, { color: "black", fontWeight: 600 }]}
@@ -101,7 +111,7 @@ const SetSegment = ({ setNumber, weight, reps }: SetSegmentProps) => {
     >
       <Text style={[PATTERN.smallText, { color: "black" }]}>{setNumber}</Text>
       <TextInput
-        maxLength={2}
+        maxLength={4}
         keyboardType="decimal-pad"
         aria-label="Weight"
         style={[PATTERN.smallText, { color: "black" }]}
@@ -130,7 +140,6 @@ export default function ExerciseCard({
   pickerProps,
 }: ExerciseCardProps) {
   const [segments, setSegments] = useState<SetSegmentProps[]>([]);
-  const [segmentCounter, setSegmentCounter] = useState<number>(1);
 
   return (
     <GestureHandlerRootView>
@@ -213,10 +222,25 @@ export default function ExerciseCard({
             return (
               // these are the segments being rerendered each time set adder is pressed
               <SetSegment
-                key={segment.setNumber}
-                setNumber={segment.setNumber}
+                key={segment.id}
+                id={segment.id}
+                setNumber={segment.setNumber} // acts as id
                 weight={segment.weight}
                 reps={segment.reps}
+                onDelete={() => {
+                  setSegments((prev) => [
+                    ...prev
+                      .filter((s) => {
+                        return s.setNumber !== segment.setNumber;
+                      })
+                      .map((s, i) => {
+                        return {
+                          ...s,
+                          setNumber: i + 1,
+                        };
+                      }),
+                  ]);
+                }}
               />
             );
           })}
@@ -226,16 +250,17 @@ export default function ExerciseCard({
               bgColor={BLUE_DARKER}
               textColor="white"
               onPress={() => {
-                setSegments([
+                setSegments((prev) => [
                   // new segment being appended to the original array of segments
-                  ...segments,
+                  ...prev,
                   {
-                    setNumber: segmentCounter,
+                    id: uuid.v4(),
+                    setNumber: prev.length + 1,
                     weight: "",
                     reps: "",
+                    onDelete: () => setSegments,
                   },
                 ]);
-                setSegmentCounter((value) => value + 1);
               }}
             />
           </View>
