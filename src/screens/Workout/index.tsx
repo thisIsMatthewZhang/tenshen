@@ -32,7 +32,10 @@ export default function WorkoutScreen() {
               ]}
               onPress={() => setModalVisible(!modalVisible)}
             >
-              <WorkoutBuilder state={modalVisible} setState={setModalVisible} />
+              <WorkoutBuilder
+                showModal={modalVisible}
+                setShowModal={setModalVisible}
+              />
               <Text
                 style={[
                   PATTERN.smallText,

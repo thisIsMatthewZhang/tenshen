@@ -8,6 +8,7 @@ import { useState } from "react";
 import {
   Image,
   Modal,
+  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -19,24 +20,25 @@ import Button from "./Button";
 const ruby = require("../../../../assets/avatars/Ruby.png");
 
 interface WorkoutBuilderProps {
-  state: boolean;
-  setState: React.Dispatch<React.SetStateAction<boolean>>;
+  showModal: boolean;
+  setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function WorkoutBuilder({
-  state,
-  setState,
+  showModal,
+  setShowModal,
 }: WorkoutBuilderProps) {
   const [isEmpty, setIsEmpty] = useState<boolean>(false);
   const [workoutName, setWorkoutName] = useState<string>("");
   const [exercises, setExercises] =
     useState<{ id: string; exerciseName: string }[]>(fakeExerciseCards);
-
+  const [showSearchExerciseModal, setShowSearchExerciseModal] =
+    useState<boolean>(false);
   return (
     <Modal
       animationType="slide"
-      visible={state}
-      onRequestClose={() => setState(!state)}
+      visible={showModal}
+      onRequestClose={() => setShowModal(!showModal)}
       allowSwipeDismissal={true}
     >
       <ScrollView contentContainerStyle={styles.scrollContent}>
@@ -46,7 +48,7 @@ export default function WorkoutBuilder({
               title="Cancel"
               bgColor="red"
               textColor="black"
-              onPress={() => setState(false)}
+              onPress={() => setShowModal(false)}
             />
             <Button
               title="Done 👍"
@@ -91,14 +93,40 @@ export default function WorkoutBuilder({
             title="Add Exercise +"
             bgColor={BLUE_LIGHTER}
             textColor="white"
-            onPress={() => console.error("not implemented")}
+            onPress={() => {
+              setShowSearchExerciseModal(!showSearchExerciseModal);
+            }}
             width={"90%"}
           />
         </View>
+        {showSearchExerciseModal ? (
+          <SearchExerciseModal
+            showModal={showSearchExerciseModal}
+            setShowModal={setShowSearchExerciseModal}
+          />
+        ) : (
+          <></>
+        )}
       </ScrollView>
     </Modal>
   );
 }
+
+const SearchExerciseModal = ({
+  showModal,
+  setShowModal,
+}: WorkoutBuilderProps) => {
+  return (
+    <Modal visible={showModal} onRequestClose={() => setShowModal(!showModal)}>
+      <Pressable
+        style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+        onPress={() => setShowModal(!showModal)}
+      >
+        <Text> Herro </Text>
+      </Pressable>
+    </Modal>
+  );
+};
 
 const styles = StyleSheet.create({
   scrollContent: {
@@ -131,10 +159,7 @@ const styles = StyleSheet.create({
   footerContainer: {
     width: "100%",
     alignItems: "center",
-    marginTop: 16,
-  },
-  innerView: {
-    width: "100%",
+    marginBottom: 28,
   },
   emptyState: {
     flexDirection: "row",
