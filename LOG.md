@@ -239,3 +239,4 @@
   - Ensure type safety between JS and host platforms by using C++ structs to hold component props (using JS components as the source of truth)
   - Data transfer between JS and host platforms are handled by JSI, removing JSON serialization
   - Core implementation is kept consistent throughout React and native platforms, allow all platforms to benefit from performance improvements
+- _TODO: (1) 'Add Exercise +' functionality (i.e. build out exercise searching modal), (2) read about the new architecture's rendering process_

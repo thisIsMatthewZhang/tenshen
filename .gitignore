@@ -48,3 +48,6 @@ GoogleService-Info.plist
 
 # .vscode folder
 **/.vscode/
+
+# personal logger
+LOG.md
