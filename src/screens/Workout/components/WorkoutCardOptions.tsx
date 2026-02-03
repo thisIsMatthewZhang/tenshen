@@ -4,11 +4,18 @@ import {
   PATTERN,
 } from "@/src/constants/theme";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
+import { WorkoutsContext } from "../WorkoutsContext";
+import { WorkoutCardProps } from "./WorkoutCard";
 
-export default function WorkoutCardExtraOptions() {
+export default function WorkoutCardExtraOptions({
+  id,
+  workoutName,
+  exercises,
+}: WorkoutCardProps) {
   const [modalVisible, setModalVisible] = useState(false);
+  const [workouts, setWorkouts] = useContext(WorkoutsContext);
   return (
     <Pressable onPress={() => setModalVisible(!modalVisible)}>
       <Ionicons
@@ -32,7 +39,7 @@ export default function WorkoutCardExtraOptions() {
           <Pressable style={styles.innerView}>
             <View style={styles.header}>
               <Text style={[PATTERN.mediumText, { textAlign: "center" }]}>
-                Pull Day
+                {workoutName}
               </Text>
               <Pressable
                 onPress={() => setModalVisible(false)}
@@ -74,7 +81,17 @@ export default function WorkoutCardExtraOptions() {
 
             <View style={PATTERN.separator} />
 
-            <Pressable style={styles.option}>
+            <Pressable
+              style={styles.option}
+              onPress={() => {
+                setWorkouts(
+                  workouts.filter((workout) => {
+                    return workout.id !== id;
+                  }),
+                );
+                setModalVisible(!modalVisible);
+              }}
+            >
               <Ionicons
                 name="remove-circle-sharp"
                 size={ICON_SIZE}

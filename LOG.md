@@ -224,6 +224,9 @@
 
 - Deleting exercise cards work with fake data
   - Had to pass down exercises state array and setter down to ExerciseCardOptions to render changes
+- Also handled deleting workout cards
+  - Refactored to use useContext as intermediate component (WorkoutCard) did not need workouts state
+  - Could do the same for exercise cards for consistency
 - Read up a bit on the New Architecture of RN
   - Openly states that knowing it is not necessary to be a strong app developer
   - Started its experimental phase back in 2018

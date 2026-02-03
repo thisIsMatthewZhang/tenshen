@@ -10,7 +10,7 @@ import { useState } from "react";
 import { Dimensions, Pressable, StyleSheet, Text } from "react-native";
 import WorkoutCardOptions from "./WorkoutCardOptions";
 export interface WorkoutCardProps {
-  id?: number;
+  id: string;
   workoutName: string;
   exercises: string[];
 }
@@ -31,8 +31,12 @@ export default function WorkoutCard({
       locations={[0.1, 0.5, 0.75] as const}
       dither={false}
     >
-      <Text style={styles.workoutName}> {workoutName} </Text>
-      <WorkoutCardOptions />
+      <Text style={styles.workoutName}>{workoutName}</Text>
+      <WorkoutCardOptions
+        id={id}
+        workoutName={workoutName}
+        exercises={exercises}
+      />
       <Text numberOfLines={2}>
         {exercises.toString().split(",").join(", ")}
       </Text>

@@ -1,9 +1,9 @@
-// retrieve this from the database once that is set up
+import uuid from "react-native-uuid";
 import { WorkoutCardProps } from "./components/WorkoutCard";
 
 export const cardDetails: WorkoutCardProps[] = [
   {
-    id: 1,
+    id: uuid.v4(),
     workoutName: "Pull Day",
     exercises: [
       "Lat Pulldown",
@@ -15,7 +15,7 @@ export const cardDetails: WorkoutCardProps[] = [
     ],
   },
   {
-    id: 2,
+    id: uuid.v4(),
     workoutName: "Legs + Abs",
     exercises: [
       "Squat (Barbell)",
@@ -25,7 +25,7 @@ export const cardDetails: WorkoutCardProps[] = [
     ],
   },
   {
-    id: 3,
+    id: uuid.v4(),
     workoutName: "Legs + Abs",
     exercises: [
       "Squat (Barbell)",
@@ -35,7 +35,7 @@ export const cardDetails: WorkoutCardProps[] = [
     ],
   },
   {
-    id: 4,
+    id: uuid.v4(),
     workoutName: "Legs + Abs",
     exercises: [
       "Squat (Barbell)",

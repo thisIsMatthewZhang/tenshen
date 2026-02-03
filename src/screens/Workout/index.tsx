@@ -5,48 +5,60 @@ import { Pressable, ScrollView, StyleSheet, Text } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { cardDetails } from "./cardDetails";
 import WorkoutBuilder from "./components/WorkoutBuilder";
-import WorkoutSlide from "./components/WorkoutSlide";
+import WorkoutCard, { WorkoutCardProps } from "./components/WorkoutCard";
+import { WorkoutsContext } from "./WorkoutsContext";
 
 export default function WorkoutScreen() {
   // Parent toggles Modal visibility and passes these as props to WorkoutBuilder modal
-  const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [workouts, setWorkouts] = useState<WorkoutCardProps[]>(cardDetails);
+
   return (
-    <SafeAreaProvider>
-      <SafeAreaView style={PATTERN.container}>
-        <ScrollView
-          contentContainerStyle={{
-            minWidth: "100%",
-            alignItems: "center",
-            justifyContent: "center",
-            paddingVertical: 12,
-          }}
-        >
-          <Pressable
-            style={({ pressed }) => [
-              styles.createWorkoutBtn,
-              { opacity: pressed ? 0.5 : 1 },
-            ]}
-            onPress={() => setModalVisible(!modalVisible)}
+    <WorkoutsContext.Provider value={[workouts, setWorkouts]}>
+      <SafeAreaProvider>
+        <SafeAreaView style={PATTERN.container}>
+          <ScrollView
+            contentContainerStyle={{
+              minWidth: "100%",
+              alignItems: "center",
+              justifyContent: "center",
+              paddingVertical: 12,
+            }}
           >
-            <WorkoutBuilder state={modalVisible} setState={setModalVisible} />
-            <Text
-              style={[
-                PATTERN.smallText,
-                { fontWeight: "bold", color: "black", marginHorizontal: 4 },
+            <Pressable
+              style={({ pressed }) => [
+                styles.createWorkoutBtn,
+                { opacity: pressed ? 0.5 : 1 },
               ]}
+              onPress={() => setModalVisible(!modalVisible)}
             >
-              Create New Workout
-            </Text>
-            <Ionicons
-              name="add-circle-outline"
-              size={ICON_SIZE - 4}
-              color="black"
-            />
-          </Pressable>
-          <WorkoutSlide cardDetails={cardDetails} />
-        </ScrollView>
-      </SafeAreaView>
-    </SafeAreaProvider>
+              <WorkoutBuilder state={modalVisible} setState={setModalVisible} />
+              <Text
+                style={[
+                  PATTERN.smallText,
+                  { fontWeight: "bold", color: "black", marginHorizontal: 4 },
+                ]}
+              >
+                Create New Workout
+              </Text>
+              <Ionicons
+                name="add-circle-outline"
+                size={ICON_SIZE - 4}
+                color="black"
+              />
+            </Pressable>
+            {workouts.map((workout) => (
+              <WorkoutCard
+                key={workout.id}
+                id={workout.id}
+                workoutName={workout.workoutName}
+                exercises={workout.exercises}
+              />
+            ))}
+          </ScrollView>
+        </SafeAreaView>
+      </SafeAreaProvider>
+    </WorkoutsContext.Provider>
   );
 }
 
