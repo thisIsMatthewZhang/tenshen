@@ -3,9 +3,7 @@ import {
   BLUE_LIGHTER,
   PATTERN,
 } from "@/src/constants/theme";
-import ExerciseCard, {
-  ExerciseCardProps,
-} from "@/src/screens/Workout/components/ExerciseCard";
+import ExerciseCard from "@/src/screens/Workout/components/ExerciseCard";
 import { useState } from "react";
 import {
   Image,
@@ -16,18 +14,10 @@ import {
   TextInput,
   View,
 } from "react-native";
-import uuid from "react-native-uuid";
+import { fakeExerciseCards } from "../exerciseCards";
 import Button from "./Button";
 const ruby = require("../../../../assets/avatars/Ruby.png");
 
-const fakeExerciseCards: ExerciseCardProps[] = [
-  { exerciseName: "Squats" },
-  { exerciseName: "Push-Ups" },
-  { exerciseName: "Bench Press (Barbell)" },
-  { exerciseName: "Pull-Ups" },
-  { exerciseName: "Sit-Ups" },
-  { exerciseName: "Bicep Curls (Dumbbell)" },
-];
 interface WorkoutBuilderProps {
   state: boolean;
   setState: React.Dispatch<React.SetStateAction<boolean>>;
@@ -39,6 +29,8 @@ export default function WorkoutBuilder({
 }: WorkoutBuilderProps) {
   const [isEmpty, setIsEmpty] = useState<boolean>(false);
   const [workoutName, setWorkoutName] = useState<string>("");
+  const [exercises, setExercises] =
+    useState<{ id: string; exerciseName: string }[]>(fakeExerciseCards);
 
   return (
     <Modal
@@ -81,11 +73,14 @@ export default function WorkoutBuilder({
               </Text>
             </View>
           ) : (
-            fakeExerciseCards.map((card) => {
+            exercises.map((card) => {
               return (
                 <ExerciseCard
-                  key={uuid.v4()}
+                  key={card.id}
+                  id={card.id}
                   exerciseName={card.exerciseName}
+                  exercises={exercises}
+                  exercisesSetter={setExercises}
                 />
               );
             })

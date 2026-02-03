@@ -219,3 +219,20 @@
 - Deleting ExerciseCard _should_ be handled similarly
   - Need a temporary file to store test cards and then dynamically display them on WorkoutBuilder
     _TODO: (1) Handle deleting ExerciseCard, (2) read up about RN architecture_
+
+## Day Twenty-Three (2/2/2026)
+
+- Deleting exercise cards work with fake data
+  - Had to pass down exercises state array and setter down to ExerciseCardOptions to render changes
+- Read up a bit on the New Architecture of RN
+  - Openly states that knowing it is not necessary to be a strong app developer
+  - Started its experimental phase back in 2018
+  - Core improvement of it is _synchronous_ layout measurements, reducing the amount of intermediate state updates that caused rendering problems in the legacy architecture
+  - Supports concurrent rendering and features present in React 18 such as automatic batching for fewer renders, Suspense for API calls, and Transitions for prioritizing renders
+  - New JavaScript Interface (JSI) removes the async bridge between JS and native by removing serialization drawbacks (via C++ object references)
+  - Enabled by default since version 0.76
+- Fabric: the New Architecture's rendering system
+  - Unify more rendering logic in C++ implementation and improve interop with host platforms
+  - Ensure type safety between JS and host platforms by using C++ structs to hold component props (using JS components as the source of truth)
+  - Data transfer between JS and host platforms are handled by JSI, removing JSON serialization
+  - Core implementation is kept consistent throughout React and native platforms, allow all platforms to benefit from performance improvements

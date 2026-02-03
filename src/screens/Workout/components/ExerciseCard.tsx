@@ -28,7 +28,12 @@ import Button from "./Button";
 import ExerciseCardOptions from "./ExerciseCardOptions";
 
 export interface ExerciseCardProps {
+  id: string;
   exerciseName: string;
+  exercises: { id: string; exerciseName: string }[];
+  exercisesSetter: React.Dispatch<
+    React.SetStateAction<{ id: string; exerciseName: string }[]>
+  >;
 }
 
 interface SetSegmentProps {
@@ -127,7 +132,12 @@ const SetSegment = ({ setNumber, weight, reps, onDelete }: SetSegmentProps) => {
   );
 };
 
-export default function ExerciseCard({ exerciseName }: ExerciseCardProps) {
+export default function ExerciseCard({
+  id,
+  exerciseName,
+  exercises,
+  exercisesSetter,
+}: ExerciseCardProps) {
   const [segments, setSegments] = useState<SetSegmentProps[]>([]);
   const [showTimerPicker, setShowTimerPicker] = useState<boolean>(false);
   const [timer, setTimer] = useState<"Rest Timer" | string>("Rest Timer");
@@ -179,7 +189,12 @@ export default function ExerciseCard({ exerciseName }: ExerciseCardProps) {
               />
             </Pressable>
           </View>
-          <ExerciseCardOptions />
+          <ExerciseCardOptions
+            id={id}
+            exerciseName={exerciseName}
+            exercises={exercises}
+            exercisesSetter={exercisesSetter}
+          />
         </View>
         <View style={styles.cardBottom}>
           <View style={styles.header}>

@@ -1,13 +1,19 @@
 import {
-    APP_BACKGROUND_COLOR,
-    ICON_SIZE,
-    PATTERN,
+  APP_BACKGROUND_COLOR,
+  ICON_SIZE,
+  PATTERN,
 } from "@/src/constants/theme";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useState } from "react";
 import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
+import { ExerciseCardProps } from "./ExerciseCard";
 
-export default function WorkoutCardExtraOptions() {
+export default function ExerciseCardOptions({
+  id,
+  exerciseName,
+  exercises,
+  exercisesSetter,
+}: ExerciseCardProps) {
   const [modalVisible, setModalVisible] = useState(false);
   return (
     <Pressable onPress={() => setModalVisible(!modalVisible)}>
@@ -59,7 +65,18 @@ export default function WorkoutCardExtraOptions() {
 
             <View style={PATTERN.separator} />
 
-            <Pressable style={styles.option}>
+            <Pressable
+              style={styles.option}
+              onPress={() => {
+                exercisesSetter(
+                  exercises.filter((exercise) => {
+                    console.log(id + " vs. " + exercise.id);
+                    return exercise.id !== id;
+                  }),
+                );
+                setModalVisible(!modalVisible);
+              }}
+            >
               <Ionicons
                 name="remove-circle-sharp"
                 size={ICON_SIZE}
