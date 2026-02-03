@@ -8,18 +8,18 @@ import { useState } from "react";
 import {
   Image,
   Modal,
-  Pressable,
   ScrollView,
   StyleSheet,
   Text,
   TextInput,
-  View,
+  View
 } from "react-native";
 import { fakeExerciseCards } from "../exerciseCards";
 import Button from "./Button";
+import SearchModal from "./SearchModal";
 const ruby = require("../../../../assets/avatars/Ruby.png");
 
-interface WorkoutBuilderProps {
+export interface WorkoutBuilderProps {
   showModal: boolean;
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -100,7 +100,7 @@ export default function WorkoutBuilder({
           />
         </View>
         {showSearchExerciseModal ? (
-          <SearchExerciseModal
+          <SearchModal
             showModal={showSearchExerciseModal}
             setShowModal={setShowSearchExerciseModal}
           />
@@ -111,22 +111,6 @@ export default function WorkoutBuilder({
     </Modal>
   );
 }
-
-const SearchExerciseModal = ({
-  showModal,
-  setShowModal,
-}: WorkoutBuilderProps) => {
-  return (
-    <Modal visible={showModal} onRequestClose={() => setShowModal(!showModal)}>
-      <Pressable
-        style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-        onPress={() => setShowModal(!showModal)}
-      >
-        <Text> Herro </Text>
-      </Pressable>
-    </Modal>
-  );
-};
 
 const styles = StyleSheet.create({
   scrollContent: {
