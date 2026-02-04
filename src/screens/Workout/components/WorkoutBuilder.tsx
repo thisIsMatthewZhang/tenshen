@@ -12,11 +12,11 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  View
+  View,
 } from "react-native";
 import { fakeExerciseCards } from "../exerciseCards";
 import Button from "./Button";
-import SearchModal from "./SearchModal";
+import SearchFilterModal from "./SearchFilterModal";
 const ruby = require("../../../../assets/avatars/Ruby.png");
 
 export interface WorkoutBuilderProps {
@@ -100,7 +100,7 @@ export default function WorkoutBuilder({
           />
         </View>
         {showSearchExerciseModal ? (
-          <SearchModal
+          <SearchFilterModal
             showModal={showSearchExerciseModal}
             setShowModal={setShowSearchExerciseModal}
           />
