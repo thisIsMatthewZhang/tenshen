@@ -1,4 +1,4 @@
-import { GOLD, PATTERN } from "@/src/constants/theme";
+import { BG_CONTRAST, GOLD, PATTERN } from "@/src/constants/theme";
 import { getDaysInMonth } from "@/src/scripts/getDaysInMonth";
 import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
 export interface DateCircleProps {
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   circle: {
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#494A50",
+    backgroundColor: BG_CONTRAST,
     borderWidth: 2,
     marginInline: 8,
   },

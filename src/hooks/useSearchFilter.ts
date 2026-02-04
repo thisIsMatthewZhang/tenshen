@@ -1,7 +1,7 @@
 import { useDebouncedValue } from "@lilib/hooks";
 import { useMemo, useState } from "react";
 export interface FilterConfig<T> {
-  key: keyof T;
+  key: keyof T; // string literal union of T's keys
   type: "text" | "select" | "range" | "boolean" | "date";
   label: string;
   options?: string[] | { label: string; value: any }[];

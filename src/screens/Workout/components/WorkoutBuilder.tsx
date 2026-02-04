@@ -1,6 +1,7 @@
 import {
   APP_BACKGROUND_COLOR,
   BLUE_LIGHTER,
+  MAX_INPUT_LENGTH,
   PATTERN,
 } from "@/src/constants/theme";
 import ExerciseCard from "@/src/screens/Workout/components/ExerciseCard";
@@ -58,10 +59,10 @@ export default function WorkoutBuilder({
             />
           </View>
           <TextInput
-            style={styles.workoutNameInput}
+            style={styles.input}
             placeholder="Workout Name"
             placeholderTextColor={"white"}
-            maxLength={40}
+            maxLength={MAX_INPUT_LENGTH}
             value={workoutName}
             onChangeText={(text) => setWorkoutName(text)}
           />
@@ -123,7 +124,7 @@ const styles = StyleSheet.create({
     paddingTop: 60,
     marginBottom: 20,
   },
-  workoutNameInput: {
+  input: {
     width: "85%",
     fontSize: 24,
     color: "white",

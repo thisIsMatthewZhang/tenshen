@@ -12,3 +12,29 @@ export const exercises: Exercises[] = [
   { category: "Abs", exercises: ["Ab Wheel"] },
   { category: "Back", exercises: ["Seated Cable Row - V Grip (Cable)"] },
 ];
+
+/// Every region:
+
+// Quadriceps
+// Glutes
+// Calves
+// Hamstrings
+// Abductors (omit for beta)
+// Adductors (omit for beta)
+
+// Upper Back
+// Lower Back
+// Lats
+// Traps
+// Neck (omit for beta)
+
+// Biceps
+// Triceps
+// Forearms
+
+// Chest
+// Shoulders
+
+// Abdominals
+
+// Could add running (for cardio)
