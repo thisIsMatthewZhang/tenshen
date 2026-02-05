@@ -70,7 +70,6 @@ export default function ExerciseCardOptions({
               onPress={() => {
                 exercisesSetter(
                   exercises.filter((exercise) => {
-                    console.log(id + " vs. " + exercise.id);
                     return exercise.id !== id;
                   }),
                 );

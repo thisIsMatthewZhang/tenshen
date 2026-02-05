@@ -1,19 +1,16 @@
 import { ICON_SIZE, MAX_INPUT_LENGTH } from "@/src/constants/theme";
-import { useSearchFilter } from "@/src/hooks/useSearchFilter";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { StyleSheet, TextInput, View } from "react-native";
-import { exercises } from "../exercises";
 
-export default function SearchBar() {
-  const {
-    filteredData,
-    searchQuery,
-    setSearchQuery,
-    activeFilters,
-    setActiveFilters,
-    sortConfig,
-    setSortConfig,
-  } = useSearchFilter(exercises, ["category", "exercises"]);
+interface SearchBarProps {
+  searchQuery: string;
+  setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export default function SearchBar({
+  searchQuery,
+  setSearchQuery,
+}: SearchBarProps) {
   return (
     <View style={styles.container}>
       <Ionicons name="search-sharp" size={ICON_SIZE} color="white" />
@@ -23,7 +20,7 @@ export default function SearchBar() {
         placeholderTextColor={"white"}
         maxLength={MAX_INPUT_LENGTH}
         value={searchQuery}
-        onChangeText={(text) => setSearchQuery(text)}
+        onChangeText={setSearchQuery}
       />
     </View>
   );
@@ -31,10 +28,11 @@ export default function SearchBar() {
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
+    width: "90%",
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "#494A50",
+    borderRadius: 20,
     padding: 12,
   },
   input: {
