@@ -1,19 +1,41 @@
-type Exercises = {
-  category: string;
-  exercises: string[];
-};
+import uuid from "react-native-uuid";
+type MuscleGroup =
+  | "Quadriceps"
+  | "Glutes"
+  | "Calves"
+  | "Hamstrings"
+  | "Abductors"
+  | "Adductors"
+  | "Upper Back"
+  | "Lower Back"
+  | "Lats"
+  | "Traps"
+  | "Neck"
+  | "Biceps"
+  | "Triceps"
+  | "Forearms"
+  | "Chest"
+  | "Shoulders"
+  | "Abdominals";
 
-// NOTE: this is just sample data - categories listed are only the general regions,
-// thus, may not account for specific subregions (e.g. Deadlifts should technically cover Glutes but is placed under Legs region)
-export const exercises: Exercises[] = [
-  { category: "Legs", exercises: ["Squats", "Deadlift (Barbell)"] },
-  { category: "Chest", exercises: ["Push-Ups"] },
-  { category: "Biceps", exercises: ["Alternating Bicep Curls"] },
-  { category: "Abs", exercises: ["Ab Wheel"] },
-  { category: "Back", exercises: ["Seated Cable Row - V Grip (Cable)"] },
+export type Exercise = {
+  id: string;
+  muscleGroup: MuscleGroup;
+  name: string;
+};
+export const data: Exercise[] = [
+  { id: uuid.v4(), muscleGroup: "Quadriceps", name: "Squats (Barbell)" },
+  { id: uuid.v4(), muscleGroup: "Glutes", name: "Deadlift (Barbell)" },
+  { id: uuid.v4(), muscleGroup: "Chest", name: "Push Ups" },
+  { id: uuid.v4(), muscleGroup: "Biceps", name: "Alternating Bicep Curls" },
+  {
+    id: uuid.v4(),
+    muscleGroup: "Upper Back",
+    name: "Seated Cable Row - V Grip (Cable)",
+  },
 ];
 
-/// Every region:
+/// Every muscle group:
 
 // Quadriceps
 // Glutes

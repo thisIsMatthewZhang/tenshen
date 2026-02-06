@@ -15,11 +15,11 @@ import {
   TextInput,
   View,
 } from "react-native";
+import Button from "../../../components/Button";
 import { fakeExerciseCards } from "../exerciseCards";
-import Button from "./Button";
+import { data } from "../exercises";
 import SearchFilterModal from "./SearchFilterModal";
 const ruby = require("../../../../assets/avatars/Ruby.png");
-
 export interface WorkoutBuilderProps {
   showModal: boolean;
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -102,6 +102,7 @@ export default function WorkoutBuilder({
         </View>
         {showSearchExerciseModal ? (
           <SearchFilterModal
+            data={data}
             showModal={showSearchExerciseModal}
             setShowModal={setShowSearchExerciseModal}
           />

@@ -1,7 +1,7 @@
 import { useDebouncedValue } from "@lilib/hooks";
 import { useMemo, useState } from "react";
 export interface FilterConfig<T> {
-  key: keyof T; // string literal union of T's keys
+  key: keyof T; // a union of all the properties of object type T
   type: "text" | "select" | "range" | "boolean" | "date";
   label: string;
   options?: string[] | { label: string; value: any }[];
@@ -30,13 +30,14 @@ export function useSearchFilter<T extends Record<string, any>>(
     // Search
     if (debouncedQuery) {
       result = result.filter((item) => {
-        searchKeys.some((key) => {
-          String(item[key] ?? "")
+        return searchKeys.some((key) => {
+          return String(item[key] ?? "")
             .toLowerCase()
             .includes(debouncedQuery.toLowerCase());
         });
       });
     }
+
     // Filters
     Object.entries(activeFilters).forEach(([filterKey, filterValue]) => {
       if (!filterValue) return;

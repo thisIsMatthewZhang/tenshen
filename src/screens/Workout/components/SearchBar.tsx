@@ -20,7 +20,9 @@ export default function SearchBar({
         placeholderTextColor={"white"}
         maxLength={MAX_INPUT_LENGTH}
         value={searchQuery}
-        onChangeText={setSearchQuery}
+        onChangeText={(text) => {
+          setSearchQuery(text);
+        }}
       />
     </View>
   );
@@ -28,12 +30,13 @@ export default function SearchBar({
 
 const styles = StyleSheet.create({
   container: {
-    width: "90%",
+    width: "100%",
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "#494A50",
     borderRadius: 20,
     padding: 12,
+    marginBottom: 12,
   },
   input: {
     width: "85%",

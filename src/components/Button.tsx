@@ -1,10 +1,16 @@
 import { PATTERN } from "@/src/constants/theme";
-import { DimensionValue, Pressable, Text, View } from "react-native";
+import {
+  ColorValue,
+  DimensionValue,
+  Pressable,
+  Text,
+  View,
+} from "react-native";
 
 interface ButtonProps {
-  title: "Cancel" | "Done 👍" | "Add Exercise +" | "Confirm 👍" | "Add Set +";
-  bgColor: string;
-  textColor: string;
+  title: string;
+  bgColor: ColorValue;
+  textColor: ColorValue;
   onPress?: () => void;
   width?: DimensionValue;
 }
