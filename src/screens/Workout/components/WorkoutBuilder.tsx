@@ -1,14 +1,9 @@
-import {
-  APP_BACKGROUND_COLOR,
-  BLUE_LIGHTER,
-  MAX_INPUT_LENGTH,
-  PATTERN,
-} from "@/src/constants/theme";
+import ReusableModal from "@/src/components/ReusableModal";
+import { BLUE_LIGHTER, MAX_INPUT_LENGTH, PATTERN } from "@/src/constants/theme";
 import ExerciseCard from "@/src/screens/Workout/components/ExerciseCard";
 import { useState } from "react";
 import {
   Image,
-  Modal,
   ScrollView,
   StyleSheet,
   Text,
@@ -36,90 +31,81 @@ export default function WorkoutBuilder({
   const [showSearchExerciseModal, setShowSearchExerciseModal] =
     useState<boolean>(false);
   return (
-    <Modal
-      animationType="slide"
-      visible={showModal}
-      onRequestClose={() => setShowModal(!showModal)}
-      allowSwipeDismissal={true}
+    <ReusableModal
+      showModal={showModal}
+      setShowModal={() => setShowModal(!showModal)}
     >
-      <View style={styles.container}>
-        <View style={styles.headerContainer}>
-          <View style={styles.topButtons}>
-            <Button
-              title="Cancel"
-              bgColor="red"
-              textColor="black"
-              onPress={() => setShowModal(false)}
-            />
-            <Button
-              title="Done 👍"
-              bgColor={BLUE_LIGHTER}
-              textColor="white"
-              onPress={() => console.error("non implemented")}
-            />
-          </View>
-          <TextInput
-            style={styles.input}
-            placeholder="Workout Name"
-            placeholderTextColor={"white"}
-            maxLength={MAX_INPUT_LENGTH}
-            value={workoutName}
-            onChangeText={(text) => setWorkoutName(text)}
-          />
-        </View>
-        <ScrollView contentContainerStyle={styles.cardsContainer}>
-          {isEmpty ? (
-            <View style={styles.emptyState}>
-              <Image source={ruby} style={{ width: 25, height: 25 }} />
-              <Text style={PATTERN.bigText}>
-                Ready to build a workout routine? Let&apos;s get started!
-              </Text>
-            </View>
-          ) : (
-            exercises.map((card) => {
-              return (
-                <ExerciseCard
-                  key={card.id}
-                  id={card.id}
-                  exerciseName={card.exerciseName}
-                  exercises={exercises}
-                  exercisesSetter={setExercises}
-                />
-              );
-            })
-          )}
-        </ScrollView>
-        <View style={styles.footerContainer}>
+      <View style={styles.headerContainer}>
+        <View style={styles.topButtons}>
           <Button
-            title="Add Exercise +"
+            title="Cancel"
+            bgColor="red"
+            textColor="black"
+            onPress={() => setShowModal(false)}
+          />
+          <Button
+            title="Done 👍"
             bgColor={BLUE_LIGHTER}
             textColor="white"
-            onPress={() => {
-              setShowSearchExerciseModal(!showSearchExerciseModal);
-            }}
-            width={"90%"}
+            onPress={() => console.error("non implemented")}
           />
         </View>
-        {showSearchExerciseModal ? (
-          <SearchFilterModal
-            data={data}
-            showModal={showSearchExerciseModal}
-            setShowModal={setShowSearchExerciseModal}
-          />
-        ) : (
-          <></>
-        )}
+        <TextInput
+          style={styles.input}
+          placeholder="Workout Name"
+          placeholderTextColor={"white"}
+          maxLength={MAX_INPUT_LENGTH}
+          value={workoutName}
+          onChangeText={(text) => setWorkoutName(text)}
+        />
       </View>
-    </Modal>
+      <ScrollView contentContainerStyle={styles.cardsContainer}>
+        {isEmpty ? (
+          <View style={styles.emptyState}>
+            <Image source={ruby} style={{ width: 25, height: 25 }} />
+            <Text style={PATTERN.bigText}>
+              Ready to build a workout routine? Let&apos;s get started!
+            </Text>
+          </View>
+        ) : (
+          exercises.map((card) => {
+            return (
+              <ExerciseCard
+                key={card.id}
+                id={card.id}
+                exerciseName={card.exerciseName}
+                exercises={exercises}
+                exercisesSetter={setExercises}
+              />
+            );
+          })
+        )}
+      </ScrollView>
+      <View style={styles.footerContainer}>
+        <Button
+          title="Add Exercise +"
+          bgColor={BLUE_LIGHTER}
+          textColor="white"
+          onPress={() => {
+            setShowSearchExerciseModal(!showSearchExerciseModal);
+          }}
+          width={"90%"}
+        />
+      </View>
+      {showSearchExerciseModal ? (
+        <SearchFilterModal
+          data={data}
+          showModal={showSearchExerciseModal}
+          setShowModal={setShowSearchExerciseModal}
+        />
+      ) : (
+        <></>
+      )}
+    </ReusableModal>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: APP_BACKGROUND_COLOR,
-    paddingHorizontal: 12,
-  },
   headerContainer: {
     width: "100%",
     alignItems: "center",

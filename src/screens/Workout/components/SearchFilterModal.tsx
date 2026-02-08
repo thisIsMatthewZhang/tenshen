@@ -9,15 +9,16 @@ import { useSearchFilter } from "@/src/hooks/useSearchFilter";
 import { useState } from "react";
 import {
   FlatList,
-  Modal,
   Pressable,
   StyleSheet,
   Text,
   View
 } from "react-native";
-import ModalWithList from "../../../components/ModalWithList";
+import ReusableModal from "../../../components/ReusableModal";
 import SearchBar from "../../../components/SearchBar";
+import { equipment } from "../equipment";
 import { Exercise } from "../exercises";
+import { muscleGroups } from "../muscleGroup";
 import { WorkoutBuilderProps } from "./WorkoutBuilder";
 
 interface SearchModalProps<T> extends WorkoutBuilderProps {
@@ -43,85 +44,109 @@ export default function SearchFilterModal({
     useState<boolean>(false);
 
   return (
-    <Modal visible={showModal} onRequestClose={() => setShowModal(!showModal)}>
-      <View style={styles.container}>
-        <View style={styles.headerContainer}>
-          <Button
-            title="Cancel"
-            onPress={() => setShowModal(!showModal)}
-            bgColor={"red"}
-            textColor={"black"}
-          />
-          <Text style={[PATTERN.smallText, { fontWeight: "bold" }]}>
-            Add Exercise
-          </Text>
-          <Button
-            title="Cancel"
-            onPress={() => setShowModal(!showModal)}
-            bgColor={"red"}
-            textColor={"black"}
-          />
-        </View>
-        <View style={styles.searchFilterContainer}>
-          <SearchBar
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
-          />
-          <View style={styles.buttonsContainer}>
-            <Button
-              title="Equipment"
-              bgColor={BLUE_LIGHTER}
-              textColor={"white"}
-              onPress={() => setShowEquipmentModal(!showEquipmentModal)}
-              width={"45%"}
-            />
-            <Button
-              title="Muscle"
-              bgColor={BLUE_LIGHTER}
-              textColor={"white"}
-              onPress={() => setShowMuscleGroupModal(!showMuscleGroupModal)}
-              width={"45%"}
-            />
-          </View>
-        </View>
-        <FlatList
-          data={filteredData}
-          renderItem={({ item }) => {
-            return (
-              <Pressable key={item.id} style={styles.data}>
-                <ExercisePhoto />
-                <View style={{ marginLeft: 12 }}>
-                  <Text style={PATTERN.smallText}>{item.name}</Text>
-                  <Text style={[PATTERN.smallText, { opacity: 0.5 }]}>
-                    {item.muscleGroup}
-                  </Text>
-                </View>
-              </Pressable>
-            );
-          }}
-          style={styles.listContainer}
-          showsVerticalScrollIndicator={false}
+    <ReusableModal
+      showModal={showModal}
+      setShowModal={() => setShowModal(!showModal)}
+    >
+      <View style={styles.headerContainer}>
+        <Button
+          title="Cancel"
+          onPress={() => setShowModal(!showModal)}
+          bgColor={"red"}
+          textColor={"black"}
+        />
+        <Text style={[PATTERN.smallText, { fontWeight: "bold" }]}>
+          Add Exercise
+        </Text>
+        <Button
+          title="Cancel"
+          onPress={() => setShowModal(!showModal)}
+          bgColor={"red"}
+          textColor={"black"}
         />
       </View>
+      <View style={styles.searchFilterContainer}>
+        <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+        <View style={styles.buttonsContainer}>
+          <Button
+            title="Equipment"
+            bgColor={BLUE_LIGHTER}
+            textColor={"white"}
+            onPress={() => setShowEquipmentModal(!showEquipmentModal)}
+            width={"45%"}
+          />
+          <Button
+            title="Muscle"
+            bgColor={BLUE_LIGHTER}
+            textColor={"white"}
+            onPress={() => setShowMuscleGroupModal(!showMuscleGroupModal)}
+            width={"45%"}
+          />
+        </View>
+      </View>
+      <FlatList
+        data={filteredData}
+        renderItem={({ item }) => {
+          return (
+            <Pressable key={item.id} style={styles.data}>
+              <ExercisePhoto />
+              <View style={{ marginLeft: 12 }}>
+                <Text style={PATTERN.smallText}>{item.name}</Text>
+                <Text style={[PATTERN.smallText, { opacity: 0.5 }]}>
+                  {item.muscleGroup}
+                </Text>
+              </View>
+            </Pressable>
+          );
+        }}
+        style={styles.listContainer}
+        showsVerticalScrollIndicator={false}
+      />
       {showEquipmentModal ? (
-        <ModalWithList
+        <ReusableModal
           showModal={showEquipmentModal}
           setShowModal={setShowEquipmentModal}
-          data={[]}
-        />
+        >
+          <FlatList
+            data={equipment}
+            renderItem={({ item }) => {
+              return (
+                <Pressable key={item.id} style={styles.data}>
+                  <ExercisePhoto />
+                  <View style={{ marginLeft: 12 }}>
+                    <Text style={PATTERN.smallText}>{item.name}</Text>
+                  </View>
+                </Pressable>
+              );
+            }}
+          />
+        </ReusableModal>
       ) : (
         <></>
       )}
       {showMuscleGroupModal ? (
-        <ModalWithList
+        <ReusableModal
           showModal={showMuscleGroupModal}
           setShowModal={setShowMuscleGroupModal}
-          data={[]}
-        />
+        >
+          <FlatList
+            data={muscleGroups}
+            renderItem={({ item }) => {
+              return (
+                <Pressable key={item.id} style={styles.data}>
+                  <ExercisePhoto />
+                  <View style={{ marginLeft: 12 }}>
+                    <Text style={PATTERN.smallText}>{item.name}</Text>
+                  </View>
+                </Pressable>
+              );
+            }}
+          />
+        </ReusableModal>
       ) : (
         <></>
       )}
-    </Modal>
+    </ReusableModal>
   );
 }
 

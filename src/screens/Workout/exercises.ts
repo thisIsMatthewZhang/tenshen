@@ -1,5 +1,5 @@
 import uuid from "react-native-uuid";
-type MuscleGroup =
+export type MuscleGroup =
   | "Quadriceps"
   | "Glutes"
   | "Calves"
@@ -68,27 +68,6 @@ export const data: Exercise[] = [
     id: uuid.v4(),
     muscleGroup: "Glutes",
     name: "Hip Thrust (Barbell)",
-  },
-  {
-    id: uuid.v4(),
-    muscleGroup: "Lower Back",
-    name: "Back Extension (Machine)",
-  },
-
-  {
-    id: uuid.v4(),
-    muscleGroup: "Lower Back",
-    name: "Back Extension (Machine)",
-  },
-  {
-    id: uuid.v4(),
-    muscleGroup: "Lower Back",
-    name: "Back Extension (Machine)",
-  },
-  {
-    id: uuid.v4(),
-    muscleGroup: "Lower Back",
-    name: "Back Extension (Machine)",
   },
   {
     id: uuid.v4(),
