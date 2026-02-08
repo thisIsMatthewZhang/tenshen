@@ -1,7 +1,7 @@
 import { BLUE_LIGHTER, ICON_SIZE, PATTERN } from "@/src/constants/theme";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useState } from "react";
-import { Pressable, ScrollView, StyleSheet, Text } from "react-native";
+import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { cardDetails } from "./cardDetails";
 import WorkoutBuilder from "./components/WorkoutBuilder";
@@ -17,8 +17,8 @@ export default function WorkoutScreen() {
     <WorkoutsContext.Provider value={[workouts, setWorkouts]}>
       <SafeAreaProvider>
         <SafeAreaView style={PATTERN.container}>
-          <ScrollView
-            contentContainerStyle={{
+          <View
+            style={{
               minWidth: "100%",
               alignItems: "center",
               justifyContent: "center",
@@ -50,15 +50,19 @@ export default function WorkoutScreen() {
                 color="black"
               />
             </Pressable>
-            {workouts.map((workout) => (
-              <WorkoutCard
-                key={workout.id}
-                id={workout.id}
-                workoutName={workout.workoutName}
-                exercises={workout.exercises}
-              />
-            ))}
-          </ScrollView>
+            <FlatList
+              data={workouts}
+              renderItem={({ item }) => (
+                <WorkoutCard
+                  key={item.id}
+                  id={item.id}
+                  workoutName={item.workoutName}
+                  exercises={item.exercises}
+                />
+              )}
+              showsVerticalScrollIndicator={false}
+            />
+          </View>
         </SafeAreaView>
       </SafeAreaProvider>
     </WorkoutsContext.Provider>
@@ -72,7 +76,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 10,
     backgroundColor: BLUE_LIGHTER,
+    marginBottom: 8,
+    borderRadius: 10,
   },
 });

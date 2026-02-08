@@ -8,12 +8,12 @@ import {
 import { useSearchFilter } from "@/src/hooks/useSearchFilter";
 import { useState } from "react";
 import {
+  FlatList,
   Modal,
   Pressable,
-  ScrollView,
   StyleSheet,
   Text,
-  View,
+  View
 } from "react-native";
 import ModalWithList from "../../../components/ModalWithList";
 import SearchBar from "../../../components/SearchBar";
@@ -84,11 +84,9 @@ export default function SearchFilterModal({
             />
           </View>
         </View>
-        <ScrollView
-          style={styles.listContainer}
-          showsVerticalScrollIndicator={false}
-        >
-          {filteredData.map((item) => {
+        <FlatList
+          data={filteredData}
+          renderItem={({ item }) => {
             return (
               <Pressable key={item.id} style={styles.data}>
                 <ExercisePhoto />
@@ -100,8 +98,10 @@ export default function SearchFilterModal({
                 </View>
               </Pressable>
             );
-          })}
-        </ScrollView>
+          }}
+          style={styles.listContainer}
+          showsVerticalScrollIndicator={false}
+        />
       </View>
       {showEquipmentModal ? (
         <ModalWithList

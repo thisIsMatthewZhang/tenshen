@@ -42,7 +42,7 @@ export default function WorkoutBuilder({
       onRequestClose={() => setShowModal(!showModal)}
       allowSwipeDismissal={true}
     >
-      <ScrollView contentContainerStyle={styles.scrollContent}>
+      <View style={styles.container}>
         <View style={styles.headerContainer}>
           <View style={styles.topButtons}>
             <Button
@@ -67,7 +67,7 @@ export default function WorkoutBuilder({
             onChangeText={(text) => setWorkoutName(text)}
           />
         </View>
-        <View style={styles.cardsContainer}>
+        <ScrollView contentContainerStyle={styles.cardsContainer}>
           {isEmpty ? (
             <View style={styles.emptyState}>
               <Image source={ruby} style={{ width: 25, height: 25 }} />
@@ -88,7 +88,7 @@ export default function WorkoutBuilder({
               );
             })
           )}
-        </View>
+        </ScrollView>
         <View style={styles.footerContainer}>
           <Button
             title="Add Exercise +"
@@ -109,21 +109,21 @@ export default function WorkoutBuilder({
         ) : (
           <></>
         )}
-      </ScrollView>
+      </View>
     </Modal>
   );
 }
 
 const styles = StyleSheet.create({
-  scrollContent: {
-    flexGrow: 1,
+  container: {
+    flex: 1,
     backgroundColor: APP_BACKGROUND_COLOR,
+    paddingHorizontal: 12,
   },
   headerContainer: {
     width: "100%",
     alignItems: "center",
     paddingTop: 60,
-    marginBottom: 20,
   },
   input: {
     width: "85%",
