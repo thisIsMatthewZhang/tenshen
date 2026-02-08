@@ -1,6 +1,12 @@
+import Button from "@/src/components/Button";
 import ExercisePhoto from "@/src/components/ExercisePhoto";
-import { APP_BACKGROUND_COLOR, PATTERN } from "@/src/constants/theme";
+import {
+  APP_BACKGROUND_COLOR,
+  BLUE_LIGHTER,
+  PATTERN,
+} from "@/src/constants/theme";
 import { useSearchFilter } from "@/src/hooks/useSearchFilter";
+import { useState } from "react";
 import {
   Modal,
   Pressable,
@@ -9,9 +15,9 @@ import {
   Text,
   View,
 } from "react-native";
+import ModalWithList from "../../../components/ModalWithList";
+import SearchBar from "../../../components/SearchBar";
 import { Exercise } from "../exercises";
-import FilterButton from "./FilterButton";
-import SearchBar from "./SearchBar";
 import { WorkoutBuilderProps } from "./WorkoutBuilder";
 
 interface SearchModalProps<T> extends WorkoutBuilderProps {
@@ -32,59 +38,111 @@ export default function SearchFilterModal({
     sortConfig,
     setSortConfig,
   } = useSearchFilter(data, ["name", "muscleGroup"]);
+  const [showEquipmentModal, setShowEquipmentModal] = useState<boolean>(false);
+  const [showMuscleGroupModal, setShowMuscleGroupModal] =
+    useState<boolean>(false);
 
   return (
     <Modal visible={showModal} onRequestClose={() => setShowModal(!showModal)}>
-      <ScrollView contentContainerStyle={styles.scrollContent}>
+      <View style={styles.container}>
         <View style={styles.headerContainer}>
+          <Button
+            title="Cancel"
+            onPress={() => setShowModal(!showModal)}
+            bgColor={"red"}
+            textColor={"black"}
+          />
+          <Text style={[PATTERN.smallText, { fontWeight: "bold" }]}>
+            Add Exercise
+          </Text>
+          <Button
+            title="Cancel"
+            onPress={() => setShowModal(!showModal)}
+            bgColor={"red"}
+            textColor={"black"}
+          />
+        </View>
+        <View style={styles.searchFilterContainer}>
           <SearchBar
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}
           />
           <View style={styles.buttonsContainer}>
-            <FilterButton
-              filterType="Equipment"
-              activeFilters={activeFilters}
-              setActiveFilters={setActiveFilters}
+            <Button
+              title="Equipment"
+              bgColor={BLUE_LIGHTER}
+              textColor={"white"}
+              onPress={() => setShowEquipmentModal(!showEquipmentModal)}
+              width={"45%"}
             />
-            <FilterButton
-              filterType="Muscle"
-              activeFilters={activeFilters}
-              setActiveFilters={setActiveFilters}
+            <Button
+              title="Muscle"
+              bgColor={BLUE_LIGHTER}
+              textColor={"white"}
+              onPress={() => setShowMuscleGroupModal(!showMuscleGroupModal)}
+              width={"45%"}
             />
-          </View>
-          <View style={styles.listContainer}>
-            {filteredData.map((item) => {
-              return (
-                <Pressable key={item.id} style={styles.data}>
-                  <ExercisePhoto />
-                  <View style={{ marginLeft: 12 }}>
-                    <Text style={PATTERN.smallText}>{item.name}</Text>
-                    <Text style={[PATTERN.smallText, { opacity: 0.5 }]}>
-                      {item.muscleGroup}
-                    </Text>
-                  </View>
-                </Pressable>
-              );
-            })}
           </View>
         </View>
-      </ScrollView>
+        <ScrollView
+          style={styles.listContainer}
+          showsVerticalScrollIndicator={false}
+        >
+          {filteredData.map((item) => {
+            return (
+              <Pressable key={item.id} style={styles.data}>
+                <ExercisePhoto />
+                <View style={{ marginLeft: 12 }}>
+                  <Text style={PATTERN.smallText}>{item.name}</Text>
+                  <Text style={[PATTERN.smallText, { opacity: 0.5 }]}>
+                    {item.muscleGroup}
+                  </Text>
+                </View>
+              </Pressable>
+            );
+          })}
+        </ScrollView>
+      </View>
+      {showEquipmentModal ? (
+        <ModalWithList
+          showModal={showEquipmentModal}
+          setShowModal={setShowEquipmentModal}
+          data={[]}
+        />
+      ) : (
+        <></>
+      )}
+      {showMuscleGroupModal ? (
+        <ModalWithList
+          showModal={showMuscleGroupModal}
+          setShowModal={setShowMuscleGroupModal}
+          data={[]}
+        />
+      ) : (
+        <></>
+      )}
     </Modal>
   );
 }
 
 const styles = StyleSheet.create({
-  scrollContent: {
-    flexGrow: 1,
+  container: {
+    flex: 1,
     backgroundColor: APP_BACKGROUND_COLOR,
     paddingHorizontal: 12,
   },
   headerContainer: {
     width: "100%",
+    flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-between",
     paddingTop: 60,
-    marginBottom: 20,
+  },
+  searchFilterContainer: {
+    width: "100%",
+    alignItems: "center",
+    paddingTop: 20,
+    marginBottom: 8,
   },
   buttonsContainer: {
     width: "100%",
@@ -94,7 +152,6 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     width: "100%",
-    marginTop: 40,
   },
   data: {
     flexDirection: "row",
