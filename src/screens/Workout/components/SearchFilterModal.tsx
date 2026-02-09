@@ -3,22 +3,17 @@ import ExercisePhoto from "@/src/components/ExercisePhoto";
 import {
   APP_BACKGROUND_COLOR,
   BLUE_LIGHTER,
-  PATTERN,
+  GOLD,
+  ICON_SIZE,
+  PATTERN
 } from "@/src/constants/theme";
 import { useSearchFilter } from "@/src/hooks/useSearchFilter";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { useState } from "react";
-import {
-  FlatList,
-  Pressable,
-  StyleSheet,
-  Text,
-  View
-} from "react-native";
+import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
 import ReusableModal from "../../../components/ReusableModal";
 import SearchBar from "../../../components/SearchBar";
-import { equipment } from "../equipment";
 import { Exercise } from "../exercises";
-import { muscleGroups } from "../muscleGroup";
 import { WorkoutBuilderProps } from "./WorkoutBuilder";
 
 interface SearchModalProps<T> extends WorkoutBuilderProps {
@@ -30,18 +25,14 @@ export default function SearchFilterModal({
   showModal,
   setShowModal,
 }: SearchModalProps<Exercise>) {
-  const {
-    filteredData,
-    searchQuery,
-    setSearchQuery,
-    activeFilters,
-    setActiveFilters,
-    sortConfig,
-    setSortConfig,
-  } = useSearchFilter(data, ["name", "muscleGroup"]);
-  const [showEquipmentModal, setShowEquipmentModal] = useState<boolean>(false);
-  const [showMuscleGroupModal, setShowMuscleGroupModal] =
-    useState<boolean>(false);
+  const { filteredData, searchQuery, setSearchQuery } = useSearchFilter(data, [
+    "name",
+    "muscleGroup",
+  ]);
+  // const [showEquipmentModal, setShowEquipmentModal] = useState<boolean>(false);
+  // const [showMuscleGroupModal, setShowMuscleGroupModal] =
+  //   useState<boolean>(false);
+  const [selectedItems, setSelectedItems] = useState<number>(0);
 
   return (
     <ReusableModal
@@ -51,7 +42,12 @@ export default function SearchFilterModal({
       <View style={styles.headerContainer}>
         <Button
           title="Cancel"
-          onPress={() => setShowModal(!showModal)}
+          onPress={() => {
+            for (let data of filteredData) {
+              data.isSelected = false;
+            }
+            setShowModal(!showModal);
+          }}
           bgColor={"red"}
           textColor={"black"}
         />
@@ -67,7 +63,7 @@ export default function SearchFilterModal({
       </View>
       <View style={styles.searchFilterContainer}>
         <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-        <View style={styles.buttonsContainer}>
+        {/* <View style={styles.buttonsContainer}>
           <Button
             title="Equipment"
             bgColor={BLUE_LIGHTER}
@@ -82,13 +78,41 @@ export default function SearchFilterModal({
             onPress={() => setShowMuscleGroupModal(!showMuscleGroupModal)}
             width={"45%"}
           />
-        </View>
+        </View> */}
       </View>
       <FlatList
         data={filteredData}
         renderItem={({ item }) => {
           return (
-            <Pressable key={item.id} style={styles.data}>
+            <Pressable
+              key={item.id}
+              style={({ pressed }) => {
+                return [
+                  styles.data,
+                  {
+                    backgroundColor:
+                      pressed || item.isSelected
+                        ? "rgba(255, 255, 255, 0.1)"
+                        : undefined,
+                  },
+                ];
+              }}
+              onPress={() => {
+                setSelectedItems((prev) =>
+                  item.isSelected ? prev - 1 : prev + 1,
+                );
+                item.isSelected = !item.isSelected;
+              }}
+            >
+              {item.isSelected ? (
+                <Ionicons
+                  name="checkbox-sharp"
+                  size={ICON_SIZE}
+                  color={BLUE_LIGHTER}
+                />
+              ) : (
+                <></>
+              )}
               <ExercisePhoto />
               <View style={{ marginLeft: 12 }}>
                 <Text style={PATTERN.smallText}>{item.name}</Text>
@@ -102,7 +126,16 @@ export default function SearchFilterModal({
         style={styles.listContainer}
         showsVerticalScrollIndicator={false}
       />
-      {showEquipmentModal ? (
+      {selectedItems > 0 ? (
+        <Button
+          title={`Add ${selectedItems} Exercise(s)`}
+          bgColor={GOLD}
+          textColor={"black"}
+        />
+      ) : (
+        <></>
+      )}
+      {/* {showEquipmentModal ? (
         <ReusableModal
           showModal={showEquipmentModal}
           setShowModal={setShowEquipmentModal}
@@ -145,7 +178,7 @@ export default function SearchFilterModal({
         </ReusableModal>
       ) : (
         <></>
-      )}
+      )} */}
     </ReusableModal>
   );
 }
