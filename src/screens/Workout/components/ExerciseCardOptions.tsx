@@ -4,17 +4,17 @@ import {
   PATTERN,
 } from "@/src/constants/theme";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
+import { ExerciseContext } from "../ExerciseContext";
 import { ExerciseCardProps } from "./ExerciseCard";
 
 export default function ExerciseCardOptions({
   id,
   exerciseName,
-  exercises,
-  exercisesSetter,
 }: ExerciseCardProps) {
   const [modalVisible, setModalVisible] = useState(false);
+  const [exercises, setExercises] = useContext(ExerciseContext);
   return (
     <Pressable onPress={() => setModalVisible(!modalVisible)}>
       <Ionicons name="ellipsis-vertical" size={ICON_SIZE} />
@@ -68,7 +68,7 @@ export default function ExerciseCardOptions({
             <Pressable
               style={styles.option}
               onPress={() => {
-                exercisesSetter(
+                setExercises(
                   exercises.filter((exercise) => {
                     return exercise.id !== id;
                   }),
