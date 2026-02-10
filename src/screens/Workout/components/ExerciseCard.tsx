@@ -138,12 +138,7 @@ export default function ExerciseCard({ id, exerciseName }: ExerciseCardProps) {
       <View style={styles.card}>
         <View style={styles.title}>
           <View>
-            <Text
-              style={[
-                PATTERN.mediumText,
-                { color: "black", fontWeight: "bold" },
-              ]}
-            >
+            <Text style={[PATTERN.mediumText, styles.exerciseNameText]}>
               {exerciseName}
             </Text>
             <Pressable onPress={() => setShowTimerPicker(true)}>
@@ -286,6 +281,12 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginHorizontal: 16,
     marginVertical: 8,
+  },
+  exerciseNameText: {
+    color: "black",
+    fontWeight: "bold",
+    maxWidth: 250,
+    lineHeight: 20,
   },
   header: {
     width: "100%",
