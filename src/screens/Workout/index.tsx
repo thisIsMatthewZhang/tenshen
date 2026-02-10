@@ -3,7 +3,6 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { useState } from "react";
 import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import { cardDetails } from "./cardDetails";
 import WorkoutBuilder from "./components/WorkoutBuilder";
 import WorkoutCard, { WorkoutCardProps } from "./components/WorkoutCard";
 import { WorkoutsContext } from "./WorkoutsContext";
@@ -11,7 +10,7 @@ import { WorkoutsContext } from "./WorkoutsContext";
 export default function WorkoutScreen() {
   // Parent toggles Modal visibility and passes these as props to WorkoutBuilder modal
   const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const [workouts, setWorkouts] = useState<WorkoutCardProps[]>(cardDetails);
+  const [workouts, setWorkouts] = useState<WorkoutCardProps[]>([]);
 
   return (
     <WorkoutsContext.Provider value={[workouts, setWorkouts]}>

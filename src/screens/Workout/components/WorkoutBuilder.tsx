@@ -1,7 +1,7 @@
 import ReusableModal from "@/src/components/ReusableModal";
 import { BLUE_LIGHTER, MAX_INPUT_LENGTH, PATTERN } from "@/src/constants/theme";
 import ExerciseCard from "@/src/screens/Workout/components/ExerciseCard";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   Image,
   ScrollView,
@@ -10,10 +10,11 @@ import {
   TextInput,
   View,
 } from "react-native";
+import uuid from "react-native-uuid";
 import Button from "../../../components/Button";
 import { ExerciseContext } from "../ExerciseContext";
 import { Exercise, data } from "../exercises";
-
+import { WorkoutsContext } from "../WorkoutsContext";
 import SearchFilterModal from "./SearchFilterModal";
 const ruby = require("../../../../assets/avatars/Ruby.png");
 export interface WorkoutBuilderProps {
@@ -25,11 +26,11 @@ export default function WorkoutBuilder({
   showModal,
   setShowModal,
 }: WorkoutBuilderProps) {
-  const [isEmpty, setIsEmpty] = useState<boolean>(false);
   const [workoutName, setWorkoutName] = useState<string>("");
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [showSearchExerciseModal, setShowSearchExerciseModal] =
     useState<boolean>(false);
+  const [workouts, setWorkouts] = useContext(WorkoutsContext);
   return (
     <ExerciseContext.Provider value={[exercises, setExercises]}>
       <ReusableModal
@@ -45,13 +46,29 @@ export default function WorkoutBuilder({
               onPress={() => {
                 setExercises([]);
                 setShowModal(!showModal);
+                setWorkoutName("");
               }}
             />
             <Button
               title="Done 👍"
               bgColor={BLUE_LIGHTER}
               textColor="white"
-              onPress={() => console.error("non implemented")}
+              onPress={() => {
+                setExercises([]);
+                setShowModal(!showModal);
+                setWorkoutName("");
+                const exerciseNames: string[] = exercises.map(
+                  (item) => item.name,
+                );
+                setWorkouts([
+                  ...workouts,
+                  {
+                    id: uuid.v4(),
+                    workoutName: workoutName,
+                    exercises: exerciseNames,
+                  },
+                ]);
+              }}
             />
           </View>
           <TextInput
@@ -64,7 +81,7 @@ export default function WorkoutBuilder({
           />
         </View>
         <ScrollView contentContainerStyle={styles.cardsContainer}>
-          {isEmpty ? (
+          {!exercises.length ? (
             <View style={styles.emptyState}>
               <Image source={ruby} style={{ width: 25, height: 25 }} />
               <Text style={PATTERN.bigText}>
