@@ -11,9 +11,9 @@ import {
   View,
 } from "react-native";
 import Button from "../../../components/Button";
-import { fakeExerciseCards } from "../exerciseCards";
 import { ExerciseContext } from "../ExerciseContext";
-import { data } from "../exercises";
+import { Exercise, data } from "../exercises";
+
 import SearchFilterModal from "./SearchFilterModal";
 const ruby = require("../../../../assets/avatars/Ruby.png");
 export interface WorkoutBuilderProps {
@@ -27,8 +27,7 @@ export default function WorkoutBuilder({
 }: WorkoutBuilderProps) {
   const [isEmpty, setIsEmpty] = useState<boolean>(false);
   const [workoutName, setWorkoutName] = useState<string>("");
-  const [exercises, setExercises] =
-    useState<{ id: string; exerciseName: string }[]>(fakeExerciseCards);
+  const [exercises, setExercises] = useState<Exercise[]>([]);
   const [showSearchExerciseModal, setShowSearchExerciseModal] =
     useState<boolean>(false);
   return (
@@ -43,7 +42,10 @@ export default function WorkoutBuilder({
               title="Cancel"
               bgColor="red"
               textColor="black"
-              onPress={() => setShowModal(false)}
+              onPress={() => {
+                setExercises([]);
+                setShowModal(!showModal);
+              }}
             />
             <Button
               title="Done 👍"
@@ -75,7 +77,7 @@ export default function WorkoutBuilder({
                 <ExerciseCard
                   key={card.id}
                   id={card.id}
-                  exerciseName={card.exerciseName}
+                  exerciseName={card.name}
                 />
               );
             })

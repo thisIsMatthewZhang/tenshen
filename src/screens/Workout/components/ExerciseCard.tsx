@@ -138,7 +138,12 @@ export default function ExerciseCard({ id, exerciseName }: ExerciseCardProps) {
       <View style={styles.card}>
         <View style={styles.title}>
           <View>
-            <Text style={[PATTERN.bigText, { color: "black" }]}>
+            <Text
+              style={[
+                PATTERN.mediumText,
+                { color: "black", fontWeight: "bold" },
+              ]}
+            >
               {exerciseName}
             </Text>
             <Pressable onPress={() => setShowTimerPicker(true)}>

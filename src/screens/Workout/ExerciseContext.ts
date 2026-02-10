@@ -1,10 +1,6 @@
 import { createContext } from "react";
+import { Exercise } from "./exercises";
 
 export const ExerciseContext = createContext<
-  [
-    { id: string; exerciseName: string }[],
-    React.Dispatch<
-      React.SetStateAction<{ id: string; exerciseName: string }[]>
-    >,
-  ]
+  [Exercise[], React.Dispatch<React.SetStateAction<Exercise[]>>]
 >([[], () => {}]);

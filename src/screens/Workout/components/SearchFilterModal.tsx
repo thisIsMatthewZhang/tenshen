@@ -5,14 +5,15 @@ import {
   BLUE_LIGHTER,
   GOLD,
   ICON_SIZE,
-  PATTERN
+  PATTERN,
 } from "@/src/constants/theme";
 import { useSearchFilter } from "@/src/hooks/useSearchFilter";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
 import ReusableModal from "../../../components/ReusableModal";
 import SearchBar from "../../../components/SearchBar";
+import { ExerciseContext } from "../ExerciseContext";
 import { Exercise } from "../exercises";
 import { WorkoutBuilderProps } from "./WorkoutBuilder";
 
@@ -29,10 +30,8 @@ export default function SearchFilterModal({
     "name",
     "muscleGroup",
   ]);
-  // const [showEquipmentModal, setShowEquipmentModal] = useState<boolean>(false);
-  // const [showMuscleGroupModal, setShowMuscleGroupModal] =
-  //   useState<boolean>(false);
-  const [selectedItems, setSelectedItems] = useState<number>(0);
+  const [selectedItems, setSelectedItems] = useState<Exercise[]>([]); // selectedItems acts as a bucket that appends selected exercises to preexisting exercises (exercises context)
+  const [exercises, setExercises] = useContext(ExerciseContext);
 
   return (
     <ReusableModal
@@ -98,8 +97,10 @@ export default function SearchFilterModal({
                 ];
               }}
               onPress={() => {
-                setSelectedItems((prev) =>
-                  item.isSelected ? prev - 1 : prev + 1,
+                setSelectedItems(
+                  !item.isSelected
+                    ? [...selectedItems, item]
+                    : selectedItems.filter((curItem) => curItem.id !== item.id),
                 );
                 item.isSelected = !item.isSelected;
               }}
@@ -126,11 +127,18 @@ export default function SearchFilterModal({
         style={styles.listContainer}
         showsVerticalScrollIndicator={false}
       />
-      {selectedItems > 0 ? (
+      {selectedItems.length > 0 ? (
         <Button
-          title={`Add ${selectedItems} Exercise(s)`}
+          title={`Add ${selectedItems.length} Exercise(s)`}
           bgColor={GOLD}
           textColor={"black"}
+          onPress={() => {
+            setShowModal(!showModal);
+            setExercises([...exercises, ...selectedItems]);
+            for (let data of filteredData) {
+              data.isSelected = false;
+            }
+          }}
         />
       ) : (
         <></>
