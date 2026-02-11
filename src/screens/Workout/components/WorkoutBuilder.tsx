@@ -108,7 +108,7 @@ export default function WorkoutBuilder({
             onPress={() => {
               setShowSearchExerciseModal(!showSearchExerciseModal);
             }}
-            width={"90%"}
+            style={{ width: "90%" }}
           />
         </View>
         {showSearchExerciseModal ? (

@@ -172,10 +172,16 @@ export default function ExerciseCard({ id, exerciseName }: ExerciseCardProps) {
                     title="Confirm 👍"
                     bgColor={BLUE_LIGHTER}
                     textColor="white"
+                    onPress={() => {}}
                   />
                 }
                 cancelButton={
-                  <Button title="Cancel" bgColor="red" textColor="black" />
+                  <Button
+                    title="Cancel"
+                    bgColor="red"
+                    textColor="black"
+                    onPress={() => {}}
+                  />
                 }
               />
             </Pressable>
@@ -259,6 +265,7 @@ export default function ExerciseCard({ id, exerciseName }: ExerciseCardProps) {
                   },
                 ]);
               }}
+              style={{ width: "90%" }}
             />
           </View>
         </View>

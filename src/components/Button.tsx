@@ -1,18 +1,19 @@
 import { PATTERN } from "@/src/constants/theme";
 import {
   ColorValue,
-  DimensionValue,
   Pressable,
+  StyleProp,
   Text,
   View,
+  ViewStyle,
 } from "react-native";
 
 interface ButtonProps {
   title: string;
   bgColor: ColorValue;
   textColor: ColorValue;
-  onPress?: () => void;
-  width?: DimensionValue;
+  onPress: () => void;
+  style?: StyleProp<ViewStyle>;
 }
 
 export default function Button({
@@ -20,16 +21,15 @@ export default function Button({
   bgColor,
   textColor,
   onPress,
-  width,
+  style,
 }: ButtonProps) {
   const buttonStyles = {
-    width: width,
-    backgroundColor: bgColor,
     borderRadius: 10,
     paddingHorizontal: 12,
     paddingVertical: 8,
     margin: 8,
   };
+
   return (
     <Pressable
       style={({ pressed }) => {
@@ -37,7 +37,9 @@ export default function Button({
           buttonStyles,
           {
             opacity: pressed ? 0.5 : 1,
+            backgroundColor: bgColor,
           },
+          style,
         ];
       }}
       onPress={onPress}

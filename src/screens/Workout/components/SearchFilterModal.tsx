@@ -128,18 +128,21 @@ export default function SearchFilterModal({
         showsVerticalScrollIndicator={false}
       />
       {selectedItems.length > 0 ? (
-        <Button
-          title={`Add ${selectedItems.length} Exercise(s)`}
-          bgColor={GOLD}
-          textColor={"black"}
-          onPress={() => {
-            setShowModal(!showModal);
-            setExercises([...exercises, ...selectedItems]);
-            for (let data of filteredData) {
-              data.isSelected = false;
-            }
-          }}
-        />
+        <View style={styles.footerContainer}>
+          <Button
+            title={`Add ${selectedItems.length} Exercise(s)`}
+            bgColor={GOLD}
+            textColor={"black"}
+            onPress={() => {
+              setShowModal(!showModal);
+              setExercises([...exercises, ...selectedItems]);
+              for (let data of filteredData) {
+                data.isSelected = false;
+              }
+            }}
+            style={{ width: "90%" }}
+          />
+        </View>
       ) : (
         <></>
       )}
@@ -203,6 +206,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     paddingTop: 60,
+  },
+  footerContainer: {
+    width: "100%",
+    backgroundColor: undefined,
+    alignItems: "center",
+    marginBottom: 28,
   },
   searchFilterContainer: {
     width: "100%",
