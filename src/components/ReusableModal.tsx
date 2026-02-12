@@ -2,7 +2,7 @@ import { PropsWithChildren } from "react";
 import { Modal, StyleSheet, View } from "react-native";
 import { APP_BACKGROUND_COLOR } from "../constants/theme";
 
-interface ReusableModalProps {
+export interface ReusableModalProps {
   showModal: boolean;
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
 }

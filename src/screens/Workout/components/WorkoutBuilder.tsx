@@ -1,4 +1,6 @@
-import ReusableModal from "@/src/components/ReusableModal";
+import ReusableModal, {
+  ReusableModalProps,
+} from "@/src/components/ReusableModal";
 import { BLUE_LIGHTER, MAX_INPUT_LENGTH, PATTERN } from "@/src/constants/theme";
 import ExerciseCard from "@/src/screens/Workout/components/ExerciseCard";
 import { useContext, useState } from "react";
@@ -17,15 +19,11 @@ import { Exercise, data } from "../exercises";
 import { WorkoutsContext } from "../WorkoutsContext";
 import SearchFilterModal from "./SearchFilterModal";
 const ruby = require("../../../../assets/avatars/Ruby.png");
-export interface WorkoutBuilderProps {
-  showModal: boolean;
-  setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
-}
 
 export default function WorkoutBuilder({
   showModal,
   setShowModal,
-}: WorkoutBuilderProps) {
+}: ReusableModalProps) {
   const [workoutName, setWorkoutName] = useState<string>("");
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [showSearchExerciseModal, setShowSearchExerciseModal] =
@@ -57,15 +55,12 @@ export default function WorkoutBuilder({
                 setExercises([]);
                 setShowModal(!showModal);
                 setWorkoutName("");
-                const exerciseNames: string[] = exercises.map(
-                  (item) => item.name,
-                );
                 setWorkouts([
                   ...workouts,
                   {
                     id: uuid.v4(),
                     workoutName: workoutName,
-                    exercises: exerciseNames,
+                    exercises: exercises,
                   },
                 ]);
               }}

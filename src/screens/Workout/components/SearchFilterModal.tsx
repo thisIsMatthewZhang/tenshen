@@ -11,13 +11,14 @@ import { useSearchFilter } from "@/src/hooks/useSearchFilter";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useContext, useState } from "react";
 import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
-import ReusableModal from "../../../components/ReusableModal";
+import ReusableModal, {
+  ReusableModalProps,
+} from "../../../components/ReusableModal";
 import SearchBar from "../../../components/SearchBar";
 import { ExerciseContext } from "../ExerciseContext";
 import { Exercise } from "../exercises";
-import { WorkoutBuilderProps } from "./WorkoutBuilder";
 
-interface SearchModalProps<T> extends WorkoutBuilderProps {
+interface SearchModalProps<T> extends ReusableModalProps {
   data: T[];
 }
 
