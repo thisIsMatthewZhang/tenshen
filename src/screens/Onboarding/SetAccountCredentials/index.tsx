@@ -1,4 +1,9 @@
-import { BLUE_DARKER, GOLD, PATTERN, TEXT_INPUT } from "@/src/constants/theme";
+import {
+    BLUE_DARKER,
+    MAIN_COLOR,
+    PATTERN,
+    TEXT_INPUT,
+} from "@/src/constants/theme";
 import { UnknownOutputParams, useRouter } from "expo-router";
 import { useEffect, useMemo, useState } from "react";
 import { Animated, Keyboard, Text, TextInput } from "react-native";
@@ -93,7 +98,7 @@ export default function SetAccountCredentialsScreen({
           });
         }}
       />
-      <Text style={{ color: GOLD }}> {errors.email} </Text>
+      <Text style={{ color: MAIN_COLOR }}> {errors.email} </Text>
       <TextInput
         onFocus={() => setFocused(1)}
         onEndEditing={() => setFocused(null)}
@@ -123,7 +128,7 @@ export default function SetAccountCredentialsScreen({
         }}
         secureTextEntry={true}
       />
-      <Text style={{ color: GOLD }}> {errors.password} </Text>
+      <Text style={{ color: MAIN_COLOR }}> {errors.password} </Text>
       <TextInput
         onFocus={() => setFocused(2)}
         onEndEditing={() => setFocused(null)}
@@ -149,7 +154,7 @@ export default function SetAccountCredentialsScreen({
         }}
         secureTextEntry={true}
       />
-      <Text style={{ color: GOLD }}> {errors.confirmPassword} </Text>
+      <Text style={{ color: MAIN_COLOR }}> {errors.confirmPassword} </Text>
       <OnboardingButton
         buttonText="Time to work out!"
         router={() => {

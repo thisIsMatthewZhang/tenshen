@@ -4,14 +4,22 @@ import {
   BLUE_DARKER,
   BLUE_LIGHTER,
   FONTS,
-  GOLD,
+  MAIN_COLOR,
   PATTERN,
 } from "@/src/constants/theme";
 import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
-import { Dimensions, Pressable, StyleSheet, Text } from "react-native";
+import {
+  Dimensions,
+  FlatList,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { Exercise } from "../exercises";
 import WorkoutCardOptions from "./WorkoutCardOptions";
+import WorkoutOverviewCard from "./WorkoutOverviewCard";
 export interface WorkoutCardProps {
   id: string;
   workoutName: string;
@@ -74,9 +82,24 @@ export default function WorkoutCard({
           showModal={showWorkoutOverview}
           setShowModal={setShowWorkoutOverview}
         >
+          <FlatList
+            data={exercises}
+            renderItem={({ item }) => (
+              <View style={styles.overviewSection}>
+                <WorkoutOverviewCard
+                  id={item.id}
+                  name={item.name}
+                  muscleGroup={item.muscleGroup}
+                  isSelected
+                />
+                {/* Place avatar here... */}
+              </View>
+            )}
+            showsVerticalScrollIndicator={false}
+          />
           <Button
             title="Let's get started!"
-            bgColor={GOLD}
+            bgColor={MAIN_COLOR}
             textColor={"black"}
             onPress={() => {}}
             style={{ width: "90%" }}
@@ -93,7 +116,7 @@ const styles = StyleSheet.create({
   card: {
     width: Dimensions.get("screen").width * 0.9,
     height: 175,
-    backgroundColor: GOLD,
+    backgroundColor: MAIN_COLOR,
     borderRadius: 20,
     margin: 8,
     padding: 12,
@@ -118,5 +141,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     borderColor: "black",
+  },
+  overviewSection: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-evenly",
   },
 });

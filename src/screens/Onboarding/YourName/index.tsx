@@ -1,4 +1,4 @@
-import { GOLD, PATTERN, TEXT_INPUT } from "@/src/constants/theme";
+import { MAIN_COLOR, PATTERN, TEXT_INPUT } from "@/src/constants/theme";
 import { useRouter } from "expo-router";
 import { useEffect, useMemo, useState } from "react";
 import { Animated, Keyboard, Text, TextInput } from "react-native";
@@ -105,7 +105,7 @@ export default function YourNameScreen() {
         placeholderTextColor={"white"}
         onChangeText={(text) => setPreferredName(text)}
       />
-      <Text style={{ color: GOLD }}> {error} </Text>
+      <Text style={{ color: MAIN_COLOR }}> {error} </Text>
       <OnboardingButton
         buttonText="Next"
         router={() => {

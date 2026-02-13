@@ -1,15 +1,15 @@
 import { AnimatedPressable } from "@/src/components/AnimatedPressable";
-import { GOLD, PATTERN } from "@/src/constants/theme";
+import { MAIN_COLOR, PATTERN } from "@/src/constants/theme";
 import { UnknownOutputParams, useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import {
-  Animated,
-  Image,
-  ImageProps,
-  Platform,
-  StyleSheet,
-  Text,
-  View,
+    Animated,
+    Image,
+    ImageProps,
+    Platform,
+    StyleSheet,
+    Text,
+    View,
 } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import OnboardingButton from "../components/OnboardingButton";
@@ -64,7 +64,7 @@ export default function PickWorkoutBuddyScreen({
             }}
           />
         </View>
-        <Text style={[PATTERN.smallText, { color: GOLD }]}>{error}</Text>
+        <Text style={[PATTERN.smallText, { color: MAIN_COLOR }]}>{error}</Text>
         <OnboardingButton
           buttonText="Next"
           router={() => {

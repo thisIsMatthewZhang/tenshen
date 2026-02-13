@@ -1,6 +1,6 @@
 import { Platform, StyleSheet } from "react-native";
 
-export const GOLD = "#FFC107";
+export const MAIN_COLOR = "#FFC107"; // #90E4C1 || #FFC107
 export const BUTTONTEXT = "#000000";
 export const APP_BACKGROUND_COLOR = "#2F3036";
 export const ICON_SIZE = 28;
@@ -82,7 +82,7 @@ export const BIG_GOLDEN_BUTTON = StyleSheet.create({
   },
   buttonView: {
     width: "100%",
-    backgroundColor: GOLD,
+    backgroundColor: MAIN_COLOR,
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 10,

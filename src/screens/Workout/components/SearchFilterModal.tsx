@@ -1,18 +1,18 @@
 import Button from "@/src/components/Button";
 import ExercisePhoto from "@/src/components/ExercisePhoto";
 import {
-  APP_BACKGROUND_COLOR,
-  BLUE_LIGHTER,
-  GOLD,
-  ICON_SIZE,
-  PATTERN,
+    APP_BACKGROUND_COLOR,
+    BLUE_LIGHTER,
+    ICON_SIZE,
+    MAIN_COLOR,
+    PATTERN,
 } from "@/src/constants/theme";
 import { useSearchFilter } from "@/src/hooks/useSearchFilter";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useContext, useState } from "react";
 import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
 import ReusableModal, {
-  ReusableModalProps,
+    ReusableModalProps,
 } from "../../../components/ReusableModal";
 import SearchBar from "../../../components/SearchBar";
 import { ExerciseContext } from "../ExerciseContext";
@@ -132,7 +132,7 @@ export default function SearchFilterModal({
         <View style={styles.footerContainer}>
           <Button
             title={`Add ${selectedItems.length} Exercise(s)`}
-            bgColor={GOLD}
+            bgColor={MAIN_COLOR}
             textColor={"black"}
             onPress={() => {
               setShowModal(!showModal);

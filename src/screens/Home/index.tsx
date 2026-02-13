@@ -1,5 +1,5 @@
 import WorkoutHistory from "@/src/components/WorkoutHistory";
-import { FONTS, GOLD, ICON_SIZE, PATTERN } from "@/src/constants/theme";
+import { FONTS, ICON_SIZE, MAIN_COLOR, PATTERN } from "@/src/constants/theme";
 import { useWeeklyDates } from "@/src/hooks/useWeeklyDates";
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
@@ -28,7 +28,7 @@ export default function HomeScreen() {
               <Image source={fireIcon} width={ICON_SIZE} height={ICON_SIZE} />
               <Text
                 style={{
-                  color: GOLD,
+                  color: MAIN_COLOR,
                   fontWeight: "semibold",
                   marginLeft: 4,
                 }}
@@ -38,7 +38,7 @@ export default function HomeScreen() {
             </View>
           </View>
           <View style={styles.greetingContainer}>
-            <Text style={[styles.greetingText, { color: GOLD }]}>
+            <Text style={[styles.greetingText, { color: MAIN_COLOR }]}>
               Hey Matthew!{" "}
               <Text style={[styles.greetingText, { color: "white" }]}>
                 You ready to start this workout journey together!? I know I am

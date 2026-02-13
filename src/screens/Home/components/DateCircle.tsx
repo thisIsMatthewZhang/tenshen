@@ -1,4 +1,4 @@
-import { BG_CONTRAST, GOLD, PATTERN } from "@/src/constants/theme";
+import { BG_CONTRAST, MAIN_COLOR, PATTERN } from "@/src/constants/theme";
 import { getDaysInMonth } from "@/src/scripts/getDaysInMonth";
 import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
 export interface DateCircleProps {
@@ -18,7 +18,7 @@ export default function DateCircle({
       style={[
         styles.circle,
         {
-          borderColor: isCurrentDay ? GOLD : "#494A50",
+          borderColor: isCurrentDay ? MAIN_COLOR : "#494A50",
           width: width * 0.075,
           height: width * 0.075,
           borderRadius: Math.round(width / 2),

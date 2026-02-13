@@ -1,4 +1,4 @@
-import { GOLD } from "@/src/constants/theme";
+import { MAIN_COLOR } from "@/src/constants/theme";
 import { BarChart as GiftedBarChart } from "react-native-gifted-charts";
 
 const hours = [
@@ -16,7 +16,7 @@ export default function BarChart() {
     <GiftedBarChart
       data={hours}
       maxValue={Math.max(...hours.map((hour) => hour.value))}
-      frontColor={GOLD}
+      frontColor={MAIN_COLOR}
       stepValue={1}
       rulesType="solid"
       xAxisColor={"white"}

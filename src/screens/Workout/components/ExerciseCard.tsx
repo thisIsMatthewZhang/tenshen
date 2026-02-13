@@ -1,7 +1,7 @@
 import {
   BLUE_DARKER,
   BLUE_LIGHTER,
-  GOLD,
+  MAIN_COLOR,
   PATTERN,
 } from "@/src/constants/theme";
 import { LinearGradient } from "expo-linear-gradient";
@@ -277,7 +277,7 @@ export default function ExerciseCard({ id, exerciseName }: ExerciseCardProps) {
 const styles = StyleSheet.create({
   card: {
     width: Dimensions.get("screen").width * 0.9,
-    backgroundColor: GOLD,
+    backgroundColor: MAIN_COLOR,
     borderRadius: 20,
     margin: 8,
     paddingVertical: 8,

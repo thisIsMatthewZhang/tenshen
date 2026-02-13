@@ -1,4 +1,4 @@
-import { GOLD, ICON_SIZE } from "@/src/constants/theme";
+import { ICON_SIZE, MAIN_COLOR } from "@/src/constants/theme";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Tabs } from "expo-router";
 import { View } from "react-native";
@@ -7,7 +7,7 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: GOLD,
+        tabBarActiveTintColor: MAIN_COLOR,
         // tabBarActiveBackgroundColor: "#EAF2FF",
         tabBarBackground: () => (
           <View

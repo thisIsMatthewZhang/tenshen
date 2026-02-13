@@ -1,15 +1,9 @@
 import ProfilePhoto from "@/src/components/ProfilePhoto";
 import WorkoutHistory from "@/src/components/WorkoutHistory";
-import { GOLD, ICON_SIZE, PATTERN } from "@/src/constants/theme";
+import { ICON_SIZE, MAIN_COLOR, PATTERN } from "@/src/constants/theme";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { ComponentPropsWithoutRef } from "react";
-import {
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View
-} from "react-native";
+import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 interface CounterProps {
@@ -59,7 +53,11 @@ export default function ProfileScreen() {
           }}
         >
           <View style={styles.settings}>
-            <Ionicons name="settings-sharp" size={ICON_SIZE} color={GOLD} />
+            <Ionicons
+              name="settings-sharp"
+              size={ICON_SIZE}
+              color={MAIN_COLOR}
+            />
           </View>
           <View style={PATTERN.center}>
             <Pressable
@@ -71,7 +69,7 @@ export default function ProfileScreen() {
               <View
                 style={{
                   alignSelf: "flex-end",
-                  backgroundColor: GOLD,
+                  backgroundColor: MAIN_COLOR,
                   borderRadius: 20,
                   padding: 4,
                   bottom: "25%",
@@ -154,7 +152,7 @@ const styles = StyleSheet.create({
   dashboardBtn: {
     flex: 1,
     flexDirection: "row",
-    backgroundColor: GOLD,
+    backgroundColor: MAIN_COLOR,
     borderRadius: 5,
     padding: 8,
     marginHorizontal: 8,
