@@ -32,17 +32,21 @@ export interface ExerciseSetSegmentProps {
   setNumber: number;
   weight: string;
   reps: string;
+  onUpdate: (id: string, type: "weight" | "reps", value: string) => void;
   onDelete: () => void;
 }
 
 const ExerciseSetSegment = ({
+  id,
   setNumber,
   weight,
   reps,
   onDelete,
+  onUpdate,
 }: ExerciseSetSegmentProps) => {
-  const [weightInput, setWeightInput] = useState(weight);
-  const [repInput, setRepInput] = useState(reps);
+  // const [weightInput, setWeightInput] = useState<string>(weight);
+  // const [repInput, setRepInput] = useState<string>(reps);
+
   const RightAction = (
     prog: SharedValue<number>,
     drag: SharedValue<number>,
@@ -111,8 +115,8 @@ const ExerciseSetSegment = ({
         style={[PATTERN.smallText, { color: "black" }]}
         placeholder="-"
         placeholderTextColor="black"
-        value={weightInput}
-        onChangeText={(text) => setWeightInput(text)}
+        value={weight}
+        onChangeText={(text) => onUpdate(id, "weight", text)}
       />
       <TextInput
         maxLength={2}
@@ -121,8 +125,8 @@ const ExerciseSetSegment = ({
         style={[PATTERN.smallText, { color: "black" }]}
         placeholder="-"
         placeholderTextColor="black"
-        value={repInput}
-        onChangeText={(text) => setRepInput(text)}
+        value={reps}
+        onChangeText={(text) => onUpdate(id, "reps", text)}
       />
     </Swipeable>
   );
@@ -138,6 +142,18 @@ export default function ExerciseCard({
   const [segments, setSegments] = useState<ExerciseSetSegmentProps[]>(sets);
   const [showTimerPicker, setShowTimerPicker] = useState<boolean>(false);
   const [timer, setTimer] = useState<"Rest Timer" | string>("Rest Timer");
+
+  console.log(segments);
+
+  const handleSegmentUpdate = (
+    id: string,
+    type: "weight" | "reps",
+    value: string,
+  ) => {
+    setSegments((prev) =>
+      prev.map((seg) => (seg.id === id ? { ...seg, [type]: value } : seg)),
+    );
+  };
 
   return (
     <GestureHandlerRootView>
@@ -235,7 +251,7 @@ export default function ExerciseCard({
           />
           {segments.map((segment) => {
             return (
-              // these are the segments being rerendered each time set adder is pressed
+              // these are the segments being rerendered each time a set is added or deleted
               <ExerciseSetSegment
                 key={segment.id}
                 id={segment.id}
@@ -256,6 +272,7 @@ export default function ExerciseCard({
                       }),
                   ]);
                 }}
+                onUpdate={handleSegmentUpdate}
               />
             );
           })}
@@ -274,6 +291,7 @@ export default function ExerciseCard({
                     weight: "",
                     reps: "",
                     onDelete: () => setSegments,
+                    onUpdate: handleSegmentUpdate,
                   },
                 ]);
               }}
