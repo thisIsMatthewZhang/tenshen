@@ -84,12 +84,15 @@ export default function WorkoutBuilder({
               </Text>
             </View>
           ) : (
-            exercises.map((card) => {
+            exercises.map((item) => {
               return (
                 <ExerciseCard
-                  key={card.id}
-                  id={card.id}
-                  exerciseName={card.name}
+                  key={item.id}
+                  id={item.id}
+                  name={item.name}
+                  muscleGroup={item.muscleGroup}
+                  isSelected
+                  sets={item.sets}
                 />
               );
             })

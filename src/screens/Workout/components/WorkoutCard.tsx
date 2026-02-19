@@ -92,10 +92,9 @@ export default function WorkoutCard({
               onPress={() => {
                 setShowWorkoutOverview(false);
               }}
-              style={{ alignSelf: "flex-start" }}
             />
             <Text style={[PATTERN.mediumText, { fontWeight: "bold" }]}>
-              Here&apos;s you workout
+              Here&apos;s your workout
             </Text>
             <Button
               title="Start 👍"
@@ -104,7 +103,6 @@ export default function WorkoutCard({
               onPress={() => {
                 setShowWorkoutOverview(false);
               }}
-              style={{ alignSelf: "flex-start" }}
             />
           </View>
           <FlatList
@@ -116,6 +114,7 @@ export default function WorkoutCard({
                   name={item.name}
                   muscleGroup={item.muscleGroup}
                   isSelected
+                  sets={item.sets}
                 />
                 {/* Place avatar here... */}
                 <Image source={ruby} style={{ width: 150, height: 150 }} />

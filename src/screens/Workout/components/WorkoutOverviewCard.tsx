@@ -7,6 +7,7 @@ export default function WorkoutOverviewCard({
   name,
   muscleGroup,
   isSelected,
+  sets,
 }: Exercise) {
   return (
     <View style={styles.cardContainer}>
@@ -39,21 +40,21 @@ export default function WorkoutOverviewCard({
           <Text
             style={[PATTERN.smallText, { color: "black", fontWeight: "bold" }]}
           >
-            Sets: 5
+            Sets: {sets.length}
           </Text>
         </View>
         <View style={styles.cardBodyText}>
           <Text
             style={[PATTERN.smallText, { color: "black", fontWeight: "bold" }]}
           >
-            Lbs: 135 - 135 - 135 - 100 - 100
+            Lbs: {sets.map((item) => item.weight).join(" → ")}
           </Text>
         </View>
         <View style={styles.cardBodyText}>
           <Text
             style={[PATTERN.smallText, { color: "black", fontWeight: "bold" }]}
           >
-            Reps: 10, 10, 10, 8, 8
+            Reps: {sets.map((item) => item.reps).join(" → ")}
           </Text>
         </View>
       </View>

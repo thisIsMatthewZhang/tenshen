@@ -25,14 +25,9 @@ import Reanimated, {
 import { TimerPickerModal } from "react-native-timer-picker";
 import uuid from "react-native-uuid";
 import Button from "../../../components/Button";
+import { Exercise } from "../exercises";
 import ExerciseCardOptions from "./ExerciseCardOptions";
-
-export interface ExerciseCardProps {
-  id: string;
-  exerciseName: string;
-}
-
-interface SetSegmentProps {
+export interface ExerciseSetSegmentProps {
   id: string;
   setNumber: number;
   weight: string;
@@ -40,7 +35,12 @@ interface SetSegmentProps {
   onDelete: () => void;
 }
 
-const SetSegment = ({ setNumber, weight, reps, onDelete }: SetSegmentProps) => {
+const ExerciseSetSegment = ({
+  setNumber,
+  weight,
+  reps,
+  onDelete,
+}: ExerciseSetSegmentProps) => {
   const [weightInput, setWeightInput] = useState(weight);
   const [repInput, setRepInput] = useState(reps);
   const RightAction = (
@@ -110,7 +110,7 @@ const SetSegment = ({ setNumber, weight, reps, onDelete }: SetSegmentProps) => {
         aria-label="Weight"
         style={[PATTERN.smallText, { color: "black" }]}
         placeholder="-"
-        placeholderTextColor={"black"}
+        placeholderTextColor="black"
         value={weightInput}
         onChangeText={(text) => setWeightInput(text)}
       />
@@ -120,7 +120,7 @@ const SetSegment = ({ setNumber, weight, reps, onDelete }: SetSegmentProps) => {
         aria-label="Reps"
         style={[PATTERN.smallText, { color: "black" }]}
         placeholder="-"
-        placeholderTextColor={"black"}
+        placeholderTextColor="black"
         value={repInput}
         onChangeText={(text) => setRepInput(text)}
       />
@@ -128,8 +128,14 @@ const SetSegment = ({ setNumber, weight, reps, onDelete }: SetSegmentProps) => {
   );
 };
 
-export default function ExerciseCard({ id, exerciseName }: ExerciseCardProps) {
-  const [segments, setSegments] = useState<SetSegmentProps[]>([]);
+export default function ExerciseCard({
+  id,
+  name,
+  muscleGroup,
+  isSelected,
+  sets,
+}: Exercise) {
+  const [segments, setSegments] = useState<ExerciseSetSegmentProps[]>(sets);
   const [showTimerPicker, setShowTimerPicker] = useState<boolean>(false);
   const [timer, setTimer] = useState<"Rest Timer" | string>("Rest Timer");
 
@@ -139,7 +145,7 @@ export default function ExerciseCard({ id, exerciseName }: ExerciseCardProps) {
         <View style={styles.title}>
           <View>
             <Text style={[PATTERN.mediumText, styles.exerciseNameText]}>
-              {exerciseName}
+              {name}
             </Text>
             <Pressable onPress={() => setShowTimerPicker(true)}>
               <Text
@@ -186,7 +192,13 @@ export default function ExerciseCard({ id, exerciseName }: ExerciseCardProps) {
               />
             </Pressable>
           </View>
-          <ExerciseCardOptions id={id} exerciseName={exerciseName} />
+          <ExerciseCardOptions
+            id={id}
+            name={name}
+            muscleGroup={muscleGroup}
+            isSelected
+            sets={segments}
+          />
         </View>
         <View style={styles.cardBottom}>
           <View style={styles.header}>
@@ -224,10 +236,10 @@ export default function ExerciseCard({ id, exerciseName }: ExerciseCardProps) {
           {segments.map((segment) => {
             return (
               // these are the segments being rerendered each time set adder is pressed
-              <SetSegment
+              <ExerciseSetSegment
                 key={segment.id}
                 id={segment.id}
-                setNumber={segment.setNumber} // acts as id
+                setNumber={segment.setNumber}
                 weight={segment.weight}
                 reps={segment.reps}
                 onDelete={() => {
