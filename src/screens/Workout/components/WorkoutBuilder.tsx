@@ -56,12 +56,12 @@ export default function WorkoutBuilder({
                 setShowModal(!showModal);
                 setWorkoutName("");
                 setWorkouts([
-                  ...workouts,
                   {
                     id: uuid.v4(),
                     workoutName: workoutName,
                     exercises: exercises,
                   },
+                  ...workouts,
                 ]);
               }}
             />

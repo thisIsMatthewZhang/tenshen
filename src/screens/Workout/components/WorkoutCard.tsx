@@ -12,6 +12,7 @@ import { useState } from "react";
 import {
   Dimensions,
   FlatList,
+  Image,
   Pressable,
   StyleSheet,
   Text,
@@ -20,6 +21,7 @@ import {
 import { Exercise } from "../exercises";
 import WorkoutCardOptions from "./WorkoutCardOptions";
 import WorkoutOverviewCard from "./WorkoutOverviewCard";
+const ruby = require("../../../../assets/avatars/Ruby.png");
 export interface WorkoutCardProps {
   id: string;
   workoutName: string;
@@ -66,7 +68,7 @@ export default function WorkoutCard({
             setButtonColor(BLUE_LIGHTER);
           }}
           onPress={() => {
-            setShowWorkoutOverview(!setShowWorkoutOverview);
+            setShowWorkoutOverview(true);
           }}
           style={[styles.startButton, { backgroundColor: buttonHighlight }]}
         >
@@ -82,6 +84,29 @@ export default function WorkoutCard({
           showModal={showWorkoutOverview}
           setShowModal={setShowWorkoutOverview}
         >
+          <View style={styles.headerContainer}>
+            <Button
+              title="Cancel"
+              bgColor="red"
+              textColor="black"
+              onPress={() => {
+                setShowWorkoutOverview(false);
+              }}
+              style={{ alignSelf: "flex-start" }}
+            />
+            <Text style={[PATTERN.mediumText, { fontWeight: "bold" }]}>
+              Here&apos;s you workout
+            </Text>
+            <Button
+              title="Start 👍"
+              bgColor={BLUE_LIGHTER}
+              textColor="white"
+              onPress={() => {
+                setShowWorkoutOverview(false);
+              }}
+              style={{ alignSelf: "flex-start" }}
+            />
+          </View>
           <FlatList
             data={exercises}
             renderItem={({ item }) => (
@@ -93,16 +118,10 @@ export default function WorkoutCard({
                   isSelected
                 />
                 {/* Place avatar here... */}
+                <Image source={ruby} style={{ width: 150, height: 150 }} />
               </View>
             )}
             showsVerticalScrollIndicator={false}
-          />
-          <Button
-            title="Let's get started!"
-            bgColor={MAIN_COLOR}
-            textColor={"black"}
-            onPress={() => {}}
-            style={{ width: "90%" }}
           />
         </ReusableModal>
       ) : (
@@ -143,9 +162,21 @@ const styles = StyleSheet.create({
     borderColor: "black",
   },
   overviewSection: {
-    flex: 1,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-evenly",
+  },
+  headerContainer: {
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingTop: 60,
+  },
+  footerContainer: {
+    width: "100%",
+    backgroundColor: undefined,
+    alignItems: "center",
+    marginBottom: 28,
   },
 });
