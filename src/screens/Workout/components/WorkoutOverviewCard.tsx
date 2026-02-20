@@ -85,6 +85,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
   },
   cardBodyText: {
+    maxWidth: "100%",
     marginVertical: 8,
   },
 });

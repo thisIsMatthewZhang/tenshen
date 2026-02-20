@@ -5,7 +5,7 @@ import {
   PATTERN,
 } from "@/src/constants/theme";
 import { LinearGradient } from "expo-linear-gradient";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   Dimensions,
   Platform,
@@ -25,6 +25,7 @@ import Reanimated, {
 import { TimerPickerModal } from "react-native-timer-picker";
 import uuid from "react-native-uuid";
 import Button from "../../../components/Button";
+import { ExerciseContext } from "../ExerciseContext";
 import { Exercise } from "../exercises";
 import ExerciseCardOptions from "./ExerciseCardOptions";
 export interface ExerciseSetSegmentProps {
@@ -44,9 +45,6 @@ const ExerciseSetSegment = ({
   onDelete,
   onUpdate,
 }: ExerciseSetSegmentProps) => {
-  // const [weightInput, setWeightInput] = useState<string>(weight);
-  // const [repInput, setRepInput] = useState<string>(reps);
-
   const RightAction = (
     prog: SharedValue<number>,
     drag: SharedValue<number>,
@@ -133,7 +131,7 @@ const ExerciseSetSegment = ({
 };
 
 export default function ExerciseCard({
-  id,
+  id: exerciseId,
   name,
   muscleGroup,
   isSelected,
@@ -142,16 +140,21 @@ export default function ExerciseCard({
   const [segments, setSegments] = useState<ExerciseSetSegmentProps[]>(sets);
   const [showTimerPicker, setShowTimerPicker] = useState<boolean>(false);
   const [timer, setTimer] = useState<"Rest Timer" | string>("Rest Timer");
-
-  console.log(segments);
+  const [exercises, setExercises] = useContext(ExerciseContext);
 
   const handleSegmentUpdate = (
     id: string,
     type: "weight" | "reps",
     value: string,
   ) => {
-    setSegments((prev) =>
-      prev.map((seg) => (seg.id === id ? { ...seg, [type]: value } : seg)),
+    const newSegments = segments.map((seg) =>
+      seg.id === id ? { ...seg, [type]: value } : seg,
+    );
+    setSegments(newSegments);
+    setExercises((prevExercises) =>
+      prevExercises.map((ex) =>
+        ex.id === exerciseId ? { ...ex, sets: newSegments } : ex,
+      ),
     );
   };
 
@@ -209,7 +212,7 @@ export default function ExerciseCard({
             </Pressable>
           </View>
           <ExerciseCardOptions
-            id={id}
+            id={exerciseId}
             name={name}
             muscleGroup={muscleGroup}
             isSelected
