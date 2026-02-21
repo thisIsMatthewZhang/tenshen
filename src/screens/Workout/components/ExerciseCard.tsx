@@ -34,7 +34,7 @@ export interface ExerciseSetSegmentProps {
   weight: string;
   reps: string;
   onUpdate: (id: string, type: "weight" | "reps", value: string) => void;
-  onDelete: () => void;
+  onDelete: (seg: ExerciseSetSegmentProps) => void;
 }
 
 const ExerciseSetSegment = ({
@@ -80,7 +80,16 @@ const ExerciseSetSegment = ({
               opacity: pressed ? 0.5 : 1,
             };
           }}
-          onPress={onDelete}
+          onPress={() =>
+            onDelete({
+              id,
+              setNumber,
+              weight,
+              reps,
+              onDelete,
+              onUpdate,
+            })
+          }
         >
           <Text
             style={[PATTERN.smallText, { color: "black", fontWeight: 600 }]}
@@ -137,7 +146,6 @@ export default function ExerciseCard({
   isSelected,
   sets,
 }: Exercise) {
-  const [segments, setSegments] = useState<ExerciseSetSegmentProps[]>(sets);
   const [showTimerPicker, setShowTimerPicker] = useState<boolean>(false);
   const [timer, setTimer] = useState<"Rest Timer" | string>("Rest Timer");
   const [exercises, setExercises] = useContext(ExerciseContext);
@@ -147,15 +155,31 @@ export default function ExerciseCard({
     type: "weight" | "reps",
     value: string,
   ) => {
-    const newSegments = segments.map((seg) =>
+    const updatedSegments = sets.map((seg) =>
       seg.id === id ? { ...seg, [type]: value } : seg,
     );
-    setSegments(newSegments);
     setExercises((prevExercises) =>
       prevExercises.map((ex) =>
-        ex.id === exerciseId ? { ...ex, sets: newSegments } : ex,
+        ex.id === exerciseId ? { ...ex, sets: updatedSegments } : ex,
       ),
     );
+  };
+
+  const handleSegmentDeletion = (seg: ExerciseSetSegmentProps) => {
+    setExercises((prev) => {
+      return prev.map((ex) =>
+        ex.id === exerciseId
+          ? {
+              ...ex,
+              sets: ex.sets
+                .filter((s) => s.setNumber !== seg.setNumber)
+                .map((s, i) => {
+                  return { ...s, setNumber: i + 1 };
+                }),
+            }
+          : ex,
+      );
+    });
   };
 
   return (
@@ -216,7 +240,7 @@ export default function ExerciseCard({
             name={name}
             muscleGroup={muscleGroup}
             isSelected
-            sets={segments}
+            sets={sets}
           />
         </View>
         <View style={styles.cardBottom}>
@@ -252,29 +276,16 @@ export default function ExerciseCard({
               { backgroundColor: "black", marginVertical: 0 },
             ]}
           />
-          {segments.map((segment) => {
+          {sets.map((seg) => {
             return (
               // these are the segments being rerendered each time a set is added or deleted
               <ExerciseSetSegment
-                key={segment.id}
-                id={segment.id}
-                setNumber={segment.setNumber}
-                weight={segment.weight}
-                reps={segment.reps}
-                onDelete={() => {
-                  setSegments((prev) => [
-                    ...prev
-                      .filter((s) => {
-                        return s.setNumber !== segment.setNumber;
-                      })
-                      .map((s, i) => {
-                        return {
-                          ...s,
-                          setNumber: i + 1,
-                        };
-                      }),
-                  ]);
-                }}
+                key={seg.id}
+                id={seg.id}
+                setNumber={seg.setNumber}
+                weight={seg.weight}
+                reps={seg.reps}
+                onDelete={handleSegmentDeletion}
                 onUpdate={handleSegmentUpdate}
               />
             );
@@ -285,18 +296,26 @@ export default function ExerciseCard({
               bgColor={BLUE_DARKER}
               textColor="white"
               onPress={() => {
-                setSegments((prev) => [
-                  // new segment being appended to the original array of segments
-                  ...prev,
-                  {
-                    id: uuid.v4(),
-                    setNumber: prev.length + 1,
-                    weight: "",
-                    reps: "",
-                    onDelete: () => setSegments,
-                    onUpdate: handleSegmentUpdate,
-                  },
-                ]);
+                setExercises((prev) =>
+                  prev.map((ex) =>
+                    ex.id === exerciseId
+                      ? {
+                          ...ex,
+                          sets: [
+                            ...ex.sets,
+                            {
+                              id: uuid.v4(),
+                              setNumber: ex.sets.length + 1,
+                              weight: "",
+                              reps: "",
+                              onDelete: () => {},
+                              onUpdate: handleSegmentUpdate,
+                            },
+                          ],
+                        }
+                      : ex,
+                  ),
+                );
               }}
               style={{ width: "90%" }}
             />
