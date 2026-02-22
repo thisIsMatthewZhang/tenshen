@@ -8,6 +8,7 @@ import {
   PATTERN,
 } from "@/src/constants/theme";
 import { LinearGradient } from "expo-linear-gradient";
+import { useRouter } from "expo-router";
 import { useState } from "react";
 import {
   Dimensions,
@@ -38,6 +39,7 @@ export default function WorkoutCard({
   >(BLUE_LIGHTER);
   const [showWorkoutOverview, setShowWorkoutOverview] =
     useState<boolean>(false);
+  const router = useRouter();
 
   return (
     <>
@@ -102,6 +104,8 @@ export default function WorkoutCard({
               textColor="white"
               onPress={() => {
                 setShowWorkoutOverview(false);
+                router.push({ pathname: "/workoutsession/index" });
+                // params: ...
               }}
             />
           </View>
