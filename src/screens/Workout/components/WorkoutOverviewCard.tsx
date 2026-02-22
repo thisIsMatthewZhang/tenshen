@@ -9,9 +9,6 @@ export default function WorkoutOverviewCard({
   isSelected,
   sets,
 }: Exercise) {
-  // Question mark placeholders are not appearing in the case that a user adds sets but DOES NOT ever type into the text fields. # of sets is displayed as 0 in this case.
-  // If a user adds sets, enters a value but then deletes it (all fields are blank then), question marks DO appear.
-  console.log("Sets: " + sets);
   return (
     <View style={styles.cardContainer}>
       <View style={styles.cardHeader}>
@@ -43,7 +40,7 @@ export default function WorkoutOverviewCard({
           <Text
             style={[PATTERN.smallText, { color: "black", fontWeight: "bold" }]}
           >
-            Sets: {sets.length}
+            Sets: {sets.length > 0 ? sets.length : "?"}
           </Text>
         </View>
         <View style={styles.cardBodyText}>
@@ -51,7 +48,11 @@ export default function WorkoutOverviewCard({
             style={[PATTERN.smallText, { color: "black", fontWeight: "bold" }]}
           >
             Lbs:{" "}
-            {sets.map((item) => (item.weight ? item.weight : "?")).join(" -> ")}
+            {sets.length > 0
+              ? sets
+                  .map((item) => (item.weight ? item.weight : "?"))
+                  .join(" -> ")
+              : "?"}
           </Text>
         </View>
         <View style={styles.cardBodyText}>
@@ -59,7 +60,9 @@ export default function WorkoutOverviewCard({
             style={[PATTERN.smallText, { color: "black", fontWeight: "bold" }]}
           >
             Reps:{" "}
-            {sets.map((item) => (item.reps ? item.reps : "?")).join(" -> ")}
+            {sets.length > 0
+              ? sets.map((item) => (item.reps ? item.reps : "?")).join(" -> ")
+              : "?"}
           </Text>
         </View>
       </View>
