@@ -104,8 +104,7 @@ export default function WorkoutCard({
               textColor="white"
               onPress={() => {
                 setShowWorkoutOverview(false);
-                router.push({ pathname: "/workoutsession/index" });
-                // params: ...
+                router.push({ pathname: "/workoutsession" });
               }}
             />
           </View>
