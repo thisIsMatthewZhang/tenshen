@@ -1,5 +1,5 @@
 import uuid from "react-native-uuid";
-import { ExerciseSetSegmentProps } from "./components/ExerciseCard";
+import { ExerciseSetSegmentProps } from "../components/ExerciseCard";
 export type MuscleGroup =
   | "Quadriceps"
   | "Glutes"

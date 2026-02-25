@@ -24,9 +24,9 @@ import Reanimated, {
 } from "react-native-reanimated";
 import { TimerPickerModal } from "react-native-timer-picker";
 import uuid from "react-native-uuid";
-import Button from "../../../components/Button";
-import { ExerciseContext } from "../ExerciseContext";
-import { Exercise } from "../exercises";
+import { ExerciseContext } from "../contexts/ExerciseContext";
+import { Exercise } from "../utils/exercises";
+import Button from "./Button";
 import ExerciseCardOptions from "./ExerciseCardOptions";
 export interface ExerciseSetSegmentProps {
   id: string;

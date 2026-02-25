@@ -1,6 +1,6 @@
 import { MAIN_COLOR, PATTERN } from "@/src/constants/theme";
 import { StyleSheet, Text, View } from "react-native";
-import { Exercise } from "../exercises";
+import { Exercise } from "../utils/exercises";
 
 export default function WorkoutOverviewCard({
   id,

@@ -1,22 +1,20 @@
 import Button from "@/src/components/Button";
 import ExercisePhoto from "@/src/components/ExercisePhoto";
 import {
-    APP_BACKGROUND_COLOR,
-    BLUE_LIGHTER,
-    ICON_SIZE,
-    MAIN_COLOR,
-    PATTERN,
+  APP_BACKGROUND_COLOR,
+  BLUE_LIGHTER,
+  ICON_SIZE,
+  MAIN_COLOR,
+  PATTERN,
 } from "@/src/constants/theme";
 import { useSearchFilter } from "@/src/hooks/useSearchFilter";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useContext, useState } from "react";
 import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
-import ReusableModal, {
-    ReusableModalProps,
-} from "../../../components/ReusableModal";
-import SearchBar from "../../../components/SearchBar";
-import { ExerciseContext } from "../ExerciseContext";
-import { Exercise } from "../exercises";
+import { ExerciseContext } from "../contexts/ExerciseContext";
+import { Exercise } from "../utils/exercises";
+import ReusableModal, { ReusableModalProps } from "./ReusableModal";
+import SearchBar from "./SearchBar";
 
 interface SearchModalProps<T> extends ReusableModalProps {
   data: T[];

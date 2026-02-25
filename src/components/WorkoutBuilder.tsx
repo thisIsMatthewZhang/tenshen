@@ -1,24 +1,23 @@
+import ExerciseCard from "@/src/components/ExerciseCard";
 import ReusableModal, {
   ReusableModalProps,
 } from "@/src/components/ReusableModal";
 import { BLUE_LIGHTER, MAX_INPUT_LENGTH, PATTERN } from "@/src/constants/theme";
-import ExerciseCard from "@/src/screens/Workout/components/ExerciseCard";
 import { useContext, useState } from "react";
 import {
-  Image,
   ScrollView,
   StyleSheet,
   Text,
   TextInput,
-  View,
+  View
 } from "react-native";
 import uuid from "react-native-uuid";
-import Button from "../../../components/Button";
-import { ExerciseContext } from "../ExerciseContext";
-import { Exercise, data } from "../exercises";
-import { WorkoutsContext } from "../WorkoutsContext";
+import { ExerciseContext } from "../contexts/ExerciseContext";
+import { WorkoutsContext } from "../contexts/WorkoutsContext";
+import { Exercise, data } from "../utils/exercises";
+import Button from "./Button";
 import SearchFilterModal from "./SearchFilterModal";
-const ruby = require("../../../../assets/avatars/Ruby.png");
+// const ruby = require("../../../../assets/avatars/Ruby.png");
 
 export default function WorkoutBuilder({
   showModal,
@@ -78,7 +77,7 @@ export default function WorkoutBuilder({
         <ScrollView contentContainerStyle={styles.cardsContainer}>
           {!exercises.length ? (
             <View style={styles.emptyState}>
-              <Image source={ruby} style={{ width: 25, height: 25 }} />
+              {/* <Image source={ruby} style={{ width: 25, height: 25 }} /> */}
               <Text style={PATTERN.bigText}>
                 Ready to build a workout routine? Let&apos;s get started!
               </Text>

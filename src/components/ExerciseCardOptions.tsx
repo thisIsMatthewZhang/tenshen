@@ -6,8 +6,8 @@ import {
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useContext, useState } from "react";
 import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
-import { ExerciseContext } from "../ExerciseContext";
-import { Exercise } from "../exercises";
+import { ExerciseContext } from "../contexts/ExerciseContext";
+import { Exercise } from "../utils/exercises";
 
 export default function ExerciseCardOptions({
   id,

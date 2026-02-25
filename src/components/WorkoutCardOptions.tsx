@@ -6,7 +6,7 @@ import {
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useContext, useState } from "react";
 import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
-import { WorkoutsContext } from "../WorkoutsContext";
+import { WorkoutsContext } from "../contexts/WorkoutsContext";
 import { WorkoutCardProps } from "./WorkoutCard";
 
 export default function WorkoutCardExtraOptions({

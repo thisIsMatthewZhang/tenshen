@@ -13,16 +13,15 @@ import { useState } from "react";
 import {
   Dimensions,
   FlatList,
-  Image,
   Pressable,
   StyleSheet,
   Text,
-  View,
+  View
 } from "react-native";
-import { Exercise } from "../exercises";
+import { Exercise } from "../utils/exercises";
 import WorkoutCardOptions from "./WorkoutCardOptions";
 import WorkoutOverviewCard from "./WorkoutOverviewCard";
-const ruby = require("../../../../assets/avatars/Ruby.png");
+// const ruby = require("../../../../assets/avatars/Ruby.png");
 export interface WorkoutCardProps {
   id: string;
   workoutName: string;
@@ -104,7 +103,7 @@ export default function WorkoutCard({
               textColor="white"
               onPress={() => {
                 setShowWorkoutOverview(false);
-                router.push({ pathname: "/workoutsession" });
+                // router.push({ pathname: "/workoutsession" });
               }}
             />
           </View>
@@ -120,7 +119,7 @@ export default function WorkoutCard({
                   sets={item.sets}
                 />
                 {/* Place avatar here... */}
-                <Image source={ruby} style={{ width: 150, height: 150 }} />
+                {/* <Image source={ruby} style={{ width: 150, height: 150 }} /> */}
               </View>
             )}
             showsVerticalScrollIndicator={false}

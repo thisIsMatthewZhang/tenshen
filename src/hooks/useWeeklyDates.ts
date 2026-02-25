@@ -1,5 +1,5 @@
 import { getStartDateOfCurrentWeek } from "@/src/scripts/getStartDateOfCurrentWeek";
-import { DateCircleProps } from "../screens/Home/components/DateCircle";
+import { DateCircleProps } from "../components/DateCircle";
 
 export const useWeeklyDates = (): DateCircleProps[] => {
   const startDate: Date = getStartDateOfCurrentWeek();
