@@ -4,17 +4,11 @@ import ReusableModal, {
 } from "@/src/components/ReusableModal";
 import { BLUE_LIGHTER, MAX_INPUT_LENGTH, PATTERN } from "@/src/constants/theme";
 import { useContext, useState } from "react";
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View
-} from "react-native";
+import { ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import uuid from "react-native-uuid";
 import { ExerciseContext } from "../contexts/ExerciseContext";
 import { WorkoutsContext } from "../contexts/WorkoutsContext";
-import { Exercise, data } from "../utils/exercises";
+import { data } from "../utils/exercises";
 import Button from "./Button";
 import SearchFilterModal from "./SearchFilterModal";
 // const ruby = require("../../../../assets/avatars/Ruby.png");
@@ -24,101 +18,101 @@ export default function WorkoutBuilder({
   setShowModal,
 }: ReusableModalProps) {
   const [workoutName, setWorkoutName] = useState<string>("");
-  const [exercises, setExercises] = useState<Exercise[]>([]);
+  const [exercises, setExercises] = useContext(ExerciseContext);
   const [showSearchExerciseModal, setShowSearchExerciseModal] =
     useState<boolean>(false);
   const [workouts, setWorkouts] = useContext(WorkoutsContext);
   return (
-    <ExerciseContext.Provider value={[exercises, setExercises]}>
-      <ReusableModal
-        showModal={showModal}
-        setShowModal={() => setShowModal(!showModal)}
-      >
-        <View style={styles.headerContainer}>
-          <View style={styles.topButtons}>
-            <Button
-              title="Cancel"
-              bgColor="red"
-              textColor="black"
-              onPress={() => {
-                setExercises([]);
-                setShowModal(!showModal);
-                setWorkoutName("");
-              }}
-            />
-            <Button
-              title="Done 👍"
-              bgColor={BLUE_LIGHTER}
-              textColor="white"
-              onPress={() => {
-                setExercises([]);
-                setShowModal(!showModal);
-                setWorkoutName("");
-                setWorkouts([
-                  {
-                    id: uuid.v4(),
-                    workoutName: workoutName,
-                    exercises: exercises,
-                  },
-                  ...workouts,
-                ]);
-              }}
-            />
-          </View>
-          <TextInput
-            style={styles.input}
-            placeholder="Workout Name"
-            placeholderTextColor={"white"}
-            maxLength={MAX_INPUT_LENGTH}
-            value={workoutName}
-            onChangeText={(text) => setWorkoutName(text)}
-          />
-        </View>
-        <ScrollView contentContainerStyle={styles.cardsContainer}>
-          {!exercises.length ? (
-            <View style={styles.emptyState}>
-              {/* <Image source={ruby} style={{ width: 25, height: 25 }} /> */}
-              <Text style={PATTERN.bigText}>
-                Ready to build a workout routine? Let&apos;s get started!
-              </Text>
-            </View>
-          ) : (
-            exercises.map((item) => {
-              return (
-                <ExerciseCard
-                  key={item.id}
-                  id={item.id}
-                  name={item.name}
-                  muscleGroup={item.muscleGroup}
-                  isSelected
-                  sets={item.sets}
-                />
-              );
-            })
-          )}
-        </ScrollView>
-        <View style={styles.footerContainer}>
+    // <ExerciseContext.Provider value={[exercises, setExercises]}>
+    <ReusableModal
+      showModal={showModal}
+      setShowModal={() => setShowModal(!showModal)}
+    >
+      <View style={styles.headerContainer}>
+        <View style={styles.topButtons}>
           <Button
-            title="Add Exercise +"
+            title="Cancel"
+            bgColor="red"
+            textColor="black"
+            onPress={() => {
+              setExercises([]);
+              setShowModal(!showModal);
+              setWorkoutName("");
+            }}
+          />
+          <Button
+            title="Done 👍"
             bgColor={BLUE_LIGHTER}
             textColor="white"
             onPress={() => {
-              setShowSearchExerciseModal(!showSearchExerciseModal);
+              setExercises([]);
+              setShowModal(!showModal);
+              setWorkoutName("");
+              setWorkouts([
+                {
+                  id: uuid.v4(),
+                  workoutName: workoutName,
+                  exercises: exercises,
+                },
+                ...workouts,
+              ]);
             }}
-            style={{ width: "90%" }}
           />
         </View>
-        {showSearchExerciseModal ? (
-          <SearchFilterModal
-            data={data}
-            showModal={showSearchExerciseModal}
-            setShowModal={setShowSearchExerciseModal}
-          />
+        <TextInput
+          style={styles.input}
+          placeholder="Workout Name"
+          placeholderTextColor={"white"}
+          maxLength={MAX_INPUT_LENGTH}
+          value={workoutName}
+          onChangeText={(text) => setWorkoutName(text)}
+        />
+      </View>
+      <ScrollView contentContainerStyle={styles.cardsContainer}>
+        {!exercises.length ? (
+          <View style={styles.emptyState}>
+            {/* <Image source={ruby} style={{ width: 25, height: 25 }} /> */}
+            <Text style={PATTERN.bigText}>
+              Ready to build a workout routine? Let&apos;s get started!
+            </Text>
+          </View>
         ) : (
-          <></>
+          exercises.map((item) => {
+            return (
+              <ExerciseCard
+                key={item.id}
+                id={item.id}
+                name={item.name}
+                muscleGroup={item.muscleGroup}
+                isSelected
+                sets={item.sets}
+              />
+            );
+          })
         )}
-      </ReusableModal>
-    </ExerciseContext.Provider>
+      </ScrollView>
+      <View style={styles.footerContainer}>
+        <Button
+          title="Add Exercise +"
+          bgColor={BLUE_LIGHTER}
+          textColor="white"
+          onPress={() => {
+            setShowSearchExerciseModal(!showSearchExerciseModal);
+          }}
+          style={{ width: "90%" }}
+        />
+      </View>
+      {showSearchExerciseModal ? (
+        <SearchFilterModal
+          data={data}
+          showModal={showSearchExerciseModal}
+          setShowModal={setShowSearchExerciseModal}
+        />
+      ) : (
+        <></>
+      )}
+    </ReusableModal>
+    // </ExerciseContext.Provider>
   );
 }
 

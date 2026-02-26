@@ -1,12 +1,25 @@
 import { ICON_SIZE, MAIN_COLOR, PATTERN } from "@/src/constants/theme";
-import { ExerciseContext } from "@/src/contexts/ExerciseContext";
+import { WorkoutsContext } from "@/src/contexts/WorkoutsContext";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useContext } from "react";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 export default function WorkoutSession() {
-  const [exercises, setExercises] = useContext(ExerciseContext);
+  const [workouts, setWorkouts] = useContext(WorkoutsContext);
+  const router = useRouter();
+  const params = useLocalSearchParams<{
+    workoutId: string;
+    workoutName: string;
+    exerciseIndex: string;
+  }>();
+  const currentWorkout = workouts.find(
+    (workout) => workout.id === params.workoutId,
+  )!;
+  const currentWorkoutExercises = currentWorkout.exercises;
+  const currentExerciseIndex = parseInt(params.exerciseIndex);
+  const currentExercise = currentWorkoutExercises[currentExerciseIndex];
   return (
     <SafeAreaProvider>
       <SafeAreaView style={PATTERN.container}>
@@ -25,20 +38,46 @@ export default function WorkoutSession() {
         </View>
         <View style={PATTERN.separator} />
         <View style={styles.bottomContainer}>
-          <View style={styles.setCountContainer}>
-            <Text style={PATTERN.mediumText}>Set 2/3</Text>
+          <View style={{ alignItems: "center" }}>
+            <Text style={[PATTERN.mediumText, { fontWeight: "bold" }]}>
+              {currentExercise.name}
+            </Text>
+
+            <View style={styles.setCountContainer}>
+              <Text style={PATTERN.mediumText}>
+                Set 1/{currentExercise.sets.length}
+              </Text>
+            </View>
           </View>
           <View style={styles.navigator}>
-            <Pressable id="previous-button" style={styles.navBtn}>
+            <Pressable
+              id="previous-button"
+              style={[
+                styles.navBtn,
+                { opacity: currentExerciseIndex === 0 ? 0.5 : 1 },
+              ]}
+              disabled={currentExerciseIndex === 0}
+              onPress={() => {
+                router.push({
+                  pathname: "./[exerciseIndex]",
+                  params: {
+                    workoutId: params.workoutId,
+                    workoutName: params.workoutName,
+                    exerciseIndex: currentExerciseIndex - 1,
+                  },
+                });
+              }}
+            >
               <Ionicons
                 name="play-sharp"
                 size={ICON_SIZE + 8}
-                style={{ transform: [{ rotateX: "180deg" }] }}
+                style={{ transform: [{ rotate: "180deg" }] }}
               />
             </Pressable>
             <View style={styles.weightAndRepsContainer}>
               <View style={styles.inputContainer}>
                 <TextInput
+                  editable={false}
                   maxLength={4}
                   keyboardType="decimal-pad"
                   aria-label="Weight"
@@ -51,6 +90,7 @@ export default function WorkoutSession() {
               </View>
               <View style={styles.inputContainer}>
                 <TextInput
+                  editable={false}
                   maxLength={4}
                   keyboardType="decimal-pad"
                   aria-label="Reps"
@@ -62,7 +102,20 @@ export default function WorkoutSession() {
                 />
               </View>
             </View>
-            <Pressable id="next-button" style={styles.navBtn}>
+            <Pressable
+              id="next-button"
+              style={styles.navBtn}
+              onPress={() => {
+                router.push({
+                  pathname: "./[exerciseIndex]",
+                  params: {
+                    workoutId: params.workoutId,
+                    workoutName: params.workoutName,
+                    exerciseIndex: currentExerciseIndex + 1,
+                  },
+                });
+              }}
+            >
               <Ionicons name="play-sharp" size={ICON_SIZE + 8} />
             </Pressable>
           </View>
@@ -85,6 +138,7 @@ const styles = StyleSheet.create({
     borderColor: "white",
     alignItems: "center",
     padding: 8,
+    marginTop: 12,
   },
   navigator: {
     width: "100%",

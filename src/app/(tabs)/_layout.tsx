@@ -4,6 +4,8 @@ import { Tabs } from "expo-router";
 import { View } from "react-native";
 
 export default function TabLayout() {
+  // const [workouts, setWorkouts] = useState<WorkoutCardProps[]>([]);
+  // const [exercises, setExercises] = useState<Exercise[]>([]);
   return (
     <Tabs
       detachInactiveScreens={false}

@@ -16,7 +16,7 @@ import {
   Pressable,
   StyleSheet,
   Text,
-  View
+  View,
 } from "react-native";
 import { Exercise } from "../utils/exercises";
 import WorkoutCardOptions from "./WorkoutCardOptions";
@@ -103,7 +103,15 @@ export default function WorkoutCard({
               textColor="white"
               onPress={() => {
                 setShowWorkoutOverview(false);
-                // router.push({ pathname: "/workoutsession" });
+                // in this moment, 'workoutName' would be passed as a *query parameter* (/workout/session/workoutId/exerciseIndex?workoutName=workoutName)
+                router.navigate({
+                  pathname: "/session/[workoutId]/[exerciseIndex]",
+                  params: {
+                    workoutId: id,
+                    workoutName: workoutName,
+                    exerciseIndex: "0",
+                  },
+                });
               }}
             />
           </View>
