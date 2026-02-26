@@ -13,6 +13,7 @@ export default function WorkoutSession() {
     workoutId: string;
     workoutName: string;
     exerciseIndex: string;
+    setIndex: string;
   }>();
   const currentWorkout = workouts.find(
     (workout) => workout.id === params.workoutId,
@@ -20,6 +21,7 @@ export default function WorkoutSession() {
   const currentWorkoutExercises = currentWorkout.exercises;
   const currentExerciseIndex = parseInt(params.exerciseIndex);
   const currentExercise = currentWorkoutExercises[currentExerciseIndex];
+  const currentExerciseSetNumber = parseInt(params.setIndex);
   return (
     <SafeAreaProvider>
       <SafeAreaView style={PATTERN.container}>
@@ -45,7 +47,7 @@ export default function WorkoutSession() {
 
             <View style={styles.setCountContainer}>
               <Text style={PATTERN.mediumText}>
-                Set 1/{currentExercise.sets.length}
+                Set {currentExerciseSetNumber}/{currentExercise.sets.length}
               </Text>
             </View>
           </View>
@@ -54,16 +56,30 @@ export default function WorkoutSession() {
               id="previous-button"
               style={[
                 styles.navBtn,
-                { opacity: currentExerciseIndex === 0 ? 0.5 : 1 },
+                {
+                  opacity:
+                    currentExerciseIndex === 0 && currentExerciseSetNumber === 1
+                      ? 0.5
+                      : 1,
+                },
               ]}
-              disabled={currentExerciseIndex === 0}
+              disabled={
+                currentExerciseIndex === 0 && currentExerciseSetNumber === 1
+              }
               onPress={() => {
+                const isFirstSet = currentExerciseSetNumber === 1;
                 router.push({
-                  pathname: "./[exerciseIndex]",
+                  pathname: "/session/[workoutId]",
                   params: {
                     workoutId: params.workoutId,
                     workoutName: params.workoutName,
-                    exerciseIndex: currentExerciseIndex - 1,
+                    exerciseIndex: !isFirstSet
+                      ? currentExerciseIndex
+                      : currentExerciseIndex - 1,
+                    setIndex: isFirstSet
+                      ? currentWorkoutExercises[currentExerciseIndex - 1].sets
+                          .length
+                      : currentExerciseSetNumber - 1,
                   },
                 });
               }}
@@ -104,14 +120,40 @@ export default function WorkoutSession() {
             </View>
             <Pressable
               id="next-button"
-              style={styles.navBtn}
+              style={[
+                styles.navBtn,
+                {
+                  opacity:
+                    currentExerciseIndex ===
+                      currentWorkoutExercises.length - 1 &&
+                    currentExerciseSetNumber ===
+                      currentWorkoutExercises[
+                        currentWorkoutExercises.length - 1
+                      ].sets.length
+                      ? 0.5
+                      : 1,
+                },
+              ]}
+              disabled={
+                currentExerciseIndex === currentWorkoutExercises.length - 1 &&
+                currentExerciseSetNumber ===
+                  currentWorkoutExercises[currentWorkoutExercises.length - 1]
+                    .sets.length
+              }
               onPress={() => {
+                const onLastSet =
+                  currentExerciseSetNumber === currentExercise.sets.length;
                 router.push({
-                  pathname: "./[exerciseIndex]",
+                  pathname: "/session/[workoutId]",
                   params: {
                     workoutId: params.workoutId,
                     workoutName: params.workoutName,
-                    exerciseIndex: currentExerciseIndex + 1,
+                    exerciseIndex: !onLastSet
+                      ? currentExerciseIndex.toString()
+                      : (currentExerciseIndex + 1).toString(),
+                    setIndex: onLastSet
+                      ? "1"
+                      : (currentExerciseSetNumber + 1).toString(),
                   },
                 });
               }}

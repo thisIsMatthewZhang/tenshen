@@ -3,9 +3,7 @@ import { Stack, useLocalSearchParams } from "expo-router";
 
 export default function SessionLayout() {
   const params = useLocalSearchParams<{
-    workoutId: string;
     workoutName: string;
-    exerciseIndex: string;
   }>();
   return (
     <Stack

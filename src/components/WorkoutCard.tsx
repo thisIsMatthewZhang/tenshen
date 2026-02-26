@@ -105,11 +105,12 @@ export default function WorkoutCard({
                 setShowWorkoutOverview(false);
                 // in this moment, 'workoutName' would be passed as a *query parameter* (/workout/session/workoutId/exerciseIndex?workoutName=workoutName)
                 router.navigate({
-                  pathname: "/session/[workoutId]/[exerciseIndex]",
+                  pathname: "/session/[workoutId]",
                   params: {
                     workoutId: id,
                     workoutName: workoutName,
                     exerciseIndex: "0",
+                    setIndex: "1",
                   },
                 });
               }}
