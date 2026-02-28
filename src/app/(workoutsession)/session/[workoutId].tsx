@@ -22,6 +22,7 @@ export default function WorkoutSession() {
   const currentExerciseIndex = parseInt(params.exerciseIndex);
   const currentExercise = currentWorkoutExercises[currentExerciseIndex];
   const currentExerciseSetNumber = parseInt(params.setIndex);
+
   return (
     <SafeAreaProvider>
       <SafeAreaView style={PATTERN.container}>
@@ -40,7 +41,7 @@ export default function WorkoutSession() {
         </View>
         <View style={PATTERN.separator} />
         <View style={styles.bottomContainer}>
-          <View style={{ alignItems: "center" }}>
+          <View style={styles.bottomContainerHeader}>
             <Text style={[PATTERN.mediumText, { fontWeight: "bold" }]}>
               {currentExercise.name}
             </Text>
@@ -74,12 +75,13 @@ export default function WorkoutSession() {
                     workoutId: params.workoutId,
                     workoutName: params.workoutName,
                     exerciseIndex: !isFirstSet
-                      ? currentExerciseIndex
-                      : currentExerciseIndex - 1,
+                      ? currentExerciseIndex.toString()
+                      : (currentExerciseIndex - 1).toString(),
                     setIndex: isFirstSet
-                      ? currentWorkoutExercises[currentExerciseIndex - 1].sets
-                          .length
-                      : currentExerciseSetNumber - 1,
+                      ? currentWorkoutExercises[
+                          currentExerciseIndex - 1
+                        ].sets.length.toString()
+                      : (currentExerciseSetNumber - 1).toString(),
                   },
                 });
               }}
@@ -168,10 +170,20 @@ export default function WorkoutSession() {
 }
 
 const styles = StyleSheet.create({
-  topContainer: { alignItems: "center" },
+  topContainer: {
+    flex: 1,
+    alignItems: "center",
+    paddingTop: 24,
+    paddingHorizontal: 24,
+  },
   workoutDuration: { alignSelf: "flex-start" },
   partnerContainer: {},
-  bottomContainer: { alignItems: "center" },
+  bottomContainer: {
+    flex: 1,
+    alignItems: "center",
+    paddingTop: 12,
+  },
+  bottomContainerHeader: { alignItems: "center", marginBottom: 12 },
   setCountContainer: {
     width: "25%",
     backgroundColor: "transparent",
@@ -179,13 +191,15 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderColor: "white",
     alignItems: "center",
-    padding: 8,
+    padding: 12,
     marginTop: 12,
   },
   navigator: {
     width: "100%",
     flexDirection: "row",
+    alignSelf: "center",
     justifyContent: "space-evenly",
+    marginTop: 24,
   },
   navBtn: {
     backgroundColor: MAIN_COLOR,
