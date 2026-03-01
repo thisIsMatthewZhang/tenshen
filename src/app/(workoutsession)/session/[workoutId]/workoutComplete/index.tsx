@@ -5,7 +5,6 @@ import {
     StyleProp,
     StyleSheet,
     Text,
-    TextInput,
     TextStyle,
     View,
     ViewStyle,
@@ -14,7 +13,7 @@ import RadioGroup, { RadioButtonProps } from "react-native-radio-buttons-group";
 
 interface BlockProps {
   value: number | string;
-  category: "Exercises" | "Sets" | "Workout Time";
+  category: "Exercises" | "Sets" | "Workout Time" | "Streak🔥";
 }
 
 const Block = ({ value, category }: BlockProps) => {
@@ -70,9 +69,20 @@ export default function WorkoutComplete() {
   return (
     <View style={PATTERN.container}>
       <View style={styles.topContainer}>
+        <View style={styles.expBarContainer}>
+          <Text
+            style={[
+              PATTERN.smallText,
+              { color: MAIN_COLOR, fontWeight: "bold" },
+            ]}
+          >
+            LV. 11
+          </Text>
+          <View style={styles.expBar}></View>
+        </View>
         <View style={styles.textHeaderContainer}>
           <Text style={[PATTERN.bigText, { fontWeight: "bold" }]}>
-            Good stuff, <Text style={{ color: MAIN_COLOR }}>Matthew!</Text>🔥
+            Good stuff, <Text style={{ color: MAIN_COLOR }}>Matthew!</Text>🤩
           </Text>
         </View>
         <View style={styles.summaryContainer}>
@@ -81,21 +91,22 @@ export default function WorkoutComplete() {
             <Block value={5} category="Exercises" />
             <Block value={12} category="Sets" />
             <Block value={"1hr 29m"} category="Workout Time" />
+            <Block value={"3"} category="Streak🔥" />
           </View>
         </View>
       </View>
       <View style={styles.bottomContainer}>
-        <TextInput
+        {/* <TextInput
           style={[styles.input, { height: 100 }]}
           placeholder="Notes"
           placeholderTextColor="white"
-        />
+        /> */}
         {/* Add Post-Workout Selfie later */}
         <RadioGroup
           radioButtons={radioButtons}
           onPress={setSelectedId}
           selectedId={selectedId}
-          containerStyle={{ marginBottom: 12 }}
+          containerStyle={{ marginVertical: 16 }}
           labelStyle={[PATTERN.mediumText, { fontWeight: "bold" }]}
         />
         <View style={styles.buttonsContainer}>
@@ -121,6 +132,19 @@ export default function WorkoutComplete() {
 
 const styles = StyleSheet.create({
   topContainer: { alignItems: "center", padding: 12 },
+  expBarContainer: {
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-evenly",
+    marginBottom: 12,
+  },
+  expBar: {
+    width: "75%",
+    height: 10,
+    backgroundColor: "grey",
+    borderRadius: 5,
+  },
   textHeaderContainer: {
     width: "100%",
     alignItems: "center",
@@ -146,16 +170,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 12,
   },
-  input: {
-    width: "100%",
-    flexWrap: "wrap",
-    justifyContent: "flex-start",
-    borderWidth: 2,
-    borderRadius: 10,
-    borderColor: "white",
-    padding: 12,
-    marginBottom: 12,
-  },
+  //   input: {
+  //     width: "100%",
+  //     color: "white",
+  //     textAlignVertical: "top",
+  //     // justifyContent: "flex-start",
+  //     borderWidth: 2,
+  //     borderRadius: 10,
+  //     borderColor: "white",
+  //     padding: 12,
+  //     marginBottom: 12,
+  //   },
   buttonsContainer: {
     width: "100%",
     flexDirection: "row",
