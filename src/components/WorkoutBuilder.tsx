@@ -9,7 +9,7 @@ import uuid from "react-native-uuid";
 import { ExerciseContext } from "../contexts/ExerciseContext";
 import { WorkoutsContext } from "../contexts/WorkoutsContext";
 import { data } from "../utils/exercises";
-import Button from "./Button";
+import Button from "./AppButton";
 import SearchFilterModal from "./SearchFilterModal";
 // const ruby = require("../../../../assets/avatars/Ruby.png");
 

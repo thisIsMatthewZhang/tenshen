@@ -1,5 +1,16 @@
-import { MAIN_COLOR, PATTERN } from "@/src/constants/theme";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import AppButton from "@/src/components/AppButton";
+import { BLUE_DARKER, MAIN_COLOR, PATTERN } from "@/src/constants/theme";
+import { useMemo, useState } from "react";
+import {
+    StyleProp,
+    StyleSheet,
+    Text,
+    TextInput,
+    TextStyle,
+    View,
+    ViewStyle,
+} from "react-native";
+import RadioGroup, { RadioButtonProps } from "react-native-radio-buttons-group";
 
 interface BlockProps {
   value: number | string;
@@ -9,43 +20,145 @@ interface BlockProps {
 const Block = ({ value, category }: BlockProps) => {
   return (
     <View style={styles.block}>
-      <Text style={PATTERN.mediumText}>{value}</Text>
-      <Text style={[PATTERN.smallText, { color: MAIN_COLOR }]}>{category}</Text>
+      <Text style={[PATTERN.mediumText, { fontWeight: "bold" }]}>{value}</Text>
+      <Text
+        style={[PATTERN.smallText, { color: MAIN_COLOR, fontWeight: "bold" }]}
+      >
+        {category}
+      </Text>
     </View>
   );
 };
 
 export default function WorkoutComplete() {
+  const radioButtons: RadioButtonProps[] = useMemo(() => {
+    const containerStyle: StyleProp<ViewStyle> = {
+      width: "100%",
+      justifyContent: "space-between",
+    };
+    const descriptionStyle: StyleProp<TextStyle> = {
+      ...PATTERN.smallText,
+      fontSize: 14,
+      color: "white",
+      opacity: 0.5,
+      alignSelf: "flex-end",
+      paddingRight: 12,
+    };
+    return [
+      {
+        id: "1",
+        label: "Public",
+        description: "Everyone can see this workout",
+        descriptionStyle: descriptionStyle,
+        value: "public",
+        containerStyle: containerStyle,
+        color: BLUE_DARKER,
+      },
+      {
+        id: "2",
+        label: "Private",
+        description: "Only you can see this workout",
+        descriptionStyle: descriptionStyle,
+        value: "private",
+        containerStyle: containerStyle,
+        color: BLUE_DARKER,
+      },
+    ];
+  }, []);
+  const [selectedId, setSelectedId] = useState<undefined | string>(undefined);
+
   return (
-    <ScrollView contentContainerStyle={PATTERN.container}>
-      <View style={styles.textHeaderContainer}>
-        <Text style={[PATTERN.bigText, { fontWeight: "bold" }]}>
-          Good stuff, <Text style={{ color: MAIN_COLOR }}>Matthew!</Text>🔥
-        </Text>
-      </View>
-      <View style={styles.summaryContainer}>
-        <View style={styles.partnerContainer}></View>
-        <View style={styles.blocksContainer}>
-          <Block value={5} category="Exercises" />
-          <Block value={12} category="Sets" />
-          <Block value={"1hr"} category="Workout Time" />
+    <View style={PATTERN.container}>
+      <View style={styles.topContainer}>
+        <View style={styles.textHeaderContainer}>
+          <Text style={[PATTERN.bigText, { fontWeight: "bold" }]}>
+            Good stuff, <Text style={{ color: MAIN_COLOR }}>Matthew!</Text>🔥
+          </Text>
+        </View>
+        <View style={styles.summaryContainer}>
+          <View style={styles.partnerContainer}></View>
+          <View style={styles.blocksContainer}>
+            <Block value={5} category="Exercises" />
+            <Block value={12} category="Sets" />
+            <Block value={"1hr 29m"} category="Workout Time" />
+          </View>
         </View>
       </View>
-      <View style={styles.bottomContainer}></View>
-    </ScrollView>
+      <View style={styles.bottomContainer}>
+        <TextInput
+          style={[styles.input, { height: 100 }]}
+          placeholder="Notes"
+          placeholderTextColor="white"
+        />
+        {/* Add Post-Workout Selfie later */}
+        <RadioGroup
+          radioButtons={radioButtons}
+          onPress={setSelectedId}
+          selectedId={selectedId}
+          containerStyle={{ marginBottom: 12 }}
+          labelStyle={[PATTERN.mediumText, { fontWeight: "bold" }]}
+        />
+        <View style={styles.buttonsContainer}>
+          <AppButton
+            title="Discard Activity"
+            bgColor="red"
+            textColor="black"
+            onPress={() => {}}
+            style={{ flex: 1 }}
+          />
+          <AppButton
+            title="Save Activity"
+            bgColor={MAIN_COLOR}
+            textColor="black"
+            onPress={() => {}}
+            style={{ flex: 1, marginLeft: 12 }}
+          />
+        </View>
+      </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  textHeaderContainer: { width: "100%", alignItems: "center" },
+  topContainer: { alignItems: "center", padding: 12 },
+  textHeaderContainer: {
+    width: "100%",
+    alignItems: "center",
+    marginBottom: 12,
+  },
   summaryContainer: {
     width: "100%",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-evenly",
+    marginTop: 12,
   },
   partnerContainer: { flex: 1 },
   blocksContainer: { flex: 1 },
-  block: { flex: 1, backgroundColor: "grey", borderRadius: 20, padding: 12 },
-  bottomContainer: { width: "100%" },
+  block: {
+    backgroundColor: "grey",
+    borderRadius: 10,
+    padding: 12,
+    marginBottom: 12,
+  },
+  bottomContainer: {
+    width: "100%",
+    alignItems: "center",
+    paddingHorizontal: 12,
+  },
+  input: {
+    width: "100%",
+    flexWrap: "wrap",
+    justifyContent: "flex-start",
+    borderWidth: 2,
+    borderRadius: 10,
+    borderColor: "white",
+    padding: 12,
+    marginBottom: 12,
+  },
+  buttonsContainer: {
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "center",
+  },
 });

@@ -1,32 +1,32 @@
 import {
-  BLUE_DARKER,
-  BLUE_LIGHTER,
-  MAIN_COLOR,
-  PATTERN,
+    BLUE_DARKER,
+    BLUE_LIGHTER,
+    MAIN_COLOR,
+    PATTERN,
 } from "@/src/constants/theme";
 import { LinearGradient } from "expo-linear-gradient";
 import { useContext, useState } from "react";
 import {
-  Dimensions,
-  Platform,
-  Pressable,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
+    Dimensions,
+    Platform,
+    Pressable,
+    StyleSheet,
+    Text,
+    TextInput,
+    View,
 } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Swipeable from "react-native-gesture-handler/ReanimatedSwipeable";
 import Reanimated, {
-  SharedValue,
-  useAnimatedReaction,
-  useAnimatedStyle,
+    SharedValue,
+    useAnimatedReaction,
+    useAnimatedStyle,
 } from "react-native-reanimated";
 import { TimerPickerModal } from "react-native-timer-picker";
 import uuid from "react-native-uuid";
 import { ExerciseContext } from "../contexts/ExerciseContext";
 import { Exercise } from "../utils/exercises";
-import Button from "./Button";
+import Button from "./AppButton";
 import ExerciseCardOptions from "./ExerciseCardOptions";
 export interface ExerciseSetSegmentProps {
   id: string;

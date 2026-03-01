@@ -1,11 +1,11 @@
-import Button from "@/src/components/Button";
+import Button from "@/src/components/AppButton";
 import ExercisePhoto from "@/src/components/ExercisePhoto";
 import {
-  APP_BACKGROUND_COLOR,
-  BLUE_LIGHTER,
-  ICON_SIZE,
-  MAIN_COLOR,
-  PATTERN,
+    APP_BACKGROUND_COLOR,
+    BLUE_LIGHTER,
+    ICON_SIZE,
+    MAIN_COLOR,
+    PATTERN,
 } from "@/src/constants/theme";
 import { useSearchFilter } from "@/src/hooks/useSearchFilter";
 import Ionicons from "@expo/vector-icons/Ionicons";

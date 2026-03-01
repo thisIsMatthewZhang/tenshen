@@ -16,7 +16,7 @@ interface ButtonProps {
   style?: StyleProp<ViewStyle>;
 }
 
-export default function Button({
+export default function AppButton({
   title,
   bgColor,
   textColor,
@@ -27,7 +27,6 @@ export default function Button({
     borderRadius: 10,
     paddingHorizontal: 12,
     paddingVertical: 8,
-    margin: 8,
   };
 
   return (

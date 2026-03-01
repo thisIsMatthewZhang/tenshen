@@ -1,4 +1,4 @@
-import Button from "@/src/components/Button";
+import Button from "@/src/components/AppButton";
 import ReusableModal from "@/src/components/ReusableModal";
 import {
   BLUE_DARKER,
@@ -105,7 +105,7 @@ export default function WorkoutCard({
                 setShowWorkoutOverview(false);
                 // in this moment, 'workoutName' would be passed as a *query parameter* (/workout/session/workoutId/exerciseIndex?workoutName=workoutName)
                 router.navigate({
-                  pathname: "/session/[workoutId]",
+                  pathname: "/session/[workoutId]/workoutComplete",
                   params: {
                     workoutId: id,
                     workoutName: workoutName,
