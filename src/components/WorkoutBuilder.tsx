@@ -9,7 +9,7 @@ import uuid from "react-native-uuid";
 import { ExerciseContext } from "../contexts/ExerciseContext";
 import { WorkoutsContext } from "../contexts/WorkoutsContext";
 import { data } from "../utils/exercises";
-import Button from "./AppButton";
+import AppButton from "./AppButton";
 import SearchFilterModal from "./SearchFilterModal";
 // const ruby = require("../../../../assets/avatars/Ruby.png");
 
@@ -30,7 +30,7 @@ export default function WorkoutBuilder({
     >
       <View style={styles.headerContainer}>
         <View style={styles.topButtons}>
-          <Button
+          <AppButton
             title="Cancel"
             bgColor="red"
             textColor="black"
@@ -39,8 +39,9 @@ export default function WorkoutBuilder({
               setShowModal(!showModal);
               setWorkoutName("");
             }}
+            style={{ margin: 8 }}
           />
-          <Button
+          <AppButton
             title="Done 👍"
             bgColor={BLUE_LIGHTER}
             textColor="white"
@@ -57,6 +58,7 @@ export default function WorkoutBuilder({
                 ...workouts,
               ]);
             }}
+            style={{ margin: 8 }}
           />
         </View>
         <TextInput
@@ -92,14 +94,14 @@ export default function WorkoutBuilder({
         )}
       </ScrollView>
       <View style={styles.footerContainer}>
-        <Button
+        <AppButton
           title="Add Exercise +"
           bgColor={BLUE_LIGHTER}
           textColor="white"
           onPress={() => {
             setShowSearchExerciseModal(!showSearchExerciseModal);
           }}
-          style={{ width: "90%" }}
+          style={{ width: "90%", margin: 8 }}
         />
       </View>
       {showSearchExerciseModal ? (

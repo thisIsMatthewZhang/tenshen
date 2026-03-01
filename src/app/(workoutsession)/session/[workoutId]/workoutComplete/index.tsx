@@ -91,7 +91,7 @@ export default function WorkoutComplete() {
             <Block value={5} category="Exercises" />
             <Block value={12} category="Sets" />
             <Block value={"1hr 29m"} category="Workout Time" />
-            <Block value={"3"} category="Streak🔥" />
+            <Block value={3} category="Streak🔥" />
           </View>
         </View>
       </View>

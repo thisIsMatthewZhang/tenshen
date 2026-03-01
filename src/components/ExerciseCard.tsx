@@ -1,32 +1,32 @@
 import {
-    BLUE_DARKER,
-    BLUE_LIGHTER,
-    MAIN_COLOR,
-    PATTERN,
+  BLUE_DARKER,
+  BLUE_LIGHTER,
+  MAIN_COLOR,
+  PATTERN,
 } from "@/src/constants/theme";
 import { LinearGradient } from "expo-linear-gradient";
 import { useContext, useState } from "react";
 import {
-    Dimensions,
-    Platform,
-    Pressable,
-    StyleSheet,
-    Text,
-    TextInput,
-    View,
+  Dimensions,
+  Platform,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
 } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Swipeable from "react-native-gesture-handler/ReanimatedSwipeable";
 import Reanimated, {
-    SharedValue,
-    useAnimatedReaction,
-    useAnimatedStyle,
+  SharedValue,
+  useAnimatedReaction,
+  useAnimatedStyle,
 } from "react-native-reanimated";
 import { TimerPickerModal } from "react-native-timer-picker";
 import uuid from "react-native-uuid";
 import { ExerciseContext } from "../contexts/ExerciseContext";
 import { Exercise } from "../utils/exercises";
-import Button from "./AppButton";
+import AppButton from "./AppButton";
 import ExerciseCardOptions from "./ExerciseCardOptions";
 export interface ExerciseSetSegmentProps {
   id: string;
@@ -217,7 +217,7 @@ export default function ExerciseCard({
                 secondInterval={15}
                 styles={{ theme: "dark" }}
                 confirmButton={
-                  <Button
+                  <AppButton
                     title="Confirm 👍"
                     bgColor={BLUE_LIGHTER}
                     textColor="white"
@@ -225,7 +225,7 @@ export default function ExerciseCard({
                   />
                 }
                 cancelButton={
-                  <Button
+                  <AppButton
                     title="Cancel"
                     bgColor="red"
                     textColor="black"
@@ -291,7 +291,7 @@ export default function ExerciseCard({
             );
           })}
           <View style={styles.emptySegment}>
-            <Button
+            <AppButton
               title="Add Set +"
               bgColor={BLUE_DARKER}
               textColor="white"
@@ -317,7 +317,7 @@ export default function ExerciseCard({
                   ),
                 );
               }}
-              style={{ width: "90%" }}
+              style={{ width: "90%", margin: 8 }}
             />
           </View>
         </View>

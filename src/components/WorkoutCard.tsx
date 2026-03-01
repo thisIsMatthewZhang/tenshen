@@ -1,4 +1,4 @@
-import Button from "@/src/components/AppButton";
+import AppButton from "@/src/components/AppButton";
 import ReusableModal from "@/src/components/ReusableModal";
 import {
   BLUE_DARKER,
@@ -86,18 +86,19 @@ export default function WorkoutCard({
           setShowModal={setShowWorkoutOverview}
         >
           <View style={styles.headerContainer}>
-            <Button
+            <AppButton
               title="Cancel"
               bgColor="red"
               textColor="black"
               onPress={() => {
                 setShowWorkoutOverview(false);
               }}
+              style={{ margin: 8 }}
             />
             <Text style={[PATTERN.mediumText, { fontWeight: "bold" }]}>
               Here&apos;s your workout
             </Text>
-            <Button
+            <AppButton
               title="Start 👍"
               bgColor={BLUE_LIGHTER}
               textColor="white"
@@ -114,6 +115,7 @@ export default function WorkoutCard({
                   },
                 });
               }}
+              style={{ margin: 8 }}
             />
           </View>
           <FlatList

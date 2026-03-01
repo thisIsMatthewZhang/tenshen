@@ -1,11 +1,11 @@
-import Button from "@/src/components/AppButton";
+import AppButton from "@/src/components/AppButton";
 import ExercisePhoto from "@/src/components/ExercisePhoto";
 import {
-    APP_BACKGROUND_COLOR,
-    BLUE_LIGHTER,
-    ICON_SIZE,
-    MAIN_COLOR,
-    PATTERN,
+  APP_BACKGROUND_COLOR,
+  BLUE_LIGHTER,
+  ICON_SIZE,
+  MAIN_COLOR,
+  PATTERN,
 } from "@/src/constants/theme";
 import { useSearchFilter } from "@/src/hooks/useSearchFilter";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -38,7 +38,7 @@ export default function SearchFilterModal({
       setShowModal={() => setShowModal(!showModal)}
     >
       <View style={styles.headerContainer}>
-        <Button
+        <AppButton
           title="Cancel"
           onPress={() => {
             for (let data of filteredData) {
@@ -48,15 +48,17 @@ export default function SearchFilterModal({
           }}
           bgColor={"red"}
           textColor={"black"}
+          style={{ margin: 8 }}
         />
         <Text style={[PATTERN.smallText, { fontWeight: "bold" }]}>
           Add Exercise
         </Text>
-        <Button
+        <AppButton
           title="Cancel"
           onPress={() => setShowModal(!showModal)}
           bgColor={"red"}
           textColor={"black"}
+          style={{ margin: 8 }}
         />
       </View>
       <View style={styles.searchFilterContainer}>
@@ -128,7 +130,7 @@ export default function SearchFilterModal({
       />
       {selectedItems.length > 0 ? (
         <View style={styles.footerContainer}>
-          <Button
+          <AppButton
             title={`Add ${selectedItems.length} Exercise(s)`}
             bgColor={MAIN_COLOR}
             textColor={"black"}
@@ -139,7 +141,7 @@ export default function SearchFilterModal({
                 data.isSelected = false;
               }
             }}
-            style={{ width: "90%" }}
+            style={{ width: "90%", margin: 8 }}
           />
         </View>
       ) : (
