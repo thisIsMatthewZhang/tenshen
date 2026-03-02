@@ -2,12 +2,12 @@ import AppButton from "@/src/components/AppButton";
 import { BLUE_DARKER, MAIN_COLOR, PATTERN } from "@/src/constants/theme";
 import { useMemo, useState } from "react";
 import {
-    StyleProp,
-    StyleSheet,
-    Text,
-    TextStyle,
-    View,
-    ViewStyle,
+  StyleProp,
+  StyleSheet,
+  Text,
+  TextStyle,
+  View,
+  ViewStyle,
 } from "react-native";
 import RadioGroup, { RadioButtonProps } from "react-native-radio-buttons-group";
 
@@ -67,7 +67,7 @@ export default function WorkoutComplete() {
   const [selectedId, setSelectedId] = useState<undefined | string>(undefined);
 
   return (
-    <View style={PATTERN.container}>
+    <View style={[PATTERN.container, { justifyContent: "space-around" }]}>
       <View style={styles.topContainer}>
         <View style={styles.expBarContainer}>
           <Text
@@ -106,7 +106,7 @@ export default function WorkoutComplete() {
           radioButtons={radioButtons}
           onPress={setSelectedId}
           selectedId={selectedId}
-          containerStyle={{ marginVertical: 16 }}
+          containerStyle={{ marginBottom: 32 }}
           labelStyle={[PATTERN.mediumText, { fontWeight: "bold" }]}
         />
         <View style={styles.buttonsContainer}>
@@ -131,7 +131,7 @@ export default function WorkoutComplete() {
 }
 
 const styles = StyleSheet.create({
-  topContainer: { alignItems: "center", padding: 12 },
+  topContainer: { alignItems: "center", paddingHorizontal: 16 },
   expBarContainer: {
     width: "100%",
     flexDirection: "row",
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
   bottomContainer: {
     width: "100%",
     alignItems: "center",
-    paddingHorizontal: 12,
+    padding: 16,
   },
   //   input: {
   //     width: "100%",
@@ -182,7 +182,6 @@ const styles = StyleSheet.create({
   //     marginBottom: 12,
   //   },
   buttonsContainer: {
-    width: "100%",
     flexDirection: "row",
     justifyContent: "center",
   },
