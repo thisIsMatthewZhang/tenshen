@@ -1,5 +1,5 @@
-import OnboardingButton from "@/src/components/OnboardingButton";
-import { PATTERN } from "@/src/constants/theme";
+import AppButton from "@/src/components/AppButton";
+import { BIG_GOLDEN_BUTTON, MAIN_COLOR, PATTERN } from "@/src/constants/theme";
 import { useRouter } from "expo-router";
 import { Text, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
@@ -15,9 +15,13 @@ export default function GetStarted() {
             Welcome to the Tenshen Beta Test! Please select &quot;Get
             Started&quot; below to proceed with onboarding👇
           </Text>
-          <OnboardingButton
-            buttonText="Get Started"
-            router={() => router.push({ pathname: "/yourname" })}
+          <AppButton
+            title="Get Started"
+            bgColor={MAIN_COLOR}
+            textColor="black"
+            onPress={() => router.push({ pathname: "/yourname" })}
+            style={BIG_GOLDEN_BUTTON.pressable}
+            textStyle={{ fontSize: 20, fontWeight: 700 }}
           />
         </View>
       </SafeAreaView>

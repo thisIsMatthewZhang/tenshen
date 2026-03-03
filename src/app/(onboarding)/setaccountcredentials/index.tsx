@@ -1,4 +1,6 @@
+import AppButton from "@/src/components/AppButton";
 import {
+  BIG_GOLDEN_BUTTON,
   BLUE_DARKER,
   MAIN_COLOR,
   PATTERN,
@@ -7,7 +9,6 @@ import {
 import { UnknownOutputParams, useRouter } from "expo-router";
 import { useEffect, useMemo, useState } from "react";
 import { Animated, Keyboard, Text, TextInput } from "react-native";
-import OnboardingButton from "../../../components/OnboardingButton";
 
 const emailRegex: RegExp = /^[\w\-\.]+@([\w-]+\.)+[\w-]{2,}$/;
 const passwordRegex: RegExp =
@@ -155,9 +156,11 @@ export default function SetAccountCredentials({
         secureTextEntry={true}
       />
       <Text style={{ color: MAIN_COLOR }}> {errors.confirmPassword} </Text>
-      <OnboardingButton
-        buttonText="Time to work out!"
-        router={() => {
+      <AppButton
+        title="Time to work out!"
+        bgColor={MAIN_COLOR}
+        textColor="black"
+        onPress={() => {
           if (
             Object.values(credential).every((key) => key) &&
             Object.values(errors).every((value) => !value) &&
@@ -167,6 +170,8 @@ export default function SetAccountCredentials({
             router.navigate({ pathname: "/home", params: data });
           }
         }}
+        style={BIG_GOLDEN_BUTTON.pressable}
+        textStyle={{ fontSize: 20, fontWeight: 700 }}
       />
     </Animated.View>
   );

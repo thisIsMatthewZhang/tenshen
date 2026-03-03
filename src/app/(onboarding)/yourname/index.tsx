@@ -1,8 +1,13 @@
-import { MAIN_COLOR, PATTERN, TEXT_INPUT } from "@/src/constants/theme";
+import AppButton from "@/src/components/AppButton";
+import {
+  BIG_GOLDEN_BUTTON,
+  MAIN_COLOR,
+  PATTERN,
+  TEXT_INPUT,
+} from "@/src/constants/theme";
 import { useRouter } from "expo-router";
 import { useEffect, useMemo, useState } from "react";
 import { Animated, Keyboard, Text, TextInput } from "react-native";
-import OnboardingButton from "../../../components/OnboardingButton";
 
 export default function YourName() {
   const router = useRouter();
@@ -106,9 +111,11 @@ export default function YourName() {
         onChangeText={(text) => setPreferredName(text)}
       />
       <Text style={{ color: MAIN_COLOR }}> {error} </Text>
-      <OnboardingButton
-        buttonText="Next"
-        router={() => {
+      <AppButton
+        title="Next"
+        bgColor={MAIN_COLOR}
+        textColor="black"
+        onPress={() => {
           if (!firstName || !lastName || !preferredName) {
             setError("Please give your full name and preferred name");
           } else {
@@ -119,7 +126,9 @@ export default function YourName() {
             });
           }
         }}
-      ></OnboardingButton>
+        style={BIG_GOLDEN_BUTTON.pressable}
+        textStyle={{ fontSize: 20, fontWeight: 700 }}
+      />
     </Animated.View>
   );
 }

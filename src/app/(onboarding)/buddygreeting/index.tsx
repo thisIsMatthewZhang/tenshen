@@ -1,4 +1,4 @@
-import { PATTERN } from "@/src/constants/theme";
+import { BIG_GOLDEN_BUTTON, MAIN_COLOR, PATTERN } from "@/src/constants/theme";
 // import {
 //     Fit,
 //     RiveView,
@@ -6,10 +6,10 @@ import { PATTERN } from "@/src/constants/theme";
 //     useRiveFile
 // } from "@rive-app/react-native";
 // import { requireNativeModule } from "expo";
+import AppButton from "@/src/components/AppButton";
 import { UnknownOutputParams, useRouter } from "expo-router";
 import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import OnboardingButton from "../../../components/OnboardingButton";
 
 export default function BuddyGreeting({
   fullName,
@@ -35,14 +35,13 @@ export default function BuddyGreeting({
           fit={Fit.Layout}
         />
       )} */}
-          <OnboardingButton
-            buttonText="Next"
-            router={() => {
-              router.push({
-                pathname: "/setaccountcredentials",
-                params: { fullName, preferredName, selected },
-              });
-            }}
+          <AppButton
+            title="Next"
+            bgColor={MAIN_COLOR}
+            textColor="black"
+            onPress={() => router.push({ pathname: "/setaccountcredentials" })}
+            style={BIG_GOLDEN_BUTTON.pressable}
+            textStyle={{ fontSize: 20, fontWeight: 700 }}
           />
         </View>
       </SafeAreaView>

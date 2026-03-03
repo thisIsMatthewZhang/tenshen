@@ -4,6 +4,7 @@ import {
   Pressable,
   StyleProp,
   Text,
+  TextStyle,
   View,
   ViewStyle,
 } from "react-native";
@@ -14,6 +15,7 @@ interface ButtonProps {
   textColor: ColorValue;
   onPress: () => void;
   style?: StyleProp<ViewStyle>;
+  textStyle?: StyleProp<TextStyle>;
 }
 
 export default function AppButton({
@@ -22,6 +24,7 @@ export default function AppButton({
   textColor,
   onPress,
   style,
+  textStyle,
 }: ButtonProps) {
   const buttonStyles = {
     borderRadius: 10,
@@ -45,7 +48,11 @@ export default function AppButton({
     >
       <View style={PATTERN.center}>
         <Text
-          style={[PATTERN.smallText, { color: textColor, fontWeight: "bold" }]}
+          style={[
+            PATTERN.smallText,
+            { color: textColor, fontWeight: "bold" },
+            textStyle,
+          ]}
         >
           {title}
         </Text>

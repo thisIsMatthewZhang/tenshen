@@ -1,5 +1,6 @@
 import { AnimatedPressable } from "@/src/components/AnimatedPressable";
-import { MAIN_COLOR, PATTERN } from "@/src/constants/theme";
+import AppButton from "@/src/components/AppButton";
+import { BIG_GOLDEN_BUTTON, MAIN_COLOR, PATTERN } from "@/src/constants/theme";
 import { UnknownOutputParams, useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -12,7 +13,6 @@ import {
   View,
 } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import OnboardingButton from "../../../components/OnboardingButton";
 const ruby = require("../../../../assets/avatars/Ruby.png");
 const rudy = require("../../../../assets/avatars/Rudy.png");
 
@@ -65,20 +65,13 @@ export default function PickWorkoutBuddy({
           />
         </View>
         <Text style={[PATTERN.smallText, { color: MAIN_COLOR }]}>{error}</Text>
-        <OnboardingButton
-          buttonText="Next"
-          router={() => {
-            if (!selected) {
-              setError("Please pick a workout partner.");
-            } else {
-              setSelected(null);
-              setError("");
-              router.push({
-                pathname: "/buddygreeting",
-                params: { fullName, preferredName, selected },
-              });
-            }
-          }}
+        <AppButton
+          title="Next"
+          bgColor={MAIN_COLOR}
+          textColor="black"
+          onPress={() => router.push({ pathname: "/buddygreeting" })}
+          style={BIG_GOLDEN_BUTTON.pressable}
+          textStyle={{ fontSize: 20, fontWeight: 700 }}
         />
       </SafeAreaView>
     </SafeAreaProvider>
