@@ -22,6 +22,8 @@ export default function WorkoutSession() {
   const currentExerciseIndex = parseInt(params.exerciseIndex);
   const currentExercise = currentWorkoutExercises[currentExerciseIndex];
   const currentExerciseSetNumber = parseInt(params.setIndex);
+  const isFirstSetAndFirstExercise =
+    currentExerciseIndex === 0 && currentExerciseSetNumber === 1;
 
   return (
     <SafeAreaProvider>
@@ -64,26 +66,9 @@ export default function WorkoutSession() {
                       : 1,
                 },
               ]}
-              disabled={
-                currentExerciseIndex === 0 && currentExerciseSetNumber === 1
-              }
+              disabled={isFirstSetAndFirstExercise}
               onPress={() => {
-                const isFirstSet = currentExerciseSetNumber === 1;
-                router.push({
-                  pathname: "/session/[workoutId]",
-                  params: {
-                    workoutId: params.workoutId,
-                    workoutName: params.workoutName,
-                    exerciseIndex: !isFirstSet
-                      ? currentExerciseIndex.toString()
-                      : (currentExerciseIndex - 1).toString(),
-                    setIndex: isFirstSet
-                      ? currentWorkoutExercises[
-                          currentExerciseIndex - 1
-                        ].sets.length.toString()
-                      : (currentExerciseSetNumber - 1).toString(),
-                  },
-                });
+                if (!isFirstSetAndFirstExercise) router.back();
               }}
             >
               <Ionicons
