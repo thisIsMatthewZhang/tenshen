@@ -9,7 +9,7 @@ import {
   ViewStyle,
 } from "react-native";
 
-interface ButtonProps {
+export interface ButtonProps {
   title: string;
   bgColor: ColorValue;
   textColor: ColorValue;

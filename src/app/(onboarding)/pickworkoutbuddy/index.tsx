@@ -1,7 +1,8 @@
 import { AnimatedPressable } from "@/src/components/AnimatedPressable";
 import AppButton from "@/src/components/AppButton";
+import BackButton from "@/src/components/BackButton";
 import { BIG_GOLDEN_BUTTON, MAIN_COLOR, PATTERN } from "@/src/constants/theme";
-import { UnknownOutputParams, useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import {
   Animated,
@@ -23,11 +24,12 @@ interface AvatarProps {
   onSelected: () => void;
 }
 
-export default function PickWorkoutBuddy({
-  fullName,
-  preferredName,
-}: UnknownOutputParams) {
+export default function PickWorkoutBuddy() {
   const router = useRouter();
+  const params = useLocalSearchParams<{
+    fullName: string;
+    preferredName: string;
+  }>();
   const [selected, setSelected] = useState<"Ruby" | "Rudy" | null>(null);
   const [error, setError] = useState("");
 
@@ -36,8 +38,8 @@ export default function PickWorkoutBuddy({
       <SafeAreaView style={[PATTERN.container, PATTERN.center]}>
         <View style={styles.textContainer}>
           <Text style={PATTERN.bigText}>
-            Hey {preferredName}! Please choose which workout partner you want to
-            do this journey with👇
+            Hey {params.preferredName}! Please choose which workout partner you
+            want to do this journey with👇
           </Text>
           <Text style={[PATTERN.smallText, { opacity: 0.5, top: 12 }]}>
             You will be able to swap later.
@@ -65,14 +67,38 @@ export default function PickWorkoutBuddy({
           />
         </View>
         <Text style={[PATTERN.smallText, { color: MAIN_COLOR }]}>{error}</Text>
-        <AppButton
-          title="Next"
-          bgColor={MAIN_COLOR}
-          textColor="black"
-          onPress={() => router.push({ pathname: "/buddygreeting" })}
-          style={BIG_GOLDEN_BUTTON.pressable}
-          textStyle={{ fontSize: 20, fontWeight: 700 }}
-        />
+        <View
+          style={{
+            width: "100%",
+            flexDirection: "row",
+            justifyContent: "space-evenly",
+            paddingHorizontal: 20,
+          }}
+        >
+          <BackButton
+            bgColor={MAIN_COLOR}
+            textColor="black"
+            style={[BIG_GOLDEN_BUTTON.pressable, { width: "25%" }]}
+            textStyle={BIG_GOLDEN_BUTTON.text}
+          />
+          <AppButton
+            title="Next"
+            bgColor={MAIN_COLOR}
+            textColor="black"
+            onPress={() =>
+              router.push({
+                pathname: "/buddygreeting",
+                params: {
+                  fullName: params.fullName,
+                  preferredName: params.preferredName,
+                  selected,
+                },
+              })
+            }
+            style={[BIG_GOLDEN_BUTTON.pressable, { width: "60%" }]}
+            textStyle={{ fontSize: 20, fontWeight: 700 }}
+          />
+        </View>
       </SafeAreaView>
     </SafeAreaProvider>
   );

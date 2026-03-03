@@ -7,16 +7,18 @@ import { BIG_GOLDEN_BUTTON, MAIN_COLOR, PATTERN } from "@/src/constants/theme";
 // } from "@rive-app/react-native";
 // import { requireNativeModule } from "expo";
 import AppButton from "@/src/components/AppButton";
-import { UnknownOutputParams, useRouter } from "expo-router";
+import BackButton from "@/src/components/BackButton";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
-export default function BuddyGreeting({
-  fullName,
-  preferredName,
-  selected,
-}: UnknownOutputParams) {
+export default function BuddyGreeting() {
   const router = useRouter();
+  const params = useLocalSearchParams<{
+    fullName: string;
+    preferredName: string;
+    selected: "Ruby" | "Rudy";
+  }>();
   // const { riveFile } = useRiveFile(requireNativeModule(""));
   // const { riveViewRef, setHybridRef } = useRive();
 
@@ -25,7 +27,7 @@ export default function BuddyGreeting({
       <SafeAreaView style={[PATTERN.container, PATTERN.center]}>
         <View style={[PATTERN.center, { width: "100%" }]}>
           <Text style={PATTERN.bigText}>
-            Sup {preferredName}!!! Call me {selected}.
+            Sup {params.preferredName}!!! Call me {params.selected}.
           </Text>
           {/* {riveFile && (
         <RiveView
@@ -35,14 +37,38 @@ export default function BuddyGreeting({
           fit={Fit.Layout}
         />
       )} */}
-          <AppButton
-            title="Next"
-            bgColor={MAIN_COLOR}
-            textColor="black"
-            onPress={() => router.push({ pathname: "/setaccountcredentials" })}
-            style={BIG_GOLDEN_BUTTON.pressable}
-            textStyle={{ fontSize: 20, fontWeight: 700 }}
-          />
+          <View
+            style={{
+              width: "100%",
+              flexDirection: "row",
+              justifyContent: "space-evenly",
+              paddingHorizontal: 20,
+            }}
+          >
+            <BackButton
+              bgColor={MAIN_COLOR}
+              textColor="black"
+              style={[BIG_GOLDEN_BUTTON.pressable, { width: "25%" }]}
+              textStyle={BIG_GOLDEN_BUTTON.text}
+            />
+            <AppButton
+              title="Next"
+              bgColor={MAIN_COLOR}
+              textColor="black"
+              onPress={() =>
+                router.push({
+                  pathname: "/setaccountcredentials",
+                  params: {
+                    fullName: params.fullName,
+                    preferredName: params.preferredName,
+                    selected: params.selected,
+                  },
+                })
+              }
+              style={[BIG_GOLDEN_BUTTON.pressable, { width: "60%" }]}
+              textStyle={{ fontSize: 20, fontWeight: 700 }}
+            />
+          </View>
         </View>
       </SafeAreaView>
     </SafeAreaProvider>

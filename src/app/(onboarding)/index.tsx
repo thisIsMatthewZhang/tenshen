@@ -19,7 +19,12 @@ export default function GetStarted() {
             title="Get Started"
             bgColor={MAIN_COLOR}
             textColor="black"
-            onPress={() => router.push({ pathname: "/yourname" })}
+            onPress={() =>
+              router.push({
+                pathname: "/yourname",
+                params: { screenName: "What's your name?" },
+              })
+            }
             style={BIG_GOLDEN_BUTTON.pressable}
             textStyle={{ fontSize: 20, fontWeight: 700 }}
           />
