@@ -1,4 +1,5 @@
 import { PATTERN } from "@/src/constants/theme";
+import React from "react";
 import {
   ColorValue,
   Pressable,
@@ -31,6 +32,7 @@ export default function AppButton({
     paddingHorizontal: 12,
     paddingVertical: 8,
   };
+  let clicked = false;
 
   return (
     <Pressable
@@ -44,7 +46,12 @@ export default function AppButton({
           style,
         ];
       }}
-      onPress={onPress}
+      onPress={() => {
+        if (clicked) return;
+        clicked = true;
+        onPress();
+        setTimeout(() => (clicked = false), 1000);
+      }}
     >
       <View style={PATTERN.center}>
         <Text
