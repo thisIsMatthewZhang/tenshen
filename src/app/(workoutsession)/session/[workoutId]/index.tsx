@@ -1,3 +1,4 @@
+import Stopwatch from "@/src/components/Stopwatch";
 import { ICON_SIZE, MAIN_COLOR, PATTERN } from "@/src/constants/theme";
 import { WorkoutsContext } from "@/src/contexts/WorkoutsContext";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -29,15 +30,8 @@ export default function WorkoutSession() {
     <SafeAreaProvider>
       <SafeAreaView style={PATTERN.container}>
         <View style={styles.topContainer}>
-          <View style={styles.workoutDuration}>
-            <Text
-              style={[
-                PATTERN.smallText,
-                { color: MAIN_COLOR, fontWeight: "bold" },
-              ]}
-            >
-              12:21
-            </Text>
+          <View style={styles.workoutStopwatch}>
+            <Stopwatch />
           </View>
           <View style={styles.partnerContainer}></View>
         </View>
@@ -161,7 +155,7 @@ const styles = StyleSheet.create({
     paddingTop: 24,
     paddingHorizontal: 24,
   },
-  workoutDuration: { alignSelf: "flex-start" },
+  workoutStopwatch: { alignSelf: "flex-start" },
   partnerContainer: {},
   bottomContainer: {
     flex: 1,
