@@ -1,19 +1,22 @@
 import { PATTERN } from "@/src/constants/theme";
+import React from "react";
 import {
   ColorValue,
   Pressable,
   StyleProp,
   Text,
+  TextStyle,
   View,
   ViewStyle,
 } from "react-native";
 
-interface ButtonProps {
+export interface ButtonProps {
   title: string;
   bgColor: ColorValue;
   textColor: ColorValue;
   onPress: () => void;
   style?: StyleProp<ViewStyle>;
+  textStyle?: StyleProp<TextStyle>;
 }
 
 export default function AppButton({
@@ -22,12 +25,14 @@ export default function AppButton({
   textColor,
   onPress,
   style,
+  textStyle,
 }: ButtonProps) {
   const buttonStyles = {
     borderRadius: 10,
     paddingHorizontal: 12,
     paddingVertical: 8,
   };
+  let clicked = false;
 
   return (
     <Pressable
@@ -41,11 +46,20 @@ export default function AppButton({
           style,
         ];
       }}
-      onPress={onPress}
+      onPress={() => {
+        if (clicked) return;
+        clicked = true;
+        onPress();
+        setTimeout(() => (clicked = false), 1000);
+      }}
     >
       <View style={PATTERN.center}>
         <Text
-          style={[PATTERN.smallText, { color: textColor, fontWeight: "bold" }]}
+          style={[
+            PATTERN.smallText,
+            { color: textColor, fontWeight: "bold" },
+            textStyle,
+          ]}
         >
           {title}
         </Text>

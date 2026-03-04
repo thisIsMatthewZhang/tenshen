@@ -1,8 +1,14 @@
-import { MAIN_COLOR, PATTERN, TEXT_INPUT } from "@/src/constants/theme";
+import AppButton from "@/src/components/AppButton";
+import BackButton from "@/src/components/BackButton";
+import {
+  BIG_GOLDEN_BUTTON,
+  MAIN_COLOR,
+  PATTERN,
+  TEXT_INPUT,
+} from "@/src/constants/theme";
 import { useRouter } from "expo-router";
 import { useEffect, useMemo, useState } from "react";
-import { Animated, Keyboard, Text, TextInput } from "react-native";
-import OnboardingButton from "../../../components/OnboardingButton";
+import { Animated, Keyboard, Text, TextInput, View } from "react-native";
 
 export default function YourName() {
   const router = useRouter();
@@ -106,20 +112,44 @@ export default function YourName() {
         onChangeText={(text) => setPreferredName(text)}
       />
       <Text style={{ color: MAIN_COLOR }}> {error} </Text>
-      <OnboardingButton
-        buttonText="Next"
-        router={() => {
-          if (!firstName || !lastName || !preferredName) {
-            setError("Please give your full name and preferred name");
-          } else {
-            setError("");
-            router.push({
-              pathname: "/pickworkoutbuddy",
-              params: { firstName, lastName, preferredName },
-            });
-          }
+      <View
+        style={{
+          width: "100%",
+          flexDirection: "row",
+          justifyContent: "space-evenly",
+          paddingHorizontal: 20,
         }}
-      ></OnboardingButton>
+      >
+        <BackButton
+          bgColor={MAIN_COLOR}
+          textColor="black"
+          style={[BIG_GOLDEN_BUTTON.pressable, { width: "25%" }]}
+          textStyle={BIG_GOLDEN_BUTTON.text}
+        />
+        <AppButton
+          title="Next"
+          bgColor={MAIN_COLOR}
+          textColor="black"
+          onPress={() => {
+            if (!firstName || !lastName || !preferredName) {
+              setError("Please give your full name and preferred name");
+            } else {
+              setError("");
+              router.push({
+                pathname: "/pickworkoutbuddy",
+                params: {
+                  firstName,
+                  lastName,
+                  preferredName,
+                  screenName: "Pick your workout buddy",
+                },
+              });
+            }
+          }}
+          style={[BIG_GOLDEN_BUTTON.pressable, { width: "60%" }]}
+          textStyle={{ fontSize: 20, fontWeight: 700 }}
+        />
+      </View>
     </Animated.View>
   );
 }
