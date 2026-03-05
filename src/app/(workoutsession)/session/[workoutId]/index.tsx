@@ -30,9 +30,7 @@ export default function WorkoutSession() {
     <SafeAreaProvider>
       <SafeAreaView style={PATTERN.container}>
         <View style={styles.topContainer}>
-          <View style={styles.workoutStopwatch}>
-            <Stopwatch />
-          </View>
+          <Stopwatch />
           <View style={styles.partnerContainer}></View>
         </View>
         <View style={PATTERN.separator} />
@@ -155,7 +153,6 @@ const styles = StyleSheet.create({
     paddingTop: 24,
     paddingHorizontal: 24,
   },
-  workoutStopwatch: { alignSelf: "flex-start" },
   partnerContainer: {},
   bottomContainer: {
     flex: 1,
