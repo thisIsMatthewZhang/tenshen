@@ -1,8 +1,7 @@
 import { useEffect } from "react";
-// IIFE that invokes on every render due to setStopwatch;
 // setTimeout caused erratic behavior with the time changes (uses an internal clock to schedule callbacks);
 // workaround: use 'performance.now()' to explicitly calculate elapsed time
-export function usePreciseTimer(
+export function usePreciseInterval(
   callback: () => void,
   delay: number,
   ...args: never[]

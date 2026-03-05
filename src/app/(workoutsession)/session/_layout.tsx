@@ -1,6 +1,6 @@
 import { APP_BACKGROUND_COLOR } from "@/src/constants/theme";
 import { StopwatchContext } from "@/src/contexts/StopwatchContext";
-import { usePreciseTimer } from "@/src/hooks/usePreciseTimer";
+import { usePreciseInterval } from "@/src/hooks/usePreciseTimer";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { useState } from "react";
 
@@ -20,7 +20,7 @@ export default function SessionLayout() {
     });
   };
 
-  usePreciseTimer(callback, 1000);
+  usePreciseInterval(callback, 1000);
   return (
     <StopwatchContext.Provider value={[stopwatch, setStopwatch]}>
       <Stack
