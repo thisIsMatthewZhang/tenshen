@@ -1,3 +1,4 @@
+import AppButton from "@/src/components/AppButton";
 import Stopwatch from "@/src/components/Stopwatch";
 import { ICON_SIZE, MAIN_COLOR, PATTERN } from "@/src/constants/theme";
 import { WorkoutsContext } from "@/src/contexts/WorkoutsContext";
@@ -23,8 +24,10 @@ export default function WorkoutSession() {
   const currentExerciseIndex = parseInt(params.exerciseIndex);
   const currentExercise = currentWorkoutExercises[currentExerciseIndex];
   const currentExerciseSetNumber = parseInt(params.setIndex);
+  const exerciseIsEmpty = currentExercise.sets.length === 0 ? true : false;
   const isFirstSetAndFirstExercise =
     currentExerciseIndex === 0 && currentExerciseSetNumber === 1;
+  const onLastSet = currentExerciseSetNumber === currentExercise.sets.length;
 
   return (
     <SafeAreaProvider>
@@ -42,7 +45,10 @@ export default function WorkoutSession() {
 
             <View style={styles.setCountContainer}>
               <Text style={PATTERN.mediumText}>
-                Set {currentExerciseSetNumber}/{currentExercise.sets.length}
+                Set {currentExerciseSetNumber}/
+                {currentExercise.sets.length
+                  ? currentExercise.sets.length
+                  : "?"}
               </Text>
             </View>
           </View>
@@ -76,10 +82,16 @@ export default function WorkoutSession() {
                   maxLength={4}
                   keyboardType="decimal-pad"
                   aria-label="Weight"
-                  style={[PATTERN.bigText, { color: "black" }]}
-                  placeholder="0"
-                  placeholderTextColor="white"
-                  value={""}
+                  style={PATTERN.bigText}
+                  value={
+                    exerciseIsEmpty
+                      ? "-"
+                      : currentExercise.sets[currentExerciseSetNumber - 1]
+                            .weight
+                        ? currentExercise.sets[currentExerciseSetNumber - 1]
+                            .weight
+                        : "-"
+                  }
                   onChangeText={(text) => {}}
                 />
               </View>
@@ -89,10 +101,15 @@ export default function WorkoutSession() {
                   maxLength={4}
                   keyboardType="decimal-pad"
                   aria-label="Reps"
-                  style={[PATTERN.bigText, { color: "black" }]}
-                  placeholder="0"
-                  placeholderTextColor="white"
-                  value={""}
+                  style={PATTERN.bigText}
+                  value={
+                    exerciseIsEmpty
+                      ? "-"
+                      : currentExercise.sets[currentExerciseSetNumber - 1].reps
+                        ? currentExercise.sets[currentExerciseSetNumber - 1]
+                            .reps
+                        : "-"
+                  }
                   onChangeText={(text) => {}}
                 />
               </View>
@@ -120,8 +137,6 @@ export default function WorkoutSession() {
                     .sets.length
               }
               onPress={() => {
-                const onLastSet =
-                  currentExerciseSetNumber === currentExercise.sets.length;
                 router.push({
                   pathname: "/session/[workoutId]",
                   params: {
@@ -140,6 +155,27 @@ export default function WorkoutSession() {
               <Ionicons name="play-sharp" size={ICON_SIZE + 8} />
             </Pressable>
           </View>
+          {!currentExercise.sets.length ? (
+            <AppButton
+              title="Next Exercise"
+              bgColor={MAIN_COLOR}
+              textColor="black"
+              onPress={() => {
+                router.push({
+                  pathname: "/session/[workoutId]",
+                  params: {
+                    workoutId: params.workoutId,
+                    workoutName: params.workoutName,
+                    exerciseIndex: (currentExerciseIndex + 1).toString(),
+                    setIndex: "1",
+                  },
+                });
+              }}
+              style={{ marginTop: 16 }}
+            />
+          ) : (
+            <></>
+          )}
         </View>
       </SafeAreaView>
     </SafeAreaProvider>

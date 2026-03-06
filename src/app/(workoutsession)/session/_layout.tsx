@@ -1,16 +1,17 @@
 import { APP_BACKGROUND_COLOR } from "@/src/constants/theme";
 import { StopwatchContext } from "@/src/contexts/StopwatchContext";
-import { usePreciseInterval } from "@/src/hooks/usePreciseTimer";
+import { usePreciseInterval } from "@/src/hooks/usePreciseInterval";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { useState } from "react";
 
 export default function SessionLayout() {
   const params = useLocalSearchParams<{
+    workoutId: string;
     workoutName: string;
   }>();
   const [stopwatch, setStopwatch] = useState({ hr: 0, min: 0, sec: 0 });
 
-  const callback = () => {
+  usePreciseInterval(() => {
     setStopwatch((prev) => {
       return {
         sec: prev.sec < 59 ? prev.sec + 1 : 0,
@@ -18,9 +19,7 @@ export default function SessionLayout() {
         hr: prev.min === 59 && prev.sec === 59 ? prev.hr + 1 : prev.hr,
       };
     });
-  };
-
-  usePreciseInterval(callback, 1000);
+  }, 1000);
   return (
     <StopwatchContext.Provider value={[stopwatch, setStopwatch]}>
       <Stack

@@ -25,9 +25,6 @@ export default function WorkoutOverviewCard({
         >
           {name}
         </Text>
-        {/* <Text style={[PATTERN.smallText, styles.timer]}>
-          Rest Timer: 3m 20s
-        </Text> */}
       </View>
       <View
         style={[

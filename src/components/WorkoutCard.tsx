@@ -104,6 +104,7 @@ export default function WorkoutCard({
               textColor="white"
               onPress={() => {
                 setShowWorkoutOverview(false);
+
                 // in this moment, 'workoutName' would be passed as a *query parameter* (/workout/session/workoutId/exerciseIndex?workoutName=workoutName)
                 router.navigate({
                   pathname: "/session/[workoutId]",

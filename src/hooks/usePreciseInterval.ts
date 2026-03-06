@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 // setTimeout caused erratic behavior with the time changes (uses an internal clock to schedule callbacks);
 // workaround: use 'performance.now()' to explicitly calculate elapsed time
+// Check this link for better implementations: https://sqlpey.com/javascript/javascript-timer-accuracy-drift-fix/
 export function usePreciseInterval(
   callback: () => void,
   delay: number,

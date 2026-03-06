@@ -23,7 +23,6 @@ export default function WorkoutBuilder({
     useState<boolean>(false);
   const [workouts, setWorkouts] = useContext(WorkoutsContext);
   return (
-    // <ExerciseContext.Provider value={[exercises, setExercises]}>
     <ReusableModal
       showModal={showModal}
       setShowModal={() => setShowModal(!showModal)}
@@ -114,7 +113,6 @@ export default function WorkoutBuilder({
         <></>
       )}
     </ReusableModal>
-    // </ExerciseContext.Provider>
   );
 }
 
