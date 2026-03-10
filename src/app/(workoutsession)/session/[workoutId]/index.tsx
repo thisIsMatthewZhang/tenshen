@@ -1,15 +1,25 @@
 import AppButton from "@/src/components/AppButton";
+import ReusableModal from "@/src/components/ReusableModal";
 import Stopwatch from "@/src/components/Stopwatch";
-import { ICON_SIZE, MAIN_COLOR, PATTERN } from "@/src/constants/theme";
+import {
+  APP_BACKGROUND_COLOR,
+  BLUE_LIGHTER,
+  ICON_SIZE,
+  MAIN_COLOR,
+  PATTERN,
+} from "@/src/constants/theme";
 import { WorkoutsContext } from "@/src/contexts/WorkoutsContext";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
+// workout.exercises -> 0-based index
+// currentExercise.sets -> 1-based index
 export default function WorkoutSession() {
   const [workouts, setWorkouts] = useContext(WorkoutsContext);
+  const [showPopup, setShowPopup] = useState<boolean>(false);
   const router = useRouter();
   const params = useLocalSearchParams<{
     workoutId: string;
@@ -18,7 +28,7 @@ export default function WorkoutSession() {
     setIndex: string;
   }>();
   const currentWorkout = workouts.find(
-    (workout) => workout.id === params.workoutId,
+    (workout) => workout.id === params.workoutId, // currently, this executes every screen render - optimize with only one execution
   )!;
   const currentWorkoutExercises = currentWorkout.exercises;
   const currentExerciseIndex = parseInt(params.exerciseIndex);
@@ -27,13 +37,57 @@ export default function WorkoutSession() {
   const exerciseIsEmpty = currentExercise.sets.length === 0 ? true : false;
   const isFirstSetAndFirstExercise =
     currentExerciseIndex === 0 && currentExerciseSetNumber === 1;
-  const onLastSet = currentExerciseSetNumber === currentExercise.sets.length;
+  const isLastExerciseSet =
+    currentExerciseSetNumber === currentExercise.sets.length;
+  const isLastExerciseAndSet =
+    currentExerciseIndex === currentWorkoutExercises.length - 1 &&
+    (currentExerciseSetNumber === currentWorkoutExercises[-1].sets.length ||
+      exerciseIsEmpty);
 
   return (
     <SafeAreaProvider>
       <SafeAreaView style={PATTERN.container}>
+        <ReusableModal
+          showModal={showPopup}
+          setShowModal={setShowPopup}
+          modalProps={{ animationType: "fade", allowSwipeDismissal: false }}
+        >
+          <View style={styles.modalBgView}>
+            <View style={styles.modalInnerView}>
+              <Text style={PATTERN.smallText}>
+                Do you want to end your workout?
+              </Text>
+              <View style={styles.btnOptions}>
+                <AppButton
+                  title="Cancel"
+                  bgColor="red"
+                  textColor="black"
+                  onPress={() => {}}
+                  textStyle={{ fontWeight: "bold" }}
+                />
+                <AppButton
+                  title="Confirm"
+                  bgColor={BLUE_LIGHTER}
+                  textColor="white"
+                  onPress={() => {}}
+                  textStyle={{ fontWeight: "bold" }}
+                />
+              </View>
+            </View>
+          </View>
+        </ReusableModal>
         <View style={styles.topContainer}>
-          <Stopwatch />
+          <View style={styles.stopwatchAndEnd}>
+            <Stopwatch />
+            <AppButton
+              title="Finish Workout"
+              bgColor={MAIN_COLOR}
+              textColor="black"
+              onPress={() => {
+                setShowPopup(true);
+              }}
+            />
+          </View>
           <View style={styles.partnerContainer}></View>
         </View>
         <View style={PATTERN.separator} />
@@ -142,10 +196,10 @@ export default function WorkoutSession() {
                   params: {
                     workoutId: params.workoutId,
                     workoutName: params.workoutName,
-                    exerciseIndex: !onLastSet
+                    exerciseIndex: !isLastExerciseSet
                       ? currentExerciseIndex.toString()
                       : (currentExerciseIndex + 1).toString(),
-                    setIndex: onLastSet
+                    setIndex: isLastExerciseSet
                       ? "1"
                       : (currentExerciseSetNumber + 1).toString(),
                   },
@@ -189,6 +243,26 @@ const styles = StyleSheet.create({
     paddingTop: 24,
     paddingHorizontal: 24,
   },
+  stopwatchAndEnd: {
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: 12,
+  },
+  modalBgView: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: APP_BACKGROUND_COLOR,
+    opacity: 0.95,
+  },
+  modalInnerView: {
+    width: "75%",
+    height: 250,
+    backgroundColor: "black",
+    paddingVertical: 12,
+  },
+  btnOptions: { flexDirection: "row" },
   partnerContainer: {},
   bottomContainer: {
     flex: 1,
