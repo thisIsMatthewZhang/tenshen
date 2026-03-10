@@ -1,5 +1,5 @@
 import { ComponentPropsWithoutRef, PropsWithChildren } from "react";
-import { Modal, StyleSheet, View } from "react-native";
+import { Modal, StyleSheet } from "react-native";
 import { APP_BACKGROUND_COLOR } from "../constants/theme";
 
 export interface ReusableModalProps {
@@ -19,7 +19,8 @@ export default function ReusableModal(
       onRequestClose={() => props.setShowModal(!props.showModal)}
       {...props.modalProps}
     >
-      <View style={styles.container}>{props.children}</View>
+      {/* <View style={styles.container}>{props.children}</View> */}
+      {props.children}
     </Modal>
   );
 }

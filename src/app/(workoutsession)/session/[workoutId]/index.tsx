@@ -50,7 +50,11 @@ export default function WorkoutSession() {
         <ReusableModal
           showModal={showPopup}
           setShowModal={setShowPopup}
-          modalProps={{ animationType: "fade", allowSwipeDismissal: false }}
+          modalProps={{
+            animationType: "fade",
+            allowSwipeDismissal: false,
+            transparent: true,
+          }}
         >
           <View style={styles.modalBgView}>
             <View style={styles.modalInnerView}>
@@ -62,15 +66,31 @@ export default function WorkoutSession() {
                   title="Cancel"
                   bgColor="red"
                   textColor="black"
-                  onPress={() => {}}
+                  onPress={() => {
+                    setShowPopup(false);
+                  }}
                   textStyle={{ fontWeight: "bold" }}
+                  style={{
+                    width: "50%",
+                    borderRadius: 0,
+                    borderBottomStartRadius: 20,
+                  }}
                 />
                 <AppButton
                   title="Confirm"
                   bgColor={BLUE_LIGHTER}
                   textColor="white"
-                  onPress={() => {}}
+                  onPress={() => {
+                    // record completed data to pass to completion screen
+                    // let completed = {exercises: '', sets: '', time: '', streak: 0};
+                    // router.navigate({pathname: '/session/[workoutId]/workoutComplete', params: {}});
+                  }}
                   textStyle={{ fontWeight: "bold" }}
+                  style={{
+                    width: "50%",
+                    borderRadius: 0,
+                    borderBottomEndRadius: 20,
+                  }}
                 />
               </View>
             </View>
@@ -258,11 +278,14 @@ const styles = StyleSheet.create({
   },
   modalInnerView: {
     width: "75%",
-    height: 250,
+    height: 125,
+    alignItems: "center",
+    justifyContent: "space-between",
     backgroundColor: "black",
-    paddingVertical: 12,
+    borderRadius: 20,
+    paddingTop: 20,
   },
-  btnOptions: { flexDirection: "row" },
+  btnOptions: { width: "100%", flexDirection: "row" },
   partnerContainer: {},
   bottomContainer: {
     flex: 1,
