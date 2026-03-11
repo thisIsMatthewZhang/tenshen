@@ -87,57 +87,59 @@ export default function WorkoutCard({
           showModal={showWorkoutOverview}
           setShowModal={setShowWorkoutOverview}
         >
-          <View style={styles.headerContainer}>
-            <AppButton
-              title="Cancel"
-              bgColor="red"
-              textColor="black"
-              onPress={() => {
-                setShowWorkoutOverview(false);
-              }}
-              style={{ margin: 8 }}
-            />
-            <Text style={[PATTERN.mediumText, { fontWeight: "bold" }]}>
-              Here&apos;s your workout
-            </Text>
-            <AppButton
-              title="Start 👍"
-              bgColor={BLUE_LIGHTER}
-              textColor="white"
-              onPress={() => {
-                setShowWorkoutOverview(false);
+          <View style={[PATTERN.container, { paddingHorizontal: 12 }]}>
+            <View style={styles.headerContainer}>
+              <AppButton
+                title="Cancel"
+                bgColor="red"
+                textColor="black"
+                onPress={() => {
+                  setShowWorkoutOverview(false);
+                }}
+                style={{ margin: 8 }}
+              />
+              <Text style={[PATTERN.mediumText, { fontWeight: "bold" }]}>
+                Here&apos;s your workout
+              </Text>
+              <AppButton
+                title="Start 👍"
+                bgColor={BLUE_LIGHTER}
+                textColor="white"
+                onPress={() => {
+                  setShowWorkoutOverview(false);
 
-                // in this moment, 'workoutName' would be passed as a *query parameter* (/workout/session/workoutId/exerciseIndex?workoutName=workoutName)
-                router.navigate({
-                  pathname: "/session/[workoutId]",
-                  params: {
-                    workoutId: id,
-                    workoutName: workoutName,
-                    exerciseIndex: "0",
-                    setIndex: "1",
-                  },
-                });
-              }}
-              style={{ margin: 8 }}
+                  // in this moment, 'workoutName' would be passed as a *query parameter* (/workout/session/workoutId/exerciseIndex?workoutName=workoutName)
+                  router.navigate({
+                    pathname: "/session/[workoutId]",
+                    params: {
+                      workoutId: id,
+                      workoutName: workoutName,
+                      exerciseIndex: "0",
+                      setIndex: "1",
+                    },
+                  });
+                }}
+                style={{ margin: 8 }}
+              />
+            </View>
+            <FlatList
+              data={exercises}
+              renderItem={({ item }) => (
+                <View style={styles.overviewSection}>
+                  <WorkoutOverviewCard
+                    id={item.id}
+                    name={item.name}
+                    muscleGroup={item.muscleGroup}
+                    isSelected
+                    sets={item.sets}
+                  />
+                  {/* Place avatar here... */}
+                  {/* <Image source={ruby} style={{ width: 150, height: 150 }} /> */}
+                </View>
+              )}
+              showsVerticalScrollIndicator={false}
             />
           </View>
-          <FlatList
-            data={exercises}
-            renderItem={({ item }) => (
-              <View style={styles.overviewSection}>
-                <WorkoutOverviewCard
-                  id={item.id}
-                  name={item.name}
-                  muscleGroup={item.muscleGroup}
-                  isSelected
-                  sets={item.sets}
-                />
-                {/* Place avatar here... */}
-                {/* <Image source={ruby} style={{ width: 150, height: 150 }} /> */}
-              </View>
-            )}
-            showsVerticalScrollIndicator={false}
-          />
         </ReusableModal>
       ) : (
         <></>

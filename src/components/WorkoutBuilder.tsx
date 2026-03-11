@@ -28,94 +28,96 @@ export default function WorkoutBuilder({
       showModal={showModal}
       setShowModal={() => setShowModal(!showModal)}
     >
-      <View style={styles.headerContainer}>
-        <View style={styles.topButtons}>
-          <AppButton
-            title="Cancel"
-            bgColor="red"
-            textColor="black"
-            onPress={() => {
-              setExercises([]);
-              setShowModal(!showModal);
-              setWorkoutName("");
-            }}
-            style={{ margin: 8 }}
+      <View style={PATTERN.container}>
+        <View style={styles.headerContainer}>
+          <View style={styles.topButtons}>
+            <AppButton
+              title="Cancel"
+              bgColor="red"
+              textColor="black"
+              onPress={() => {
+                setExercises([]);
+                setShowModal(!showModal);
+                setWorkoutName("");
+              }}
+              style={{ margin: 8 }}
+            />
+            <AppButton
+              title="Done 👍"
+              bgColor={BLUE_LIGHTER}
+              textColor="white"
+              onPress={() => {
+                setExercises([]);
+                setShowModal(!showModal);
+                setWorkoutName("");
+                setWorkouts([
+                  {
+                    id: uuid.v4(),
+                    workoutName: workoutName,
+                    exercises: exercises,
+                  },
+                  ...workouts,
+                ]);
+              }}
+              style={{ margin: 8 }}
+              pressableProps={{
+                disabled: !exercises.every((ex) => ex.sets.length),
+              }}
+            />
+          </View>
+          <TextInput
+            style={styles.input}
+            placeholder="Workout Name"
+            placeholderTextColor={"white"}
+            maxLength={MAX_INPUT_LENGTH}
+            value={workoutName}
+            onChangeText={(text) => setWorkoutName(text)}
           />
+        </View>
+        <ScrollView contentContainerStyle={styles.cardsContainer}>
+          {!exercises.length ? (
+            <View style={styles.emptyState}>
+              {/* <Image source={ruby} style={{ width: 25, height: 25 }} /> */}
+              <Text style={PATTERN.bigText}>
+                Ready to build a workout routine? Let&apos;s get started!
+              </Text>
+            </View>
+          ) : (
+            exercises.map((item) => {
+              return (
+                <ExerciseCard
+                  key={item.id}
+                  id={item.id}
+                  name={item.name}
+                  muscleGroup={item.muscleGroup}
+                  isSelected
+                  sets={item.sets}
+                />
+              );
+            })
+          )}
+        </ScrollView>
+        <View style={styles.footerContainer}>
           <AppButton
-            title="Done 👍"
+            title="Add Exercise +"
             bgColor={BLUE_LIGHTER}
             textColor="white"
             onPress={() => {
-              setExercises([]);
-              setShowModal(!showModal);
-              setWorkoutName("");
-              setWorkouts([
-                {
-                  id: uuid.v4(),
-                  workoutName: workoutName,
-                  exercises: exercises,
-                },
-                ...workouts,
-              ]);
+              setShowSearchExerciseModal(!showSearchExerciseModal);
             }}
-            style={{ margin: 8 }}
-            pressableProps={{
-              disabled: !exercises.every((ex) => ex.sets.length),
-            }}
+            style={{ width: "90%", margin: 8 }}
           />
         </View>
-        <TextInput
-          style={styles.input}
-          placeholder="Workout Name"
-          placeholderTextColor={"white"}
-          maxLength={MAX_INPUT_LENGTH}
-          value={workoutName}
-          onChangeText={(text) => setWorkoutName(text)}
-        />
-      </View>
-      <ScrollView contentContainerStyle={styles.cardsContainer}>
-        {!exercises.length ? (
-          <View style={styles.emptyState}>
-            {/* <Image source={ruby} style={{ width: 25, height: 25 }} /> */}
-            <Text style={PATTERN.bigText}>
-              Ready to build a workout routine? Let&apos;s get started!
-            </Text>
-          </View>
+        {showSearchExerciseModal ? (
+          <SearchFilterModal
+            data={data}
+            showModal={showSearchExerciseModal}
+            setShowModal={setShowSearchExerciseModal}
+          />
         ) : (
-          exercises.map((item) => {
-            return (
-              <ExerciseCard
-                key={item.id}
-                id={item.id}
-                name={item.name}
-                muscleGroup={item.muscleGroup}
-                isSelected
-                sets={item.sets}
-              />
-            );
-          })
+          <></>
         )}
-      </ScrollView>
-      <View style={styles.footerContainer}>
-        <AppButton
-          title="Add Exercise +"
-          bgColor={BLUE_LIGHTER}
-          textColor="white"
-          onPress={() => {
-            setShowSearchExerciseModal(!showSearchExerciseModal);
-          }}
-          style={{ width: "90%", margin: 8 }}
-        />
       </View>
-      {showSearchExerciseModal ? (
-        <SearchFilterModal
-          data={data}
-          showModal={showSearchExerciseModal}
-          setShowModal={setShowSearchExerciseModal}
-        />
-      ) : (
-        <></>
-      )}
     </ReusableModal>
   );
 }

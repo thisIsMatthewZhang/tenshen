@@ -1,7 +1,6 @@
 import AppButton from "@/src/components/AppButton";
 import ExercisePhoto from "@/src/components/ExercisePhoto";
 import {
-  APP_BACKGROUND_COLOR,
   BLUE_LIGHTER,
   ICON_SIZE,
   MAIN_COLOR,
@@ -37,33 +36,37 @@ export default function SearchFilterModal({
       showModal={showModal}
       setShowModal={() => setShowModal(!showModal)}
     >
-      <View style={styles.headerContainer}>
-        <AppButton
-          title="Cancel"
-          onPress={() => {
-            for (let data of filteredData) {
-              data.isSelected = false;
-            }
-            setShowModal(!showModal);
-          }}
-          bgColor={"red"}
-          textColor={"black"}
-          style={{ margin: 8 }}
-        />
-        <Text style={[PATTERN.smallText, { fontWeight: "bold" }]}>
-          Add Exercise
-        </Text>
-        <AppButton
-          title="Cancel"
-          onPress={() => setShowModal(!showModal)}
-          bgColor={"red"}
-          textColor={"black"}
-          style={{ margin: 8 }}
-        />
-      </View>
-      <View style={styles.searchFilterContainer}>
-        <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-        {/* <View style={styles.buttonsContainer}>
+      <View style={[PATTERN.container, { paddingHorizontal: 12 }]}>
+        <View style={styles.headerContainer}>
+          <AppButton
+            title="Cancel"
+            onPress={() => {
+              for (let data of filteredData) {
+                data.isSelected = false;
+              }
+              setShowModal(!showModal);
+            }}
+            bgColor={"red"}
+            textColor={"black"}
+            style={{ margin: 8 }}
+          />
+          <Text style={[PATTERN.smallText, { fontWeight: "bold" }]}>
+            Add Exercise
+          </Text>
+          <AppButton
+            title="Cancel"
+            onPress={() => setShowModal(!showModal)}
+            bgColor={"red"}
+            textColor={"black"}
+            style={{ margin: 8 }}
+          />
+        </View>
+        <View style={styles.searchFilterContainer}>
+          <SearchBar
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+          />
+          {/* <View style={styles.buttonsContainer}>
           <Button
             title="Equipment"
             bgColor={BLUE_LIGHTER}
@@ -79,75 +82,77 @@ export default function SearchFilterModal({
             width={"45%"}
           />
         </View> */}
-      </View>
-      <FlatList
-        data={filteredData}
-        renderItem={({ item }) => {
-          return (
-            <Pressable
-              key={item.id}
-              style={({ pressed }) => {
-                return [
-                  styles.data,
-                  {
-                    backgroundColor:
-                      pressed || item.isSelected
-                        ? "rgba(255, 255, 255, 0.1)"
-                        : undefined,
-                  },
-                ];
-              }}
-              onPress={() => {
-                setSelectedItems(
-                  !item.isSelected
-                    ? [...selectedItems, item]
-                    : selectedItems.filter((curItem) => curItem.id !== item.id),
-                );
-                item.isSelected = !item.isSelected;
-              }}
-            >
-              {item.isSelected ? (
-                <Ionicons
-                  name="checkbox-sharp"
-                  size={ICON_SIZE}
-                  color={BLUE_LIGHTER}
-                />
-              ) : (
-                <></>
-              )}
-              <ExercisePhoto />
-              <View style={{ marginLeft: 12 }}>
-                <Text style={PATTERN.smallText}>{item.name}</Text>
-                <Text style={[PATTERN.smallText, { opacity: 0.5 }]}>
-                  {item.muscleGroup}
-                </Text>
-              </View>
-            </Pressable>
-          );
-        }}
-        style={styles.listContainer}
-        showsVerticalScrollIndicator={false}
-      />
-      {selectedItems.length > 0 ? (
-        <View style={styles.footerContainer}>
-          <AppButton
-            title={`Add ${selectedItems.length} Exercise(s)`}
-            bgColor={MAIN_COLOR}
-            textColor={"black"}
-            onPress={() => {
-              setShowModal(!showModal);
-              setExercises([...exercises, ...selectedItems]);
-              for (let data of filteredData) {
-                data.isSelected = false;
-              }
-            }}
-            style={{ width: "90%", margin: 8 }}
-          />
         </View>
-      ) : (
-        <></>
-      )}
-      {/* {showEquipmentModal ? (
+        <FlatList
+          data={filteredData}
+          renderItem={({ item }) => {
+            return (
+              <Pressable
+                key={item.id}
+                style={({ pressed }) => {
+                  return [
+                    styles.data,
+                    {
+                      backgroundColor:
+                        pressed || item.isSelected
+                          ? "rgba(255, 255, 255, 0.1)"
+                          : undefined,
+                    },
+                  ];
+                }}
+                onPress={() => {
+                  setSelectedItems(
+                    !item.isSelected
+                      ? [...selectedItems, item]
+                      : selectedItems.filter(
+                          (curItem) => curItem.id !== item.id,
+                        ),
+                  );
+                  item.isSelected = !item.isSelected;
+                }}
+              >
+                {item.isSelected ? (
+                  <Ionicons
+                    name="checkbox-sharp"
+                    size={ICON_SIZE}
+                    color={BLUE_LIGHTER}
+                  />
+                ) : (
+                  <></>
+                )}
+                <ExercisePhoto />
+                <View style={{ marginLeft: 12 }}>
+                  <Text style={PATTERN.smallText}>{item.name}</Text>
+                  <Text style={[PATTERN.smallText, { opacity: 0.5 }]}>
+                    {item.muscleGroup}
+                  </Text>
+                </View>
+              </Pressable>
+            );
+          }}
+          style={styles.listContainer}
+          showsVerticalScrollIndicator={false}
+        />
+        {selectedItems.length > 0 ? (
+          <View style={styles.footerContainer}>
+            <AppButton
+              title={`Add ${selectedItems.length} Exercise(s)`}
+              bgColor={MAIN_COLOR}
+              textColor={"black"}
+              onPress={() => {
+                setShowModal(!showModal);
+                setExercises([...exercises, ...selectedItems]);
+                for (let data of filteredData) {
+                  data.isSelected = false;
+                }
+              }}
+              style={{ width: "90%", margin: 8 }}
+            />
+          </View>
+        ) : (
+          <></>
+        )}
+        {/* {showEquipmentModal ? (
         <ReusableModal
           showModal={showEquipmentModal}
           setShowModal={setShowEquipmentModal}
@@ -191,16 +196,12 @@ export default function SearchFilterModal({
       ) : (
         <></>
       )} */}
+      </View>
     </ReusableModal>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: APP_BACKGROUND_COLOR,
-    paddingHorizontal: 12,
-  },
   headerContainer: {
     width: "100%",
     flexDirection: "row",
