@@ -1,5 +1,5 @@
 import { PATTERN } from "@/src/constants/theme";
-import React from "react";
+import React, { ComponentPropsWithoutRef } from "react";
 import {
   ColorValue,
   Pressable,
@@ -17,6 +17,7 @@ export interface ButtonProps {
   onPress: () => void;
   style?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
+  pressableProps?: ComponentPropsWithoutRef<typeof Pressable>;
 }
 
 export default function AppButton({
@@ -26,6 +27,7 @@ export default function AppButton({
   onPress,
   style,
   textStyle,
+  pressableProps,
 }: ButtonProps) {
   const buttonStyles = {
     borderRadius: 10,
@@ -52,6 +54,7 @@ export default function AppButton({
         onPress();
         setTimeout(() => (clicked = false), 1000);
       }}
+      {...pressableProps}
     >
       <View style={PATTERN.center}>
         <Text

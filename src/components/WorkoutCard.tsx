@@ -9,7 +9,7 @@ import {
 } from "@/src/constants/theme";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   Dimensions,
   FlatList,
@@ -18,6 +18,7 @@ import {
   Text,
   View,
 } from "react-native";
+import { WorkoutsContext } from "../contexts/WorkoutsContext";
 import { Exercise } from "../utils/exercises";
 import WorkoutCardOptions from "./WorkoutCardOptions";
 import WorkoutOverviewCard from "./WorkoutOverviewCard";
@@ -38,6 +39,7 @@ export default function WorkoutCard({
   >(BLUE_LIGHTER);
   const [showWorkoutOverview, setShowWorkoutOverview] =
     useState<boolean>(false);
+  const [workouts, setWorkouts] = useContext(WorkoutsContext);
   const router = useRouter();
 
   return (

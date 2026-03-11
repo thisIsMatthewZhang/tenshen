@@ -22,6 +22,7 @@ export default function WorkoutBuilder({
   const [showSearchExerciseModal, setShowSearchExerciseModal] =
     useState<boolean>(false);
   const [workouts, setWorkouts] = useContext(WorkoutsContext);
+
   return (
     <ReusableModal
       showModal={showModal}
@@ -58,6 +59,9 @@ export default function WorkoutBuilder({
               ]);
             }}
             style={{ margin: 8 }}
+            pressableProps={{
+              disabled: !exercises.every((ex) => ex.sets.length),
+            }}
           />
         </View>
         <TextInput

@@ -1,5 +1,6 @@
 import AppButton from "@/src/components/AppButton";
 import { BLUE_DARKER, MAIN_COLOR, PATTERN } from "@/src/constants/theme";
+import { useLocalSearchParams } from "expo-router";
 import { useMemo, useState } from "react";
 import {
   StyleProp,
@@ -65,6 +66,14 @@ export default function WorkoutComplete() {
     ];
   }, []);
   const [selectedId, setSelectedId] = useState<undefined | string>(undefined);
+  const params = useLocalSearchParams<{
+    workoutId: string;
+    workoutName: string;
+    exercisesCompleted: string;
+    setsCompleted: string;
+    time: string;
+    streak: string;
+  }>();
 
   return (
     <View style={[PATTERN.container, { justifyContent: "space-around" }]}>
@@ -88,10 +97,10 @@ export default function WorkoutComplete() {
         <View style={styles.summaryContainer}>
           <View style={styles.partnerContainer}></View>
           <View style={styles.blocksContainer}>
-            <Block value={5} category="Exercises" />
-            <Block value={12} category="Sets" />
-            <Block value={"1hr 29m"} category="Workout Time" />
-            <Block value={3} category="Streak🔥" />
+            <Block value={params.exercisesCompleted} category="Exercises" />
+            <Block value={params.setsCompleted} category="Sets" />
+            <Block value={params.time} category="Workout Time" />
+            <Block value={params.streak} category="Streak🔥" />
           </View>
         </View>
       </View>

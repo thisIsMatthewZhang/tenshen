@@ -8,6 +8,7 @@ import {
   MAIN_COLOR,
   PATTERN,
 } from "@/src/constants/theme";
+import { StopwatchContext } from "@/src/contexts/StopwatchContext";
 import { WorkoutsContext } from "@/src/contexts/WorkoutsContext";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -19,16 +20,18 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 // currentExercise.sets -> 1-based index
 export default function WorkoutSession() {
   const [workouts, setWorkouts] = useContext(WorkoutsContext);
+  const [stopwatch, setStopwatch] = useContext(StopwatchContext);
   const [showPopup, setShowPopup] = useState<boolean>(false);
   const router = useRouter();
   const params = useLocalSearchParams<{
     workoutId: string;
     workoutName: string;
     exerciseIndex: string;
+    maxVisitedIndex: string;
     setIndex: string;
   }>();
   const currentWorkout = workouts.find(
-    (workout) => workout.id === params.workoutId, // currently, this executes every screen render - optimize with only one execution
+    (workout) => workout.id === params.workoutId, // can't pass to WorkoutCard - local search params only accept string | string[] :/
   )!;
   const currentWorkoutExercises = currentWorkout.exercises;
   const currentExerciseIndex = parseInt(params.exerciseIndex);
@@ -39,10 +42,6 @@ export default function WorkoutSession() {
     currentExerciseIndex === 0 && currentExerciseSetNumber === 1;
   const isLastExerciseSet =
     currentExerciseSetNumber === currentExercise.sets.length;
-  const isLastExerciseAndSet =
-    currentExerciseIndex === currentWorkoutExercises.length - 1 &&
-    (currentExerciseSetNumber === currentWorkoutExercises[-1].sets.length ||
-      exerciseIsEmpty);
 
   return (
     <SafeAreaProvider>
@@ -82,8 +81,24 @@ export default function WorkoutSession() {
                   textColor="white"
                   onPress={() => {
                     // record completed data to pass to completion screen
-                    // let completed = {exercises: '', sets: '', time: '', streak: 0};
-                    // router.navigate({pathname: '/session/[workoutId]/workoutComplete', params: {}});
+                    setShowPopup(false);
+                    const time: `${number}hr ${number}m ${number}s` = `${stopwatch.hr}hr ${stopwatch.min}m ${stopwatch.sec}s`;
+                    const setsCompleted = currentWorkoutExercises.reduce(
+                      (acc, ex) => acc + ex.sets.length,
+                      0,
+                    );
+                    const completed = {
+                      workoutId: params.workoutId,
+                      workoutName: params.workoutName,
+                      exercisesCompleted: currentWorkoutExercises.length,
+                      setsCompleted: setsCompleted,
+                      time: time,
+                      streak: 4,
+                    };
+                    router.navigate({
+                      pathname: "/session/[workoutId]/workoutComplete",
+                      params: completed,
+                    });
                   }}
                   textStyle={{ fontWeight: "bold" }}
                   style={{
@@ -119,10 +134,7 @@ export default function WorkoutSession() {
 
             <View style={styles.setCountContainer}>
               <Text style={PATTERN.mediumText}>
-                Set {currentExerciseSetNumber}/
-                {currentExercise.sets.length
-                  ? currentExercise.sets.length
-                  : "?"}
+                Set {currentExerciseSetNumber}/{currentExercise.sets.length}
               </Text>
             </View>
           </View>
@@ -229,27 +241,6 @@ export default function WorkoutSession() {
               <Ionicons name="play-sharp" size={ICON_SIZE + 8} />
             </Pressable>
           </View>
-          {!currentExercise.sets.length ? (
-            <AppButton
-              title="Next Exercise"
-              bgColor={MAIN_COLOR}
-              textColor="black"
-              onPress={() => {
-                router.push({
-                  pathname: "/session/[workoutId]",
-                  params: {
-                    workoutId: params.workoutId,
-                    workoutName: params.workoutName,
-                    exerciseIndex: (currentExerciseIndex + 1).toString(),
-                    setIndex: "1",
-                  },
-                });
-              }}
-              style={{ marginTop: 16 }}
-            />
-          ) : (
-            <></>
-          )}
         </View>
       </SafeAreaView>
     </SafeAreaProvider>
