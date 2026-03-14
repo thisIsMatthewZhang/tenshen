@@ -124,14 +124,14 @@ export default function WorkoutComplete() {
             bgColor="red"
             textColor="black"
             onPress={() => {}}
-            style={{ flex: 1 }}
+            customStyle={{ flex: 1 }}
           />
           <AppButton
             title="Save Activity"
             bgColor={MAIN_COLOR}
             textColor="black"
             onPress={() => {}}
-            style={{ flex: 1, marginLeft: 12 }}
+            customStyle={{ flex: 1, marginLeft: 12 }}
           />
         </View>
       </View>

@@ -96,7 +96,7 @@ export default function WorkoutCard({
                 onPress={() => {
                   setShowWorkoutOverview(false);
                 }}
-                style={{ margin: 8 }}
+                customStyle={{ margin: 8 }}
               />
               <Text style={[PATTERN.mediumText, { fontWeight: "bold" }]}>
                 Here&apos;s your workout
@@ -119,7 +119,7 @@ export default function WorkoutCard({
                     },
                   });
                 }}
-                style={{ margin: 8 }}
+                customStyle={{ margin: 8 }}
               />
             </View>
             <FlatList

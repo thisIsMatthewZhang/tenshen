@@ -1,10 +1,10 @@
 import AppButton from "@/src/components/AppButton";
 import ExercisePhoto from "@/src/components/ExercisePhoto";
 import {
-  BLUE_LIGHTER,
-  ICON_SIZE,
-  MAIN_COLOR,
-  PATTERN,
+    BLUE_LIGHTER,
+    ICON_SIZE,
+    MAIN_COLOR,
+    PATTERN,
 } from "@/src/constants/theme";
 import { useSearchFilter } from "@/src/hooks/useSearchFilter";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -48,7 +48,7 @@ export default function SearchFilterModal({
             }}
             bgColor={"red"}
             textColor={"black"}
-            style={{ margin: 8 }}
+            customStyle={{ margin: 8 }}
           />
           <Text style={[PATTERN.smallText, { fontWeight: "bold" }]}>
             Add Exercise
@@ -58,7 +58,7 @@ export default function SearchFilterModal({
             onPress={() => setShowModal(!showModal)}
             bgColor={"red"}
             textColor={"black"}
-            style={{ margin: 8 }}
+            customStyle={{ margin: 8 }}
           />
         </View>
         <View style={styles.searchFilterContainer}>
@@ -146,7 +146,7 @@ export default function SearchFilterModal({
                   data.isSelected = false;
                 }
               }}
-              style={{ width: "90%", margin: 8 }}
+              customStyle={{ width: "90%", margin: 8 }}
             />
           </View>
         ) : (

@@ -25,7 +25,7 @@ export default function GetStarted() {
                 params: { screenName: "What's your name?" },
               })
             }
-            style={BIG_GOLDEN_BUTTON.pressable}
+            customStyle={BIG_GOLDEN_BUTTON.pressable}
             textStyle={{ fontSize: 20, fontWeight: 700 }}
           />
         </View>

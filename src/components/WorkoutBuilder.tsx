@@ -2,7 +2,12 @@ import ExerciseCard from "@/src/components/ExerciseCard";
 import ReusableModal, {
   ReusableModalProps,
 } from "@/src/components/ReusableModal";
-import { BLUE_LIGHTER, MAX_INPUT_LENGTH, PATTERN } from "@/src/constants/theme";
+import {
+  BLUE_DARKER,
+  BLUE_LIGHTER,
+  MAX_INPUT_LENGTH,
+  PATTERN,
+} from "@/src/constants/theme";
 import { useContext, useState } from "react";
 import { ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import uuid from "react-native-uuid";
@@ -42,7 +47,7 @@ export default function WorkoutBuilder({
                 setShowModal(!showModal);
                 setWorkoutName("");
               }}
-              style={{ margin: 8 }}
+              customStyle={{ margin: 8 }}
             />
             <AppButton
               title="Done 👍"
@@ -61,7 +66,13 @@ export default function WorkoutBuilder({
                   ...workouts,
                 ]);
               }}
-              style={{ opacity: disableDoneButton ? 0.5 : 1, margin: 8 }}
+              customStyle={({ pressed }) => {
+                return {
+                  backgroundColor: pressed ? BLUE_DARKER : BLUE_LIGHTER,
+                  opacity: disableDoneButton ? 0.5 : 1,
+                  margin: 8,
+                };
+              }}
               pressableProps={{
                 disabled: disableDoneButton,
               }}
@@ -107,7 +118,7 @@ export default function WorkoutBuilder({
             onPress={() => {
               setShowSearchExerciseModal(!showSearchExerciseModal);
             }}
-            style={{ width: "90%", margin: 8 }}
+            customStyle={{ width: "90%", margin: 8 }}
           />
         </View>
         {showSearchExerciseModal ? (

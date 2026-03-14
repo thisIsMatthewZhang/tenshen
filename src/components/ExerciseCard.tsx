@@ -317,7 +317,7 @@ export default function ExerciseCard({
                   ),
                 );
               }}
-              style={{ width: "90%", margin: 8 }}
+              customStyle={{ width: "90%", margin: 8 }}
             />
           </View>
         </View>

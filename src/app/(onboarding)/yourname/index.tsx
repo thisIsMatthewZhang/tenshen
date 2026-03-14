@@ -123,7 +123,7 @@ export default function YourName() {
         <BackButton
           bgColor={MAIN_COLOR}
           textColor="black"
-          style={[BIG_GOLDEN_BUTTON.pressable, { width: "25%" }]}
+          customStyle={[BIG_GOLDEN_BUTTON.pressable, { width: "25%" }]}
           textStyle={BIG_GOLDEN_BUTTON.text}
         />
         <AppButton
@@ -146,7 +146,7 @@ export default function YourName() {
               });
             }
           }}
-          style={[BIG_GOLDEN_BUTTON.pressable, { width: "60%" }]}
+          customStyle={[BIG_GOLDEN_BUTTON.pressable, { width: "60%" }]}
           textStyle={{ fontSize: 20, fontWeight: 700 }}
         />
       </View>

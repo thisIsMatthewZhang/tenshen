@@ -15,25 +15,28 @@ export interface ButtonProps {
   bgColor: ColorValue;
   textColor: ColorValue;
   onPress: () => void;
-  style?: StyleProp<ViewStyle>;
+  customStyle?:
+    | StyleProp<ViewStyle>
+    | ((state: { pressed: boolean }) => StyleProp<ViewStyle>);
   textStyle?: StyleProp<TextStyle>;
   pressableProps?: Omit<ComponentPropsWithoutRef<typeof Pressable>, "style">;
 }
+
+export const buttonStyles = {
+  borderRadius: 10,
+  paddingHorizontal: 12,
+  paddingVertical: 8,
+};
 
 export default function AppButton({
   title,
   bgColor,
   textColor,
   onPress,
-  style,
+  customStyle,
   textStyle,
   pressableProps,
 }: ButtonProps) {
-  const buttonStyles = {
-    borderRadius: 10,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-  };
   let clicked = false;
 
   return (
@@ -45,7 +48,9 @@ export default function AppButton({
             opacity: pressed ? 0.5 : 1,
             backgroundColor: bgColor,
           },
-          style,
+          typeof customStyle === "function"
+            ? customStyle({ pressed })
+            : customStyle,
         ];
       }}
       onPress={() => {

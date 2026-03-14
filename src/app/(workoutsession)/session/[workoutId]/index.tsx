@@ -69,7 +69,7 @@ export default function WorkoutSession() {
                     setShowPopup(false);
                   }}
                   textStyle={{ fontWeight: "bold" }}
-                  style={{
+                  customStyle={{
                     width: "50%",
                     borderRadius: 0,
                     borderBottomStartRadius: 20,
@@ -101,7 +101,7 @@ export default function WorkoutSession() {
                     });
                   }}
                   textStyle={{ fontWeight: "bold" }}
-                  style={{
+                  customStyle={{
                     width: "50%",
                     borderRadius: 0,
                     borderBottomEndRadius: 20,

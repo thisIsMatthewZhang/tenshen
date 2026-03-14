@@ -11,7 +11,7 @@ export default function BackButton(
       bgColor={props.bgColor}
       textColor={props.textColor}
       onPress={() => router.back()}
-      style={props.style}
+      customStyle={props.customStyle}
       textStyle={props.textStyle}
     />
   );
