@@ -17,7 +17,7 @@ export interface ButtonProps {
   onPress: () => void;
   style?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
-  pressableProps?: ComponentPropsWithoutRef<typeof Pressable>;
+  pressableProps?: Omit<ComponentPropsWithoutRef<typeof Pressable>, "style">;
 }
 
 export default function AppButton({

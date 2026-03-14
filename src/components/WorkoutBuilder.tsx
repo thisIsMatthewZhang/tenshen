@@ -22,6 +22,8 @@ export default function WorkoutBuilder({
   const [showSearchExerciseModal, setShowSearchExerciseModal] =
     useState<boolean>(false);
   const [workouts, setWorkouts] = useContext(WorkoutsContext);
+  let disableDoneButton =
+    !exercises.every((ex) => ex.sets.length) || !exercises.length;
 
   return (
     <ReusableModal
@@ -59,9 +61,9 @@ export default function WorkoutBuilder({
                   ...workouts,
                 ]);
               }}
-              style={{ margin: 8 }}
+              style={{ opacity: disableDoneButton ? 0.5 : 1, margin: 8 }}
               pressableProps={{
-                disabled: !exercises.every((ex) => ex.sets.length),
+                disabled: disableDoneButton,
               }}
             />
           </View>
