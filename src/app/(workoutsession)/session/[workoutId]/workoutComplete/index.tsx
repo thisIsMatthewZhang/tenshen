@@ -1,4 +1,5 @@
 import AppButton from "@/src/components/AppButton";
+import ExperienceBar from "@/src/components/ExperienceBar";
 import { BLUE_DARKER, MAIN_COLOR, PATTERN } from "@/src/constants/theme";
 import { useLocalSearchParams } from "expo-router";
 import { useMemo, useState } from "react";
@@ -78,7 +79,7 @@ export default function WorkoutComplete() {
   return (
     <View style={[PATTERN.container, { justifyContent: "space-around" }]}>
       <View style={styles.topContainer}>
-        <View style={styles.expBarContainer}>
+        <ExperienceBar>
           <Text
             style={[
               PATTERN.smallText,
@@ -88,7 +89,7 @@ export default function WorkoutComplete() {
             LV. 11
           </Text>
           <View style={styles.expBar}></View>
-        </View>
+        </ExperienceBar>
         <View style={styles.textHeaderContainer}>
           <Text style={[PATTERN.bigText, { fontWeight: "bold" }]}>
             Good stuff, <Text style={{ color: MAIN_COLOR }}>Matthew!</Text>🤩
@@ -141,13 +142,6 @@ export default function WorkoutComplete() {
 
 const styles = StyleSheet.create({
   topContainer: { alignItems: "center", paddingHorizontal: 16 },
-  expBarContainer: {
-    width: "100%",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-evenly",
-    marginBottom: 12,
-  },
   expBar: {
     width: "75%",
     height: 10,
