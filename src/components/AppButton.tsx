@@ -22,12 +22,6 @@ export interface ButtonProps {
   pressableProps?: Omit<ComponentPropsWithoutRef<typeof Pressable>, "style">;
 }
 
-export const buttonStyles = {
-  borderRadius: 10,
-  paddingHorizontal: 12,
-  paddingVertical: 8,
-};
-
 export default function AppButton({
   title,
   bgColor,
@@ -43,10 +37,12 @@ export default function AppButton({
     <Pressable
       style={({ pressed }) => {
         return [
-          buttonStyles,
           {
             opacity: pressed ? 0.5 : 1,
             backgroundColor: bgColor,
+            borderRadius: 10,
+            paddingHorizontal: 12,
+            paddingVertical: 8,
           },
           typeof customStyle === "function"
             ? customStyle({ pressed })
