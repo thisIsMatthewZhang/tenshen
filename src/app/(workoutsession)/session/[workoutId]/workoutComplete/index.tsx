@@ -89,7 +89,9 @@ export default function WorkoutComplete() {
   return (
     <View style={[PATTERN.container, { justifyContent: "space-around" }]}>
       <View style={styles.topContainer}>
-        <ExperienceBar expGained={calculateExpPointsEarned(expGainedFactors)}>
+        <ExperienceBar
+          expGained={calculateExpPointsEarned(expGainedFactors, 1.75)}
+        >
           <Text
             style={[
               PATTERN.smallText,

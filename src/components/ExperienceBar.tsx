@@ -24,15 +24,25 @@ export default function ExperienceBar(
 
 /**
  *
- * @param scale number to scale factors by (default is 1.6)
+ * @param scale number to scale factors by (default is 1.5)
  * @param factors record of values that will be factored into the final calculation (should be specified by the parent)
  * @returns a number that represents total points earned
  */
 export function calculateExpPointsEarned(
   factors: Record<string, unknown>,
-  scale: number = 1.6,
+  scale: number = 1.5,
 ): number {
-  return 0;
+  let pointsEarned: number = 0;
+  for (let [k, v] of Object.entries(factors)) {
+    const factorValue = Number(v);
+    if (isNaN(factorValue)) {
+      throw new TypeError(
+        `Factor format not accounted for. A custom implementation to calculate this entry is required: { ${k}: ${v} }`,
+      );
+    }
+    pointsEarned += factorValue * scale;
+  }
+  return Math.floor(pointsEarned);
 }
 
 const styles = StyleSheet.create({
