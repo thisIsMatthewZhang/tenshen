@@ -93,7 +93,7 @@ export default function WorkoutSession() {
                       exercisesCompleted: currentWorkoutExercises.length,
                       setsCompleted: setsCompleted,
                       time: time,
-                      streak: 4,
+                      streak: 17,
                     };
                     router.navigate({
                       pathname: "/session/[workoutId]/workoutComplete",

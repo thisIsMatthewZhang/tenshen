@@ -1,9 +1,17 @@
 import { PropsWithChildren } from "react";
-import { StyleSheet } from "react-native";
-import Animated from "react-native-reanimated";
+import { ColorValue, StyleSheet, Text, View } from "react-native";
+import Animated, {
+  Easing,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
+import { PATTERN } from "../constants/theme";
 
 export interface ExperienceBarProps {
   expGained: number;
+  barColor: ColorValue;
+  textColor: ColorValue;
 }
 /*
   Requirements for functional EXP bar:
@@ -15,10 +23,36 @@ export interface ExperienceBarProps {
 export default function ExperienceBar(
   props: PropsWithChildren<ExperienceBarProps>,
 ) {
+  const config = {
+    duration: 5000,
+    easing: Easing.bezier(0.5, 0.01, 0, 1),
+  };
+  const width = useSharedValue(props.expGained);
+  const widthAnimatedStyle = useAnimatedStyle(() => ({
+    // const widthPerSecond = pointsGained.value / 60; // 60fps
+    // return { width: withRepeat(widthPerSecond, 60) }; // kept crashing my app lol
+    width: withTiming(width.value, config),
+  }));
   return (
-    <Animated.View style={styles.expBarContainer}>
-      {props.children}
-    </Animated.View>
+    <View style={styles.expBarContainer}>
+      <Text
+        style={[
+          PATTERN.smallText,
+          { color: props.textColor, fontWeight: "bold" },
+        ]}
+      >
+        LV. 11
+      </Text>
+      <View style={styles.expBarBg}>
+        <Animated.View
+          style={[
+            styles.expBar,
+            widthAnimatedStyle,
+            { backgroundColor: props.barColor },
+          ]}
+        />
+      </View>
+    </View>
   );
 }
 
@@ -45,6 +79,10 @@ export function calculateExpPointsEarned(
   return Math.floor(pointsEarned);
 }
 
+function getLevelThreshold(): number {
+  return 0;
+}
+
 const styles = StyleSheet.create({
   expBarContainer: {
     width: "100%",
@@ -52,5 +90,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-evenly",
     marginBottom: 12,
+  },
+  expBarBg: {
+    width: "75%",
+    height: 10,
+    backgroundColor: "grey",
+    borderRadius: 5,
+  },
+  expBar: {
+    width: 0,
+    height: "100%",
+    borderRadius: 5,
   },
 });

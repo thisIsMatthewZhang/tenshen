@@ -80,7 +80,7 @@ export default function WorkoutComplete() {
   }>();
 
   const expGainedFactors = {
-    time: params.time,
+    // time: params.time,
     exercises: params.exercisesCompleted,
     sets: params.setsCompleted,
     streak: params.streak,
@@ -90,18 +90,10 @@ export default function WorkoutComplete() {
     <View style={[PATTERN.container, { justifyContent: "space-around" }]}>
       <View style={styles.topContainer}>
         <ExperienceBar
-          expGained={calculateExpPointsEarned(expGainedFactors, 1.75)}
-        >
-          <Text
-            style={[
-              PATTERN.smallText,
-              { color: MAIN_COLOR, fontWeight: "bold" },
-            ]}
-          >
-            LV. 11
-          </Text>
-          <View style={styles.expBar}></View>
-        </ExperienceBar>
+          expGained={calculateExpPointsEarned(expGainedFactors, 3.5)}
+          barColor={MAIN_COLOR}
+          textColor={MAIN_COLOR}
+        />
         <View style={styles.textHeaderContainer}>
           <Text style={[PATTERN.bigText, { fontWeight: "bold" }]}>
             Good stuff, <Text style={{ color: MAIN_COLOR }}>Matthew!</Text>🤩
@@ -154,12 +146,7 @@ export default function WorkoutComplete() {
 
 const styles = StyleSheet.create({
   topContainer: { alignItems: "center", paddingHorizontal: 16 },
-  expBar: {
-    width: "75%",
-    height: 10,
-    backgroundColor: "grey",
-    borderRadius: 5,
-  },
+
   textHeaderContainer: {
     width: "100%",
     alignItems: "center",
