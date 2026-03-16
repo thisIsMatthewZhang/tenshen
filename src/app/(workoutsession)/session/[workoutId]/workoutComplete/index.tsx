@@ -1,5 +1,7 @@
 import AppButton from "@/src/components/AppButton";
-import ExperienceBar from "@/src/components/ExperienceBar";
+import ExperienceBar, {
+  calculateExpPointsEarned,
+} from "@/src/components/ExperienceBar";
 import { BLUE_DARKER, MAIN_COLOR, PATTERN } from "@/src/constants/theme";
 import { useLocalSearchParams } from "expo-router";
 import { useMemo, useState } from "react";
@@ -11,6 +13,7 @@ import {
   View,
   ViewStyle,
 } from "react-native";
+
 import RadioGroup, { RadioButtonProps } from "react-native-radio-buttons-group";
 
 interface BlockProps {
@@ -76,10 +79,17 @@ export default function WorkoutComplete() {
     streak: string;
   }>();
 
+  const expGainedFactors = {
+    time: params.time,
+    exercises: params.exercisesCompleted,
+    sets: params.setsCompleted,
+    streak: params.streak,
+  };
+
   return (
     <View style={[PATTERN.container, { justifyContent: "space-around" }]}>
       <View style={styles.topContainer}>
-        <ExperienceBar>
+        <ExperienceBar expGained={calculateExpPointsEarned(expGainedFactors)}>
           <Text
             style={[
               PATTERN.smallText,
