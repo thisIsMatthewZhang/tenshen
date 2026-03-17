@@ -4,7 +4,8 @@ import Animated, {
   Easing,
   useAnimatedStyle,
   useSharedValue,
-  withTiming,
+  withDelay,
+  withTiming
 } from "react-native-reanimated";
 import { PATTERN } from "../constants/theme";
 
@@ -24,17 +25,18 @@ export default function ExperienceBar(
   props: PropsWithChildren<ExperienceBarProps>,
 ) {
   const config = {
-    duration: 5000,
+    duration: 2500,
     easing: Easing.bezier(0.5, 0.01, 0, 1),
   };
-  const width = useSharedValue(props.expGained);
+  const userExpProgress = useSharedValue(getUserExpProgress()); // the user's exp meter width BEFORE width increase animation
   const widthAnimatedStyle = useAnimatedStyle(() => ({
-    // const widthPerSecond = pointsGained.value / 60; // 60fps
-    // return { width: withRepeat(widthPerSecond, 60) }; // kept crashing my app lol
-    width: withTiming(width.value, config),
+    width: withDelay(1000, withTiming(userExpProgress.value, config)),
   }));
   return (
-    <View style={styles.expBarContainer}>
+    <View
+      style={styles.expBarContainer}
+      onLayout={() => (userExpProgress.value += props.expGained)}
+    >
       <Text
         style={[
           PATTERN.smallText,
@@ -79,7 +81,7 @@ export function calculateExpPointsEarned(
   return Math.floor(pointsEarned);
 }
 
-function getLevelThreshold(): number {
+function getUserExpProgress(): number {
   return 0;
 }
 
@@ -99,6 +101,7 @@ const styles = StyleSheet.create({
   },
   expBar: {
     width: 0,
+    maxWidth: "100%",
     height: "100%",
     borderRadius: 5,
   },

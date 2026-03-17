@@ -90,7 +90,7 @@ export default function WorkoutComplete() {
     <View style={[PATTERN.container, { justifyContent: "space-around" }]}>
       <View style={styles.topContainer}>
         <ExperienceBar
-          expGained={calculateExpPointsEarned(expGainedFactors, 3.5)}
+          expGained={calculateExpPointsEarned(expGainedFactors, 3.6)}
           barColor={MAIN_COLOR}
           textColor={MAIN_COLOR}
         />
