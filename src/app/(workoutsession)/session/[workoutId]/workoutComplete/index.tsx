@@ -1,6 +1,8 @@
 import AppButton from "@/src/components/AppButton";
 import ExperienceBar, {
   calculateExpPointsEarned,
+  getUserCurrentLevel,
+  getUserExpProgress,
 } from "@/src/components/ExperienceBar";
 import { BLUE_DARKER, MAIN_COLOR, PATTERN } from "@/src/constants/theme";
 import { useLocalSearchParams } from "expo-router";
@@ -91,6 +93,8 @@ export default function WorkoutComplete() {
       <View style={styles.topContainer}>
         <ExperienceBar
           expGained={calculateExpPointsEarned(expGainedFactors, 3.6)}
+          userExpProgress={getUserExpProgress(0)}
+          userCurrentLevel={getUserCurrentLevel(0)}
           barColor={MAIN_COLOR}
           textColor={MAIN_COLOR}
         />

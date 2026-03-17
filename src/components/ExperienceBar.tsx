@@ -1,16 +1,18 @@
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useState } from "react";
 import { ColorValue, StyleSheet, Text, View } from "react-native";
 import Animated, {
   Easing,
   useAnimatedStyle,
   useSharedValue,
   withDelay,
-  withTiming
+  withTiming,
 } from "react-native-reanimated";
 import { PATTERN } from "../constants/theme";
 
 export interface ExperienceBarProps {
   expGained: number;
+  userExpProgress: number;
+  userCurrentLevel: number;
   barColor: ColorValue;
   textColor: ColorValue;
 }
@@ -24,18 +26,22 @@ export interface ExperienceBarProps {
 export default function ExperienceBar(
   props: PropsWithChildren<ExperienceBarProps>,
 ) {
+  const [userLevel, setUserLevel] = useState(props.userCurrentLevel); // change to context later
   const config = {
     duration: 2500,
     easing: Easing.bezier(0.5, 0.01, 0, 1),
   };
-  const userExpProgress = useSharedValue(getUserExpProgress()); // the user's exp meter width BEFORE width increase animation
+  const userExpProgress = useSharedValue(props.userExpProgress); // the user's exp meter width BEFORE width increase animation
   const widthAnimatedStyle = useAnimatedStyle(() => ({
     width: withDelay(1000, withTiming(userExpProgress.value, config)),
   }));
+
   return (
     <View
       style={styles.expBarContainer}
-      onLayout={() => (userExpProgress.value += props.expGained)}
+      onLayout={() => {
+        userExpProgress.value += props.expGained;
+      }}
     >
       <Text
         style={[
@@ -43,7 +49,7 @@ export default function ExperienceBar(
           { color: props.textColor, fontWeight: "bold" },
         ]}
       >
-        LV. 11
+        Lvl. {userLevel}
       </Text>
       <View style={styles.expBarBg}>
         <Animated.View
@@ -81,8 +87,21 @@ export function calculateExpPointsEarned(
   return Math.floor(pointsEarned);
 }
 
-function getUserExpProgress(): number {
+/**
+ * @param id user's id
+ * @returns user's experience bar progress
+ */
+export function getUserExpProgress(id: number): number {
   return 0;
+}
+
+/**
+ *
+ * @param id user's id
+ * @returns user's current level
+ */
+export function getUserCurrentLevel(id: number): number {
+  return 1;
 }
 
 const styles = StyleSheet.create({
@@ -97,12 +116,12 @@ const styles = StyleSheet.create({
     width: "75%",
     height: 10,
     backgroundColor: "grey",
-    borderRadius: 5,
+    borderRadius: 2.5,
   },
   expBar: {
     width: 0,
     maxWidth: "100%",
     height: "100%",
-    borderRadius: 5,
+    borderRadius: 2.5,
   },
 });
