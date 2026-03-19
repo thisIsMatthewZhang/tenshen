@@ -4,10 +4,15 @@ import Animated, {
   Easing,
   useAnimatedStyle,
   useSharedValue,
-  withDelay,
+  withSequence,
   withTiming,
 } from "react-native-reanimated";
 import { PATTERN } from "../constants/theme";
+
+enum ExperienceBarConstants {
+  EXP_BAR_THRESHOLD_SCALE = 1.5,
+  LEVEL_ONE_THRESHOLD = 250,
+}
 
 export interface ExperienceBarProps {
   expGained: number;
@@ -19,7 +24,7 @@ export interface ExperienceBarProps {
 /*
   Requirements for functional EXP bar:
   (1) Scale EXP point threshold based on current level (e.g. 1 -> 2: 50 points; 2 -> 3: 80 points; 3 -> 4: 128 points if using scale of 1.6)
-  (2) When new level threshold is reached, reset current EXP points to 0 and increment level count
+  (2) When new level threshold is reached, reset current EXP points to 0 (or add remaining points) and increment level count
   (3) Show animation when new level is reached (and potentially haptic feedback)
   (4) Formula for calculating points earned from workout
 */
@@ -27,21 +32,44 @@ export default function ExperienceBar(
   props: PropsWithChildren<ExperienceBarProps>,
 ) {
   const [userLevel, setUserLevel] = useState(props.userCurrentLevel); // change to context later
+
+  let animationSequence: number[];
+  let expBarThreshold =
+    userLevel === 1
+      ? ExperienceBarConstants.LEVEL_ONE_THRESHOLD
+      : userLevel *
+        ExperienceBarConstants.EXP_BAR_THRESHOLD_SCALE *
+        ExperienceBarConstants.LEVEL_ONE_THRESHOLD;
   const config = {
     duration: 2500,
     easing: Easing.bezier(0.5, 0.01, 0, 1),
   };
   const userExpProgress = useSharedValue(props.userExpProgress); // the user's exp meter width BEFORE width increase animation
-  const widthAnimatedStyle = useAnimatedStyle(() => ({
-    width: withDelay(1000, withTiming(userExpProgress.value, config)),
-  }));
+
+  const widthAnimatedStyle = useAnimatedStyle(() => {
+    if (userExpProgress.value + props.expGained >= expBarThreshold) {
+      const remainingExp =
+        props.expGained - (expBarThreshold - userExpProgress.value);
+      animationSequence = [
+        // NEXT STEP: POPULATE WITH DYNAMIC DATA/ANIMATIONS
+        withTiming(userExpProgress.value, config),
+        withTiming(userExpProgress.value + props.expGained, config),
+        withTiming(0, { duration: 0 }),
+        withTiming(remainingExp, config),
+      ];
+    }
+    return {
+      width: withSequence(...(animationSequence ?? [])),
+    };
+  });
 
   return (
     <View
       style={styles.expBarContainer}
-      onLayout={() => {
-        userExpProgress.value += props.expGained;
-      }}
+      // onLayout={() => {
+      //   userExpProgress.value += props.expGained;
+
+      // }}
     >
       <Text
         style={[
@@ -92,7 +120,7 @@ export function calculateExpPointsEarned(
  * @returns user's experience bar progress
  */
 export function getUserExpProgress(id: number): number {
-  return 0;
+  return 190;
 }
 
 /**
@@ -119,7 +147,6 @@ const styles = StyleSheet.create({
     borderRadius: 2.5,
   },
   expBar: {
-    width: 0,
     maxWidth: "100%",
     height: "100%",
     borderRadius: 2.5,
