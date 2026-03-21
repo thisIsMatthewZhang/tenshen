@@ -22,13 +22,7 @@ export interface ExperienceBarProps {
   barColor: ColorValue;
   textColor: ColorValue;
 }
-/*
-  Requirements for functional EXP bar:
-  (1) Scale EXP point threshold based on current level (e.g. 1 -> 2: 50 points; 2 -> 3: 80 points; 3 -> 4: 128 points if using scale of 1.6)
-  (2) When new level threshold is reached, reset current EXP points to 0 (or add remaining points) and increment level count
-  (3) Show animation when new level is reached (and potentially haptic feedback)
-  (4) Formula for calculating points earned from workout
-*/
+
 export default function ExperienceBar(
   props: PropsWithChildren<ExperienceBarProps>,
 ) {
