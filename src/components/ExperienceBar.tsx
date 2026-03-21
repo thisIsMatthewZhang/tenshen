@@ -50,7 +50,7 @@ export default function ExperienceBar(
         config,
         (finished) => {
           if (newLevelReached && finished) {
-            scheduleOnRN(setUserLevel, (prev) => prev + 1); // run on JS thread
+            scheduleOnRN(setUserLevel, (prev) => prev + 1); // call non-worklet from inside workletized environment
             userExpProgress.set(0);
           }
         },

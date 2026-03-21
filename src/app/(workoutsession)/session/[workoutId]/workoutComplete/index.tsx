@@ -5,7 +5,7 @@ import ExperienceBar, {
   getUserExpProgress,
 } from "@/src/components/ExperienceBar";
 import { BLUE_DARKER, MAIN_COLOR, PATTERN } from "@/src/constants/theme";
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useMemo, useState } from "react";
 import {
   StyleProp,
@@ -37,6 +37,7 @@ const Block = ({ value, category }: BlockProps) => {
 };
 
 export default function WorkoutComplete() {
+  const router = useRouter();
   const radioButtons: RadioButtonProps[] = useMemo(() => {
     const containerStyle: StyleProp<ViewStyle> = {
       width: "100%",
@@ -59,6 +60,7 @@ export default function WorkoutComplete() {
         value: "public",
         containerStyle: containerStyle,
         color: BLUE_DARKER,
+        selected: true,
       },
       {
         id: "2",
@@ -68,10 +70,11 @@ export default function WorkoutComplete() {
         value: "private",
         containerStyle: containerStyle,
         color: BLUE_DARKER,
+        selected: false,
       },
     ];
   }, []);
-  const [selectedId, setSelectedId] = useState<undefined | string>(undefined);
+  const [selectedId, setSelectedId] = useState<string>("1");
   const params = useLocalSearchParams<{
     workoutId: string;
     workoutName: string;
@@ -114,12 +117,6 @@ export default function WorkoutComplete() {
         </View>
       </View>
       <View style={styles.bottomContainer}>
-        {/* <TextInput
-          style={[styles.input, { height: 100 }]}
-          placeholder="Notes"
-          placeholderTextColor="white"
-        /> */}
-        {/* Add Post-Workout Selfie later */}
         <RadioGroup
           radioButtons={radioButtons}
           onPress={setSelectedId}
@@ -132,14 +129,18 @@ export default function WorkoutComplete() {
             title="Discard Activity"
             bgColor="red"
             textColor="black"
-            onPress={() => {}}
+            onPress={() => {
+              router.push("/home");
+            }}
             customStyle={{ flex: 1 }}
           />
           <AppButton
             title="Save Activity"
             bgColor={MAIN_COLOR}
             textColor="black"
-            onPress={() => {}}
+            onPress={() => {
+              router.push("/home"); // TODO: should also save activity to database once implemented
+            }}
             customStyle={{ flex: 1, marginLeft: 12 }}
           />
         </View>
