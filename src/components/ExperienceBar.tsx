@@ -35,8 +35,8 @@ export default function ExperienceBar(
         ExperienceBarConstants.EXP_BAR_THRESHOLD_SCALE *
         ExperienceBarConstants.LEVEL_ONE_THRESHOLD;
   const config = {
-    duration: 2000,
-    easing: Easing.bezier(0.5, 0.01, 0, 1), //
+    duration: 1500,
+    easing: Easing.bezier(0.25, 1, 0.75, 0.5), // visit https://cubic-bezier.com/ to visualize motions
   };
   const userExpProgress = useSharedValue(props.userExpProgress); // the user's exp meter width BEFORE width increase animation
 
