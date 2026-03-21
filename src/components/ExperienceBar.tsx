@@ -7,6 +7,7 @@ import Animated, {
   withSequence,
   withTiming,
 } from "react-native-reanimated";
+import { scheduleOnRN } from "react-native-worklets";
 import { PATTERN } from "../constants/theme";
 
 enum ExperienceBarConstants {
@@ -33,7 +34,6 @@ export default function ExperienceBar(
 ) {
   const [userLevel, setUserLevel] = useState(props.userCurrentLevel); // change to context later
 
-  let animationSequence: number[];
   let expBarThreshold =
     userLevel === 1
       ? ExperienceBarConstants.LEVEL_ONE_THRESHOLD
@@ -41,36 +41,44 @@ export default function ExperienceBar(
         ExperienceBarConstants.EXP_BAR_THRESHOLD_SCALE *
         ExperienceBarConstants.LEVEL_ONE_THRESHOLD;
   const config = {
-    duration: 2500,
-    easing: Easing.bezier(0.5, 0.01, 0, 1),
+    duration: 2000,
+    easing: Easing.bezier(0.5, 0.01, 0, 1), //
   };
   const userExpProgress = useSharedValue(props.userExpProgress); // the user's exp meter width BEFORE width increase animation
 
   const widthAnimatedStyle = useAnimatedStyle(() => {
-    if (userExpProgress.value + props.expGained >= expBarThreshold) {
-      const remainingExp =
-        props.expGained - (expBarThreshold - userExpProgress.value);
-      animationSequence = [
-        // NEXT STEP: POPULATE WITH DYNAMIC DATA/ANIMATIONS
-        withTiming(userExpProgress.value, config),
-        withTiming(userExpProgress.value + props.expGained, config),
-        withTiming(0, { duration: 0 }),
-        withTiming(remainingExp, config),
-      ];
-    }
+    const newLevelReached =
+      userExpProgress.value + props.expGained >= expBarThreshold;
+    let animationSequence = [
+      withTiming(userExpProgress.value, config),
+      withTiming(
+        userExpProgress.value + props.expGained,
+        config,
+        (finished) => {
+          if (newLevelReached && finished) {
+            scheduleOnRN(setUserLevel, (prev) => prev + 1); // run on JS thread
+            userExpProgress.set(0);
+          }
+        },
+      ),
+      newLevelReached
+        ? [
+            withTiming(userExpProgress.value, { duration: 0 }),
+            withTiming(
+              props.expGained - (expBarThreshold - userExpProgress.value),
+              config,
+            ),
+          ]
+        : [],
+    ];
+
     return {
-      width: withSequence(...(animationSequence ?? [])),
+      width: withSequence(...animationSequence.flat()),
     };
   });
 
   return (
-    <View
-      style={styles.expBarContainer}
-      // onLayout={() => {
-      //   userExpProgress.value += props.expGained;
-
-      // }}
-    >
+    <View style={styles.expBarContainer}>
       <Text
         style={[
           PATTERN.smallText,
