@@ -28,6 +28,19 @@ export default function GetStarted() {
             customStyle={BIG_GOLDEN_BUTTON.pressable}
             textStyle={{ fontSize: 20, fontWeight: 700 }}
           />
+          <AppButton
+            title="Already Have an Account?"
+            bgColor={MAIN_COLOR}
+            textColor="black"
+            onPress={() =>
+              router.push({
+                pathname: "/(auth)/signin",
+                params: { screenName: "Welcome back" },
+              })
+            }
+            customStyle={BIG_GOLDEN_BUTTON.pressable}
+            textStyle={{ fontSize: 20, fontWeight: 700 }}
+          />
         </View>
       </SafeAreaView>
     </SafeAreaProvider>

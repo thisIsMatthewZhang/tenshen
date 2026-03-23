@@ -36,8 +36,6 @@ yarn-error.*
 # typescript
 *.tsbuildinfo
 
-app-example
-
 # generated native folders
 /ios
 /android
@@ -51,3 +49,6 @@ GoogleService-Info.plist
 
 # personal logger
 LOG.md
+
+# config folder
+src/config
