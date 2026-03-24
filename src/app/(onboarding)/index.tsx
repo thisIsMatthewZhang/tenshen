@@ -22,7 +22,6 @@ export default function GetStarted() {
             onPress={() =>
               router.push({
                 pathname: "/yourname",
-                params: { screenName: "What's your name?" },
               })
             }
             customStyle={BIG_GOLDEN_BUTTON.pressable}
@@ -35,7 +34,6 @@ export default function GetStarted() {
             onPress={() =>
               router.push({
                 pathname: "/(auth)/signin",
-                params: { screenName: "Welcome back" },
               })
             }
             customStyle={BIG_GOLDEN_BUTTON.pressable}
