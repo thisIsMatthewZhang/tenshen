@@ -142,15 +142,13 @@ export default function SignIn() {
         textStyle={{ fontSize: 20, fontWeight: 700 }}
       />
       <View style={styles.notAMemberContainer}>
-        <Text style={PATTERN.smallText}>
-          Not a member?{" "}
-          <PressableText
-            onPress={() => router.navigate("/")}
-            customStyles={[PATTERN.smallText, styles.pressableText]}
-          >
-            Get started!
-          </PressableText>
-        </Text>
+        <Text style={PATTERN.smallText}> Not a member? </Text>
+        <PressableText
+          onPress={() => router.navigate("/")}
+          customStyles={[PATTERN.smallText, styles.pressableText]}
+        >
+          Get started!
+        </PressableText>
       </View>
     </Animated.View>
   );
@@ -158,11 +156,12 @@ export default function SignIn() {
 
 const styles = StyleSheet.create({
   pressableText: {
-    fontWeight: "bold",
+    fontWeight: 600,
     color: BLUE_DARKER,
   },
   forgotPasswordContainer: { width: "75%", marginBottom: 12 },
   notAMemberContainer: {
+    flexDirection: "row",
     width: "75%",
     alignItems: "center",
     justifyContent: "center",
