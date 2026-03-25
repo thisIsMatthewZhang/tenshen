@@ -229,11 +229,13 @@ export default function SetAccountCredentials() {
                   setShowSpinner(false);
                   const errorCode = error.code;
                   let errorDisplayText;
-                  if (errorCode === "auth/email-already-in-use") {
-                    errorDisplayText =
-                      "An account with this email already exists. Please sign in.";
-                  } else
-                    errorDisplayText = "An issue occurred. Please try again";
+                  switch (errorCode) {
+                    case "auth/email-already-in-use":
+                      errorDisplayText = "An account with this email already exists. Please sign in.";
+                      break;
+                    default:
+                      errorDisplayText = "An issue has occurred. Please try again.";
+                  }
                   setAuthMessage(errorDisplayText);
                 });
             }
