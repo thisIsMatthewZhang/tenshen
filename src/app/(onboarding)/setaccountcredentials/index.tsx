@@ -1,8 +1,6 @@
 import AppButton from "@/src/components/AppButton";
 import BackButton from "@/src/components/BackButton";
-import {
-  firebaseConfigWeb
-} from "@/src/config/firebaseConfig";
+import { firebaseConfigWeb } from "@/src/config/firebaseConfig";
 import {
   BIG_GOLDEN_BUTTON,
   BLUE_DARKER,
@@ -14,7 +12,14 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { initializeApp } from "firebase/app";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { useEffect, useMemo, useState } from "react";
-import { Animated, Keyboard, Text, TextInput, View } from "react-native";
+import {
+  Animated,
+  Keyboard,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 
 const app = initializeApp(firebaseConfigWeb);
 const auth = getAuth(app);
@@ -41,6 +46,7 @@ export default function SetAccountCredentials() {
     email: "",
     password: "",
     confirmPassword: "",
+    authError: "",
   });
 
   useEffect(() => {
@@ -83,6 +89,18 @@ export default function SetAccountCredentials() {
         { transform: [{ translateY }] },
       ]}
     >
+      {errors.authError ? (
+        <View
+          style={[
+            styles.authErrorContainer,
+            { opacity: errors.authError ? 1 : 0 },
+          ]}
+        >
+          <Text style={PATTERN.smallText}>{errors.authError}</Text>
+        </View>
+      ) : (
+        <></>
+      )}
       <Text style={PATTERN.bigText}>Time to sign up!</Text>
       <TextInput
         onFocus={() => setFocused(0)}
@@ -165,14 +183,7 @@ export default function SetAccountCredentials() {
         secureTextEntry={true}
       />
       <Text style={{ color: MAIN_COLOR }}> {errors.confirmPassword} </Text>
-      <View
-        style={{
-          width: "100%",
-          flexDirection: "row",
-          justifyContent: "space-evenly",
-          paddingHorizontal: 20,
-        }}
-      >
+      <View style={styles.buttonContainer}>
         <BackButton
           bgColor={MAIN_COLOR}
           textColor="black"
@@ -204,10 +215,15 @@ export default function SetAccountCredentials() {
                   router.navigate({ pathname: "/home", params: data });
                 })
                 .catch((error) => {
+                  // TODO: ADD PROPER ERROR DISPLAYS
                   const errorCode = error.code;
-                  const errorMessage = error.message;
-                  console.error(`Error code: ${errorCode}
-        ${errorMessage}`);
+                  let errorDisplayText;
+                  if (errorCode === "auth/email-already-in-use") {
+                    errorDisplayText =
+                      "An account with this email already exists. Please sign in.";
+                  } else
+                    errorDisplayText = "An issue occurred. Please try again";
+                  setErrors({ ...errors, authError: errorDisplayText });
                 });
             }
           }}
@@ -218,3 +234,22 @@ export default function SetAccountCredentials() {
     </Animated.View>
   );
 }
+
+const styles = StyleSheet.create({
+  buttonContainer: {
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    paddingHorizontal: 20,
+  },
+  authErrorContainer: {
+    position: "absolute",
+    top: 40,
+    width: "75%",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "grey",
+    padding: 12,
+    marginTop: 20,
+  },
+});
