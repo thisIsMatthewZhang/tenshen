@@ -13,6 +13,7 @@ import { initializeApp } from "firebase/app";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { useEffect, useMemo, useState } from "react";
 import {
+  ActivityIndicator,
   Animated,
   Keyboard,
   StyleSheet,
@@ -48,6 +49,7 @@ export default function SetAccountCredentials() {
     confirmPassword: "",
   });
   const [authMessage, setAuthMessage] = useState<string>(""); // separated to its own state to prevent affecting 'errors' check
+  const [showSpinner, setShowSpinner] = useState<boolean>(false);
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
@@ -93,6 +95,15 @@ export default function SetAccountCredentials() {
         <View style={styles.authErrorContainer}>
           <Text style={PATTERN.smallText}>{authMessage}</Text>
         </View>
+      ) : (
+        <></>
+      )}
+      {showSpinner ? (
+        <ActivityIndicator
+          style={styles.spinner}
+          size={"large"}
+          color={MAIN_COLOR}
+        />
       ) : (
         <></>
       )}
@@ -196,12 +207,14 @@ export default function SetAccountCredentials() {
               credentials.password === credentials.confirmPassword
             ) {
               Keyboard.dismiss();
+              setShowSpinner(true);
               await createUserWithEmailAndPassword(
                 auth,
                 credentials.email,
                 credentials.password,
               )
                 .then((userCredentials) => {
+                  setShowSpinner(false);
                   const data = {
                     fullName: params.fullName,
                     preferredName: params.preferredName,
@@ -212,7 +225,8 @@ export default function SetAccountCredentials() {
                   setAuthMessage("");
                 })
                 .catch((error) => {
-                  // TODO: ADD PROPER ERROR DISPLAYS
+                  // TODO: ADD PROPER ERROR DISPLAYS FOR CHECKING ON PROVIDERS
+                  setShowSpinner(false);
                   const errorCode = error.code;
                   let errorDisplayText;
                   if (errorCode === "auth/email-already-in-use") {
@@ -238,6 +252,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-evenly",
     paddingHorizontal: 20,
+  },
+  spinner: {
+    position: "absolute",
   },
   authErrorContainer: {
     position: "absolute",
