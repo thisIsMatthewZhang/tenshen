@@ -1,6 +1,9 @@
 import AppButton from "@/src/components/AppButton";
 import BackButton from "@/src/components/BackButton";
 import {
+  firebaseConfigWeb
+} from "@/src/config/firebaseConfig";
+import {
   BIG_GOLDEN_BUTTON,
   BLUE_DARKER,
   MAIN_COLOR,
@@ -8,9 +11,13 @@ import {
   TEXT_INPUT,
 } from "@/src/constants/theme";
 import { useLocalSearchParams, useRouter } from "expo-router";
+import { initializeApp } from "firebase/app";
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { useEffect, useMemo, useState } from "react";
 import { Animated, Keyboard, Text, TextInput, View } from "react-native";
 
+const app = initializeApp(firebaseConfigWeb);
+const auth = getAuth(app);
 const emailRegex: RegExp = /^[\w\-\.]+@([\w-]+\.)+[\w-]{2,}$/;
 const passwordRegex: RegExp =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/;
@@ -176,19 +183,32 @@ export default function SetAccountCredentials() {
           title="Time to work out!"
           bgColor={MAIN_COLOR}
           textColor="black"
-          onPress={() => {
+          onPress={async () => {
             if (
-              Object.values(credentials).every((key) => key) &&
+              Object.values(credentials).every((value) => value) &&
               Object.values(errors).every((value) => !value) &&
               credentials.password === credentials.confirmPassword
             ) {
-              const data = {
-                fullName: params.fullName,
-                preferredName: params.preferredName,
-                selected: params.selected,
-                ...credentials,
-              };
-              router.navigate({ pathname: "/home", params: data });
+              await createUserWithEmailAndPassword(
+                auth,
+                credentials.email,
+                credentials.password,
+              )
+                .then((userCredentials) => {
+                  const data = {
+                    fullName: params.fullName,
+                    preferredName: params.preferredName,
+                    selected: params.selected,
+                    email: userCredentials.user.email,
+                  };
+                  router.navigate({ pathname: "/home", params: data });
+                })
+                .catch((error) => {
+                  const errorCode = error.code;
+                  const errorMessage = error.message;
+                  console.error(`Error code: ${errorCode}
+        ${errorMessage}`);
+                });
             }
           }}
           customStyle={[BIG_GOLDEN_BUTTON.pressable, { width: "60%" }]}
