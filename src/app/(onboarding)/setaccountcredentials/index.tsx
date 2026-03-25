@@ -46,8 +46,8 @@ export default function SetAccountCredentials() {
     email: "",
     password: "",
     confirmPassword: "",
-    authError: "",
   });
+  const [authMessage, setAuthMessage] = useState<string>(""); // separated to its own state to prevent affecting 'errors' check
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
@@ -89,14 +89,9 @@ export default function SetAccountCredentials() {
         { transform: [{ translateY }] },
       ]}
     >
-      {errors.authError ? (
-        <View
-          style={[
-            styles.authErrorContainer,
-            { opacity: errors.authError ? 1 : 0 },
-          ]}
-        >
-          <Text style={PATTERN.smallText}>{errors.authError}</Text>
+      {authMessage ? (
+        <View style={styles.authErrorContainer}>
+          <Text style={PATTERN.smallText}>{authMessage}</Text>
         </View>
       ) : (
         <></>
@@ -200,6 +195,7 @@ export default function SetAccountCredentials() {
               Object.values(errors).every((value) => !value) &&
               credentials.password === credentials.confirmPassword
             ) {
+              Keyboard.dismiss();
               await createUserWithEmailAndPassword(
                 auth,
                 credentials.email,
@@ -213,6 +209,7 @@ export default function SetAccountCredentials() {
                     email: userCredentials.user.email,
                   };
                   router.navigate({ pathname: "/home", params: data });
+                  setAuthMessage("");
                 })
                 .catch((error) => {
                   // TODO: ADD PROPER ERROR DISPLAYS
@@ -223,7 +220,7 @@ export default function SetAccountCredentials() {
                       "An account with this email already exists. Please sign in.";
                   } else
                     errorDisplayText = "An issue occurred. Please try again";
-                  setErrors({ ...errors, authError: errorDisplayText });
+                  setAuthMessage(errorDisplayText);
                 });
             }
           }}
