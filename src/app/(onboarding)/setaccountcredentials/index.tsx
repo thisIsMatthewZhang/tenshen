@@ -1,6 +1,7 @@
 import AppButton from "@/src/components/AppButton";
 import BackButton from "@/src/components/BackButton";
 import { firebaseConfigWeb } from "@/src/config/firebaseConfig";
+import { LOCAL_AUTH_ERROR_CODES } from "@/src/constants/localAuthErrorCodes";
 import {
   BIG_GOLDEN_BUTTON,
   BLUE_DARKER,
@@ -229,11 +230,18 @@ export default function SetAccountCredentials() {
                   setShowSpinner(false);
                   const errorCode = error.code;
                   let errorDisplayText;
-                  if (errorCode === "auth/email-already-in-use") {
-                    errorDisplayText =
-                      "An account with this email already exists. Please sign in.";
-                  } else
-                    errorDisplayText = "An issue occurred. Please try again";
+                  switch (errorCode) {
+                    case LOCAL_AUTH_ERROR_CODES.EMAIL_EXISTS:
+                      errorDisplayText =
+                        "An account with this email already exists. Please sign in.";
+                      break;
+                    case LOCAL_AUTH_ERROR_CODES.INTERNAL_ERROR:
+                      errorDisplayText =
+                        "Sorry! There was an internal issue. Please try again soon.";
+                      break;
+                    default:
+                      errorDisplayText = "An issue occurred. Please try again";
+                  }
                   setAuthMessage(errorDisplayText);
                 });
             }
