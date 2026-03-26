@@ -1,5 +1,6 @@
 import AppButton from "@/src/components/AppButton";
 import PressableText from "@/src/components/PressableText";
+import { firebaseConfigWeb } from "@/src/config/firebaseConfig";
 import {
   BIG_GOLDEN_BUTTON,
   BLUE_DARKER,
@@ -8,6 +9,8 @@ import {
   TEXT_INPUT,
 } from "@/src/constants/theme";
 import { useRouter } from "expo-router";
+import { initializeApp } from "firebase/app";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useEffect, useMemo, useState } from "react";
 import {
   Animated,
@@ -18,19 +21,20 @@ import {
   View,
 } from "react-native";
 
+const app = initializeApp(firebaseConfigWeb);
+const auth = getAuth(app);
+
 export default function SignIn() {
   const router = useRouter();
   const [keyboardHeight, setKeyboardHeight] = useState(0);
   const translateY = useMemo(() => new Animated.Value(0), []);
   const [focused, setFocused] = useState<0 | 1 | null>(null);
+  const [showSpinner, setShowSpinner] = useState<boolean>(false);
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
   });
-  const [errors, setErrors] = useState({
-    email: "",
-    password: "",
-  });
+  const [authMessage, setAuthMessage] = useState<string>("");
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
@@ -89,13 +93,8 @@ export default function SignIn() {
         placeholderTextColor="white"
         onChangeText={(text) => {
           setCredentials({ ...credentials, email: text });
-          setErrors({
-            ...errors,
-            // email:
-          });
         }}
       />
-      <Text style={{ color: MAIN_COLOR }}> {errors.email} </Text>
       <TextInput
         onFocus={() => setFocused(1)}
         onEndEditing={() => setFocused(null)}
@@ -117,14 +116,9 @@ export default function SignIn() {
         placeholderTextColor="white"
         onChangeText={(text) => {
           setCredentials({ ...credentials, password: text });
-          setErrors({
-            ...errors,
-            // password:
-          });
         }}
         secureTextEntry={true}
       />
-      <Text style={{ color: MAIN_COLOR }}> {errors.password} </Text>
       <View style={styles.forgotPasswordContainer}>
         <PressableText
           onPress={() => console.error("not implemented")}
@@ -137,7 +131,27 @@ export default function SignIn() {
         title="Login"
         bgColor={MAIN_COLOR}
         textColor="black"
-        onPress={() => {}}
+        onPress={async () => {
+          if (Object.values(credentials).every((value) => value)) {
+            Keyboard.dismiss();
+            setShowSpinner(true);
+            await signInWithEmailAndPassword(
+              auth,
+              credentials.email,
+              credentials.password,
+            )
+              .then((userCredential) => {
+                setShowSpinner(false);
+                const data = {
+                  // rest of user data?
+                  email: userCredential.user.email,
+                };
+                router.navigate({ pathname: "/home", params: data });
+                setAuthMessage("");
+              })
+              .catch((error) => {});
+          }
+        }}
         customStyle={[BIG_GOLDEN_BUTTON.pressable, { width: "75%" }]}
         textStyle={{ fontSize: 20, fontWeight: 700 }}
       />
@@ -166,5 +180,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginTop: 12,
+  },
+  spinner: {
+    position: "absolute",
   },
 });
