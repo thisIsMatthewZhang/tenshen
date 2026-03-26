@@ -1,6 +1,7 @@
 import AppButton from "@/src/components/AppButton";
 import PressableText from "@/src/components/PressableText";
 import { firebaseConfigWeb } from "@/src/config/firebaseConfig";
+import { LOCAL_AUTH_ERROR_CODES } from "@/src/constants/localAuthErrorCodes";
 import {
   BIG_GOLDEN_BUTTON,
   BLUE_DARKER,
@@ -13,6 +14,7 @@ import { initializeApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useEffect, useMemo, useState } from "react";
 import {
+  ActivityIndicator,
   Animated,
   Keyboard,
   StyleSheet,
@@ -76,6 +78,22 @@ export default function SignIn() {
         { transform: [{ translateY }] },
       ]}
     >
+      {authMessage ? (
+        <View style={styles.authErrorContainer}>
+          <Text style={PATTERN.smallText}>{authMessage}</Text>
+        </View>
+      ) : (
+        <></>
+      )}
+      {showSpinner ? (
+        <ActivityIndicator
+          style={styles.spinner}
+          size={"large"}
+          color={MAIN_COLOR}
+        />
+      ) : (
+        <></>
+      )}
       <Text style={PATTERN.bigText}>Welcome back!</Text>
       <TextInput
         onFocus={() => setFocused(0)}
@@ -149,7 +167,24 @@ export default function SignIn() {
                 router.navigate({ pathname: "/home", params: data });
                 setAuthMessage("");
               })
-              .catch((error) => {});
+              .catch((error) => {
+                setShowSpinner(false);
+                const errorCode = error.code;
+                let errorDisplayText;
+                switch (errorCode) {
+                  case LOCAL_AUTH_ERROR_CODES.INVALID_CREDENTIALS:
+                    errorDisplayText =
+                      "Invalid email or password provided. Please try again.";
+                    break;
+                  case LOCAL_AUTH_ERROR_CODES.INTERNAL_ERROR:
+                    errorDisplayText =
+                      "Sorry! There was an internal error. Please try again soon.";
+                    break;
+                  default:
+                    errorDisplayText = "An issue occurred. Please try again";
+                }
+                setAuthMessage(errorDisplayText);
+              });
           }
         }}
         customStyle={[BIG_GOLDEN_BUTTON.pressable, { width: "75%" }]}
@@ -183,5 +218,15 @@ const styles = StyleSheet.create({
   },
   spinner: {
     position: "absolute",
+  },
+  authErrorContainer: {
+    position: "absolute",
+    top: 40,
+    width: "75%",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "grey",
+    padding: 12,
+    marginTop: 20,
   },
 });
