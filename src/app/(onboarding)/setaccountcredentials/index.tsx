@@ -11,7 +11,11 @@ import {
 } from "@/src/constants/theme";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { initializeApp } from "firebase/app";
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  onAuthStateChanged,
+} from "firebase/auth";
 import { useEffect, useMemo, useState } from "react";
 import {
   ActivityIndicator,
@@ -220,9 +224,15 @@ export default function SetAccountCredentials() {
                     fullName: params.fullName,
                     preferredName: params.preferredName,
                     selected: params.selected,
-                    user: userCredentials.user.toJSON.toString(),
                   };
-                  router.navigate({ pathname: "/verification", params: data });
+                  onAuthStateChanged(auth, (user) => {
+                    if (user) {
+                      router.navigate({
+                        pathname: "/verification",
+                        params: data,
+                      });
+                    }
+                  });
                   setAuthMessage("");
                 })
                 .catch((error) => {
