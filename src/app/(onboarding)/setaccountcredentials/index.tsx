@@ -220,9 +220,9 @@ export default function SetAccountCredentials() {
                     fullName: params.fullName,
                     preferredName: params.preferredName,
                     selected: params.selected,
-                    email: userCredentials.user.email,
+                    user: userCredentials.user.toJSON.toString(),
                   };
-                  router.navigate({ pathname: "/home", params: data });
+                  router.navigate({ pathname: "/verification", params: data });
                   setAuthMessage("");
                 })
                 .catch((error) => {
