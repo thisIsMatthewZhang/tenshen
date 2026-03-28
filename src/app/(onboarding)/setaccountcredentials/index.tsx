@@ -225,6 +225,8 @@ export default function SetAccountCredentials() {
                     preferredName: params.preferredName,
                     selected: params.selected,
                   };
+                  // user is automatically signed in when their account is successfully created.
+                  // The observer subscribes to the Auth object and executes the callback with the signed in User
                   onAuthStateChanged(auth, (user) => {
                     if (user) {
                       router.navigate({
