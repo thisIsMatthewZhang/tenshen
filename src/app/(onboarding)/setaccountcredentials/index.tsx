@@ -202,7 +202,7 @@ export default function SetAccountCredentials() {
           textStyle={BIG_GOLDEN_BUTTON.text}
         />
         <AppButton
-          title="Time to work out!"
+          title="Next"
           bgColor={MAIN_COLOR}
           textColor="black"
           onPress={async () => {
