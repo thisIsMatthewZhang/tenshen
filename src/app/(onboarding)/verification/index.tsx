@@ -1,5 +1,5 @@
+import { firebaseConfigWeb } from "@/config/firebaseConfig";
 import AppButton from "@/src/components/AppButton";
-import { firebaseConfigWeb } from "@/src/config/firebaseConfig";
 import { MAIN_COLOR, PATTERN } from "@/src/constants/theme";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { initializeApp } from "firebase/app";

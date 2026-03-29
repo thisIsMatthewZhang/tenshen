@@ -1,26 +1,26 @@
+import { firebaseConfigWeb } from "@/config/firebaseConfig";
 import AppButton from "@/src/components/AppButton";
 import PressableText from "@/src/components/PressableText";
-import { firebaseConfigWeb } from "@/src/config/firebaseConfig";
 import { LOCAL_AUTH_ERROR_CODES } from "@/src/constants/localAuthErrorCodes";
 import {
-  BIG_GOLDEN_BUTTON,
-  BLUE_DARKER,
-  MAIN_COLOR,
-  PATTERN,
-  TEXT_INPUT,
+    BIG_GOLDEN_BUTTON,
+    BLUE_DARKER,
+    MAIN_COLOR,
+    PATTERN,
+    TEXT_INPUT,
 } from "@/src/constants/theme";
 import { useRouter } from "expo-router";
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useEffect, useMemo, useState } from "react";
 import {
-  ActivityIndicator,
-  Animated,
-  Keyboard,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
+    ActivityIndicator,
+    Animated,
+    Keyboard,
+    StyleSheet,
+    Text,
+    TextInput,
+    View,
 } from "react-native";
 
 const app = initializeApp(firebaseConfigWeb);
