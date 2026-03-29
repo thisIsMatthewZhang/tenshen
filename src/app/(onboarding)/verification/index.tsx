@@ -4,7 +4,6 @@ import { MAIN_COLOR, PATTERN } from "@/src/constants/theme";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { initializeApp } from "firebase/app";
 import { getAuth, sendEmailVerification, User } from "firebase/auth";
-import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 const app = initializeApp(firebaseConfigWeb);
@@ -17,11 +16,11 @@ export default function EmailVerification() {
     preferredName: string;
     selected: string;
   }>();
-  const [mustVerify, setMustVerify] = useState("");
   const user: User = auth.currentUser!;
   (async function () {
     await sendEmailVerification(user);
   })();
+
   return (
     <View style={PATTERN.container}>
       <View style={styles.headerContainer}>
@@ -42,14 +41,16 @@ export default function EmailVerification() {
           bgColor={MAIN_COLOR}
           title="Time to work out!"
           onPress={() => {
-            if (!auth.currentUser?.emailVerified) {
-              setMustVerify("Please verify your email before continuing.");
+            if (!user.emailVerified) {
             } else {
               router.navigate({ pathname: "/home" });
-              setMustVerify("");
             }
           }}
-          customStyle={styles.button}
+          customStyle={[
+            styles.button,
+            { opacity: !user.emailVerified ? 0.5 : 1 },
+          ]}
+          pressableProps={{ disabled: !user.emailVerified }}
         />
         <AppButton
           textColor="white"
