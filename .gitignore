@@ -51,4 +51,4 @@ GoogleService-Info.plist
 LOG.md
 
 # config folder
-src/config
+config/
