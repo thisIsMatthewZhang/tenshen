@@ -3,11 +3,26 @@ import AppButton from "@/src/components/AppButton";
 import { MAIN_COLOR, PATTERN } from "@/src/constants/theme";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { initializeApp } from "firebase/app";
-import { getAuth, sendEmailVerification, User } from "firebase/auth";
+import {
+  ActionCodeSettings,
+  getAuth,
+  sendEmailVerification,
+  User,
+} from "firebase/auth";
 import { StyleSheet, Text, View } from "react-native";
 
 const app = initializeApp(firebaseConfigWeb);
 const auth = getAuth(app);
+const actionCodeSettings: ActionCodeSettings = {
+  android: {
+    packageName: "app.tenshen.tenshenfitnessapp",
+  },
+  handleCodeInApp: false,
+  iOS: {
+    bundleId: "app.tenshen.tenshenfitnessapp",
+  },
+  url: "https://tenshen-e1fb4.firebaseapp.com/?emailVerified=true", // maybe include user email too
+};
 
 export default function EmailVerification() {
   const router = useRouter();
@@ -18,7 +33,7 @@ export default function EmailVerification() {
   }>();
   const user: User = auth.currentUser!;
   (async function () {
-    await sendEmailVerification(user);
+    await sendEmailVerification(user, actionCodeSettings);
   })();
 
   return (
@@ -57,7 +72,7 @@ export default function EmailVerification() {
           bgColor="black"
           title="Resend verification email"
           onPress={async () => {
-            await sendEmailVerification(user);
+            await sendEmailVerification(user, actionCodeSettings);
           }}
           customStyle={styles.button}
         />
