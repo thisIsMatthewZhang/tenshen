@@ -82,11 +82,10 @@
         <!-- Display message based on verification status -->
       </p>
     </div>
-    <!-- <p id="load">Firebase SDK Loading&hellip;</p> -->
     <script>
       const firebaseConfigWeb = {
         apiKey: "AIzaSyAdOkoZMEIhhRUNx8d35-hNhvZ756-a_hs",
-        authDomain: "tenshen-e1fb4.firebaseapp.com",
+        authDomain: "tenshen-e1fb4.web.app",
         projectId: "tenshen-e1fb4",
         storageBucket: "tenshen-e1fb4.firebasestorage.app",
         messagingSenderId: "1064945186386",
@@ -95,15 +94,11 @@
       };
       function handleVerifyEmail(auth, actionCode, continueUrl, lang) {
         let statusP = document.querySelector("#message p");
-        applyActionCode(auth, actionCode)
+        auth.applyActionCode(actionCode)
           .then((response) => {
             statusP.innerText =
               "Your email has been successfully verified! Please click the button below to return to the mobile app.";
-            let messageParent = document.getElementById("message");
-            let continueLink = document.createElement("a");
-            continueLink.setAttribute("href", continueUrl);
-            continueLink.text = "Return to mobile app";
-            messageParent.appendChild(continueLink);
+            window.location.href = "tenshenfitnessapp://verification?emailVerified=true";
           })
           .catch((error) => {
             statusP.innerText =
@@ -113,12 +108,8 @@
 
       function getParameterByName(queryParamName) {
         try {
-          const queryParams = window.location.search;
-          const queryParamsSplit = queryParams.split("&");
-          console.log(queryParamsSplit);
-          return queryParamsSplit.find(
-            (qp) => qp.split("=")[0] === queryParamName,
-          );
+          const queryParams = new URLSearchParams(window.location.search);
+          return queryParams.get(queryParamName);
         } catch (e) {
           alert(
             `There was an error when searching for the query param ${queryParamName}: ${e}`,
@@ -129,9 +120,13 @@
       document.addEventListener("DOMContentLoaded", () => {
         // function to parse for the query parameters set upon password reset, email change, or email verification
         const mode = getParameterByName("mode");
+	console.log(mode);
         const actionCode = getParameterByName("oobCode");
+	console.log(actionCode);
         const continueUrl = getParameterByName("continueUrl"); // optional
+	console.log(continueUrl);
         const lang = getParameterByName("lang") || "en"; // optional
+	console.log(lang);
 
         const app = firebase.initializeApp(firebaseConfigWeb);
         const auth = app.auth();
@@ -149,22 +144,6 @@
           default:
           // Error: invalid mode.
         }
-
-        // const loadEl = document.querySelector("#load");
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-        // // The Firebase SDK is initialized and available here!
-        //
-        // firebase.auth().onAuthStateChanged(user => { });
-        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
-        // firebase.firestore().doc('/foo/bar').get().then(() => { });
-        // firebase.functions().httpsCallable('yourFunction')().then(() => { });
-        // firebase.messaging().requestPermission().then(() => { });
-        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
-        // firebase.analytics(); // call to activate
-        // firebase.analytics().logEvent('tutorial_completed');
-        // firebase.performance(); // call to activate
-        //
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
       });
     </script>
   </body>

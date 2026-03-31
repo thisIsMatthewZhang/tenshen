@@ -1,6 +1,7 @@
 export const firebaseConfigWeb = {
   apiKey: "AIzaSyAdOkoZMEIhhRUNx8d35-hNhvZ756-a_hs",
-  authDomain: "tenshen-e1fb4.firebaseapp.com",
+  // authDomain: "tenshen-e1fb4.firebaseapp.com",
+  authDomain: "tenshen-e1fb4.web.app",
   projectId: "tenshen-e1fb4",
   storageBucket: "tenshen-e1fb4.firebasestorage.app",
   messagingSenderId: "1064945186386",
