@@ -9,6 +9,7 @@ import {
   sendEmailVerification,
   User,
 } from "firebase/auth";
+import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 const app = initializeApp(firebaseConfigWeb);
@@ -20,8 +21,11 @@ export default function EmailVerification() {
     fullName: string;
     preferredName: string;
     selected: string;
+    emailVerified: string;
+    oobCode: string;
   }>();
   const user: User = auth.currentUser!;
+  const [userReloaded, setUserReloaded] = useState(false); // needed as 'user.emailVerfied' update does not seem to reflect in the render
   const actionCodeSettings: ActionCodeSettings = {
     android: {
       packageName: "app.tenshen.tenshenfitnessapp",
@@ -30,13 +34,21 @@ export default function EmailVerification() {
     iOS: {
       bundleId: "app.tenshen.tenshenfitnessapp",
     },
-    url:
-      "https://tenshen-e1fb4.web.app/?email=" +
-      user.email,
+    url: `https://tenshen-e1fb4.web.app/?email=${user.email}&fullName=${params.fullName}&preferredName=${params.preferredName}&selected=${params.selected}`,
   };
-  (async function () {
-    await sendEmailVerification(user, actionCodeSettings);
-  })();
+  if (!params.oobCode && !params.emailVerified) {
+    (async function () {
+      await sendEmailVerification(user, actionCodeSettings);
+    })();
+  }
+  if (params.oobCode && params.emailVerified) {
+    user
+      .reload()
+      .then(() => {
+        if (user.emailVerified) setUserReloaded(true);
+      })
+      .catch((error) => setUserReloaded(false));
+  }
 
   return (
     <View style={PATTERN.container}>
@@ -58,16 +70,13 @@ export default function EmailVerification() {
           bgColor={MAIN_COLOR}
           title="Time to work out!"
           onPress={() => {
-            if (!user.emailVerified) {
+            if (!userReloaded) {
             } else {
               router.navigate({ pathname: "/home" });
             }
           }}
-          customStyle={[
-            styles.button,
-            { opacity: !user.emailVerified ? 0.5 : 1 },
-          ]}
-          pressableProps={{ disabled: !user.emailVerified }}
+          customStyle={[styles.button, { opacity: !userReloaded ? 0.5 : 1 }]}
+          pressableProps={{ disabled: !userReloaded }}
         />
         <AppButton
           textColor="white"
