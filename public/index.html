@@ -94,11 +94,15 @@
       };
       function handleVerifyEmail(auth, actionCode, continueUrl, lang) {
         let statusP = document.querySelector("#message p");
-        auth.applyActionCode(actionCode)
+        auth
+          .applyActionCode(actionCode)
           .then((response) => {
             statusP.innerText =
               "Your email has been successfully verified! Please click the button below to return to the mobile app.";
-            window.location.href = "tenshenfitnessapp://verification?emailVerified=true";
+            const newContinueUrl = new URL(continueUrl);
+            const nestedLink = new URL(newContinueUrl.searchParams.get("link"));
+            const nestedLinkParams = nestedLink.search.slice(1); // shave off leading '?'
+            window.location.href = `tenshenfitnessapp://verification?emailVerified=true&oobCode=${actionCode}&${nestedLinkParams}`;
           })
           .catch((error) => {
             statusP.innerText =
@@ -120,13 +124,13 @@
       document.addEventListener("DOMContentLoaded", () => {
         // function to parse for the query parameters set upon password reset, email change, or email verification
         const mode = getParameterByName("mode");
-	console.log(mode);
+        console.log(mode);
         const actionCode = getParameterByName("oobCode");
-	console.log(actionCode);
+        console.log(actionCode);
         const continueUrl = getParameterByName("continueUrl"); // optional
-	console.log(continueUrl);
+        console.log(continueUrl);
         const lang = getParameterByName("lang") || "en"; // optional
-	console.log(lang);
+        console.log(lang);
 
         const app = firebase.initializeApp(firebaseConfigWeb);
         const auth = app.auth();

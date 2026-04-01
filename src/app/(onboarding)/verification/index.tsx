@@ -20,6 +20,8 @@ export default function EmailVerification() {
     fullName: string;
     preferredName: string;
     selected: string;
+    emailVerified: string;
+    oobCode: string;
   }>();
   const user: User = auth.currentUser!;
   const actionCodeSettings: ActionCodeSettings = {
@@ -30,13 +32,13 @@ export default function EmailVerification() {
     iOS: {
       bundleId: "app.tenshen.tenshenfitnessapp",
     },
-    url:
-      "https://tenshen-e1fb4.web.app/?email=" +
-      user.email,
+    url: `https://tenshen-e1fb4.web.app/?email=${user.email}&fullName=${params.fullName}&preferredName=${params.preferredName}&selected=${params.selected}`,
   };
-  (async function () {
-    await sendEmailVerification(user, actionCodeSettings);
-  })();
+  if (!params.oobCode && !params.emailVerified) {
+    (async function () {
+      await sendEmailVerification(user, actionCodeSettings);
+    })();
+  }
 
   return (
     <View style={PATTERN.container}>
