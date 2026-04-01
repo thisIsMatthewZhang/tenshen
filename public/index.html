@@ -124,13 +124,9 @@
       document.addEventListener("DOMContentLoaded", () => {
         // function to parse for the query parameters set upon password reset, email change, or email verification
         const mode = getParameterByName("mode");
-        console.log(mode);
         const actionCode = getParameterByName("oobCode");
-        console.log(actionCode);
         const continueUrl = getParameterByName("continueUrl"); // optional
-        console.log(continueUrl);
         const lang = getParameterByName("lang") || "en"; // optional
-        console.log(lang);
 
         const app = firebase.initializeApp(firebaseConfigWeb);
         const auth = app.auth();

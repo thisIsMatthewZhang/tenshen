@@ -9,6 +9,7 @@ import {
   sendEmailVerification,
   User,
 } from "firebase/auth";
+import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 const app = initializeApp(firebaseConfigWeb);
@@ -24,6 +25,7 @@ export default function EmailVerification() {
     oobCode: string;
   }>();
   const user: User = auth.currentUser!;
+  const [userReloaded, setUserReloaded] = useState(false); // needed as 'user.emailVerfied' update does not seem to reflect in the render
   const actionCodeSettings: ActionCodeSettings = {
     android: {
       packageName: "app.tenshen.tenshenfitnessapp",
@@ -38,6 +40,14 @@ export default function EmailVerification() {
     (async function () {
       await sendEmailVerification(user, actionCodeSettings);
     })();
+  }
+  if (params.oobCode && params.emailVerified) {
+    user
+      .reload()
+      .then(() => {
+        if (user.emailVerified) setUserReloaded(true);
+      })
+      .catch((error) => setUserReloaded(false));
   }
 
   return (
@@ -60,16 +70,13 @@ export default function EmailVerification() {
           bgColor={MAIN_COLOR}
           title="Time to work out!"
           onPress={() => {
-            if (!user.emailVerified) {
+            if (!userReloaded) {
             } else {
               router.navigate({ pathname: "/home" });
             }
           }}
-          customStyle={[
-            styles.button,
-            { opacity: !user.emailVerified ? 0.5 : 1 },
-          ]}
-          pressableProps={{ disabled: !user.emailVerified }}
+          customStyle={[styles.button, { opacity: !userReloaded ? 0.5 : 1 }]}
+          pressableProps={{ disabled: !userReloaded }}
         />
         <AppButton
           textColor="white"
