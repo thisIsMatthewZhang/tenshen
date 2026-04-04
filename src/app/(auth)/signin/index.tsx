@@ -11,7 +11,7 @@ import {
 } from "@/src/constants/theme";
 import { useRouter } from "expo-router";
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { useEffect, useMemo, useState } from "react";
 import {
   ActivityIndicator,
@@ -159,9 +159,19 @@ export default function SignIn() {
               credentials.password,
             )
               .then((userCredential) => {
-                setShowSpinner(false);
-                router.navigate("/home");
-                setAuthMessage("");
+                if (!userCredential.user.emailVerified) {
+                  // TODO: include server-based security rules
+                  setAuthMessage(
+                    "Please verify your email before continuing. You'll be sent back to the start screen in 5 seconds.",
+                  );
+                  signOut(auth).then((response) => {
+                    setTimeout(() => router.navigate("/"), 5000);
+                  });
+                } else {
+                  setShowSpinner(false);
+                  router.navigate("/home");
+                  setAuthMessage("");
+                }
               })
               .catch((error) => {
                 setShowSpinner(false);
