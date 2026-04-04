@@ -3,28 +3,29 @@ import AppButton from "@/src/components/AppButton";
 import BackButton from "@/src/components/BackButton";
 import { LOCAL_AUTH_ERROR_CODES } from "@/src/constants/localAuthErrorCodes";
 import {
-    BIG_GOLDEN_BUTTON,
-    BLUE_DARKER,
-    MAIN_COLOR,
-    PATTERN,
-    TEXT_INPUT,
+  BIG_GOLDEN_BUTTON,
+  BLUE_DARKER,
+  MAIN_COLOR,
+  PATTERN,
+  TEXT_INPUT,
 } from "@/src/constants/theme";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { initializeApp } from "firebase/app";
 import {
-    createUserWithEmailAndPassword,
-    getAuth,
-    onAuthStateChanged,
+  createUserWithEmailAndPassword,
+  getAuth,
+  onAuthStateChanged,
+  validatePassword,
 } from "firebase/auth";
 import { useEffect, useMemo, useState } from "react";
 import {
-    ActivityIndicator,
-    Animated,
-    Keyboard,
-    StyleSheet,
-    Text,
-    TextInput,
-    View,
+  ActivityIndicator,
+  Animated,
+  Keyboard,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
 } from "react-native";
 
 const app = initializeApp(firebaseConfigWeb);
@@ -145,7 +146,7 @@ export default function SetAccountCredentials() {
         autoCapitalize="none"
         inputMode="text"
         textContentType="newPassword" // only iOS supports this for autofill purposes
-        passwordRules="required: upper; required: lower; required: special; required: digit; minlength: 8; maxlength: 20"
+        passwordRules="required: upper; required: lower; required: special; required: digit; minlength: 8; maxlength: 4096"
         value={credentials.password}
         style={[
           TEXT_INPUT.input,
@@ -174,7 +175,7 @@ export default function SetAccountCredentials() {
         aria-label="Confirm Password"
         autoCapitalize="none"
         inputMode="text"
-        passwordRules="required: upper; required: lower; required: special; required: digit; minlength: 8; maxlength: 20"
+        passwordRules="required: upper; required: lower; required: special; required: digit; minlength: 8; maxlength: 4096"
         value={credentials.confirmPassword}
         style={[
           TEXT_INPUT.input,
@@ -194,6 +195,22 @@ export default function SetAccountCredentials() {
         secureTextEntry={true}
       />
       <Text style={{ color: MAIN_COLOR }}> {errors.confirmPassword} </Text>
+      <View style={styles.passwordRulesContainer}>
+        <Text style={[PATTERN.smallText]}>Password must:</Text>
+        <Text style={[PATTERN.smallText]}>
+          • Include at least one uppercase letter
+        </Text>
+        <Text style={[PATTERN.smallText]}>
+          • Include at least one lowercase letter
+        </Text>
+        <Text style={[PATTERN.smallText]}>
+          • Include at least one special character
+        </Text>
+        <Text style={[PATTERN.smallText]}>• Include at least one number</Text>
+        <Text style={[PATTERN.smallText]}>
+          • Be at least eight characters long
+        </Text>
+      </View>
       <View style={styles.buttonContainer}>
         <BackButton
           bgColor={MAIN_COLOR}
@@ -206,10 +223,15 @@ export default function SetAccountCredentials() {
           bgColor={MAIN_COLOR}
           textColor="black"
           onPress={async () => {
+            const passwordStatus = await validatePassword(
+              auth,
+              credentials.password,
+            );
             if (
               Object.values(credentials).every((value) => value) &&
               Object.values(errors).every((value) => !value) &&
-              credentials.password === credentials.confirmPassword
+              credentials.password === credentials.confirmPassword &&
+              passwordStatus.isValid
             ) {
               Keyboard.dismiss();
               setShowSpinner(true);
@@ -275,6 +297,9 @@ const styles = StyleSheet.create({
   },
   spinner: {
     position: "absolute",
+  },
+  passwordRulesContainer: {
+    alignItems: "flex-start",
   },
   authErrorContainer: {
     position: "absolute",
