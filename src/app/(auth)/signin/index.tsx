@@ -176,6 +176,10 @@ export default function SignIn() {
                     errorDisplayText =
                       "Sorry! There was an internal error. Please try again soon.";
                     break;
+                  case LOCAL_AUTH_ERROR_CODES.UNVERIFIED_EMAIL:
+                    errorDisplayText =
+                      "Please verify your email before continuing.";
+                    break;
                   default:
                     errorDisplayText = "An issue occurred. Please try again";
                 }
