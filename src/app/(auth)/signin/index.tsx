@@ -162,7 +162,7 @@ export default function SignIn() {
                 if (!userCredential.user.emailVerified) {
                   // TODO: include server-based security rules
                   setAuthMessage(
-                    "Please verify your email before continuing. You'll be sent back to the start screen in 5 seconds.",
+                    "Please verify your email before continuing. You'll be sent back to the start screen.",
                   );
                   signOut(auth).then((response) => {
                     setTimeout(() => router.navigate("/"), 5000);

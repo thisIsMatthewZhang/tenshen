@@ -1,11 +1,17 @@
+import { firebaseConfigWeb } from "@/config/firebaseConfig";
 import { ICON_SIZE, MAIN_COLOR } from "@/src/constants/theme";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Tabs } from "expo-router";
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
 import { View } from "react-native";
 
+const app = initializeApp(firebaseConfigWeb);
+const auth = getAuth(app);
+
 export default function TabLayout() {
-  // const [workouts, setWorkouts] = useState<WorkoutCardProps[]>([]);
-  // const [exercises, setExercises] = useState<Exercise[]>([]);
+  const user = auth.currentUser!;
+  const isVerified = user.emailVerified;
   return (
     <Tabs
       detachInactiveScreens={false}
@@ -17,28 +23,29 @@ export default function TabLayout() {
         ),
       }}
     >
-      <Tabs.Screen
-        name="home/index"
-        options={{
-          title: "Home",
-          animation: "shift",
-          tabBarIcon: ({ color }) => (
-            <Ionicons name="home" color={color} size={ICON_SIZE} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="workout/index"
-        options={{
-          animation: "shift",
+      <Tabs.Protected guard={isVerified}>
+        <Tabs.Screen
+          name="home/index"
+          options={{
+            title: "Home",
+            animation: "shift",
+            tabBarIcon: ({ color }) => (
+              <Ionicons name="home" color={color} size={ICON_SIZE} />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="workout/index"
+          options={{
+            animation: "shift",
 
-          title: "Workout",
-          tabBarIcon: ({ color }) => (
-            <Ionicons name="barbell-sharp" color={color} size={ICON_SIZE} />
-          ),
-        }}
-      />
-      {/* <Tabs.Screen
+            title: "Workout",
+            tabBarIcon: ({ color }) => (
+              <Ionicons name="barbell-sharp" color={color} size={ICON_SIZE} />
+            ),
+          }}
+        />
+        {/* <Tabs.Screen
         name="community/index"
         options={{
           title: "Community",
@@ -47,17 +54,18 @@ export default function TabLayout() {
           ),
         }}
       /> */}
-      <Tabs.Screen
-        name="profile/index"
-        options={{
-          animation: "shift",
+        <Tabs.Screen
+          name="profile/index"
+          options={{
+            animation: "shift",
 
-          title: "Profile",
-          tabBarIcon: ({ color }) => (
-            <Ionicons name="person" color={color} size={ICON_SIZE} />
-          ),
-        }}
-      />
+            title: "Profile",
+            tabBarIcon: ({ color }) => (
+              <Ionicons name="person" color={color} size={ICON_SIZE} />
+            ),
+          }}
+        />
+      </Tabs.Protected>
     </Tabs>
   );
 }
