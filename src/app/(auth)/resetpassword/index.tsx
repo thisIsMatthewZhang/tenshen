@@ -2,27 +2,28 @@ import { firebaseConfigWeb } from "@/config/firebaseConfig";
 import AppButton from "@/src/components/AppButton";
 import BackButton from "@/src/components/BackButton";
 import {
-    BIG_GOLDEN_BUTTON,
-    BLUE_DARKER,
-    MAIN_COLOR,
-    PATTERN,
-    TEXT_INPUT,
+  BIG_GOLDEN_BUTTON,
+  BLUE_DARKER,
+  MAIN_COLOR,
+  PATTERN,
+  TEXT_INPUT,
 } from "@/src/constants/theme";
 import { useRouter } from "expo-router";
 import { initializeApp } from "firebase/app";
 import {
-    getAuth,
-    sendPasswordResetEmail
+  ActionCodeSettings,
+  getAuth,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import { useEffect, useMemo, useState } from "react";
 import {
-    ActivityIndicator,
-    Animated,
-    Keyboard,
-    StyleSheet,
-    Text,
-    TextInput,
-    View,
+  ActivityIndicator,
+  Animated,
+  Keyboard,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
 } from "react-native";
 
 const app = initializeApp(firebaseConfigWeb);
@@ -36,6 +37,16 @@ export default function ResetPassword() {
   const [showSpinner, setShowSpinner] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
   const [authMessage, setAuthMessage] = useState<string>("");
+  const actionCodeSettings: ActionCodeSettings = {
+    android: {
+      packageName: "app.tenshen.tenshenfitnessapp",
+    },
+    handleCodeInApp: false,
+    iOS: {
+      bundleId: "app.tenshen.tenshenfitnessapp",
+    },
+    url: `https://tenshen-e1fb4.web.app/`,
+  };
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
@@ -98,7 +109,7 @@ export default function ResetPassword() {
       <TextInput
         onFocus={() => setFocused(true)}
         onEndEditing={() => setFocused(false)}
-        aria-label="Last Name"
+        aria-label="Email"
         autoCapitalize="words"
         inputMode="text"
         value={email}
@@ -107,7 +118,7 @@ export default function ResetPassword() {
           PATTERN.smallText,
           { borderBottomColor: focused ? "#308cfc" : "white" },
         ]}
-        placeholder="Last Name"
+        placeholder="Email"
         placeholderTextColor={"white"}
         onChangeText={(text) => setEmail(text)}
       />
@@ -131,7 +142,7 @@ export default function ResetPassword() {
           textColor="black"
           onPress={() => {
             setShowSpinner(true);
-            sendPasswordResetEmail(auth, email)
+            sendPasswordResetEmail(auth, email, actionCodeSettings)
               .then((response) => {})
               .finally(() => setShowSpinner(false));
           }}

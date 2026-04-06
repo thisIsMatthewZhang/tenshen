@@ -148,27 +148,31 @@
         let parent = document.getElementById("message");
         parent.appendChild(ul);
       }
-      function handlePasswordReset(auth, actionCode, continueUrl, lang) {
+      function handleResetPassword(auth, actionCode, continueUrl, lang) {
         const submitNewPasswordButton = addChildNodes();
         const newPasswordInput = document.getElementById("new-password");
         const confirmPasswordInput =
           document.getElementById("confirm-password");
         submitNewPasswordButton.addEventListener("click", async () => {
           try {
-            if (
-              newPasswordInput.value.trim() !==
-              confirmPasswordInput.value.trim()
-            ) {
+            if (newPasswordInput.value !== confirmPasswordInput.value) {
               throw new Error("Passwords must match.");
             }
-            const passwordStatus = await auth.validatePassword(
-              newPasswordInput.value,
-            );
-            if (!passwordStatus.isValid) {
-              throw new Error(
-                "The password you provided does not meet all the requirements.",
-              );
-            }
+            // const passwordStatus = await validatePassword(
+            //   auth,
+            //   newPasswordInput.value,
+            // );
+            // if (!passwordStatus.isValid) {
+            //   throw new Error(
+            //     "The password you provided does not meet all the requirements.",
+            //   );
+            // }
+            await auth
+              .confirmPasswordReset(actionCode, newPasswordInput.value)
+              .then((response) => {
+                // TODO: redirect user to app with action code
+                window.location.href = `tenshenfitnessapp://signin?oobCode=${actionCode}`;
+              });
           } catch (error) {
             const errorMessage = error.message;
             alert(errorMessage);
