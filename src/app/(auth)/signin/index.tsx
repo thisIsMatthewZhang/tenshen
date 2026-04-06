@@ -218,7 +218,7 @@ const styles = StyleSheet.create({
     fontWeight: 600,
     color: BLUE_DARKER,
   },
-  forgotPasswordContainer: { width: "75%", marginBottom: 12 },
+  forgotPasswordContainer: { width: "75%", margin: 12 },
   notAMemberContainer: {
     flexDirection: "row",
     width: "75%",
