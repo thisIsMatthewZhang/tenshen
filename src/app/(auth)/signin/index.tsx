@@ -139,7 +139,7 @@ export default function SignIn() {
       />
       <View style={styles.forgotPasswordContainer}>
         <PressableText
-          onPress={() => console.error("not implemented")}
+          onPress={() => router.push("/resetpassword")}
           customStyles={[PATTERN.smallText, styles.pressableText]}
         >
           Forgot password?

@@ -40,7 +40,8 @@
         margin: 16px 0 24px;
         font-size: 14px;
       }
-      #message a {
+      #message a,
+      #message button {
         display: block;
         text-align: center;
         background: #039be5;
@@ -77,7 +78,6 @@
   <body>
     <div id="message">
       <h2>Welcome!</h2>
-      <h1>Thank You For Verifying</h1>
       <p>
         <!-- Display message based on verification status -->
       </p>
@@ -93,21 +93,87 @@
         measurementId: "G-P3VN5WV41R",
       };
       function handleVerifyEmail(auth, actionCode, continueUrl, lang) {
-        let statusP = document.querySelector("#message p");
+        let p = document.querySelector("#message p");
         auth
           .applyActionCode(actionCode)
           .then((response) => {
-            statusP.innerText =
-              "Your email has been successfully verified! Please click the button below to return to the mobile app.";
+            p.innerText =
+              "Your email has been successfully verified! You should be asked to return to the mobile app.";
             const newContinueUrl = new URL(continueUrl);
             const nestedLink = new URL(newContinueUrl.searchParams.get("link"));
             const nestedLinkParams = nestedLink.search.slice(1); // shave off leading '?'
             window.location.href = `tenshenfitnessapp://verification?emailVerified=true&oobCode=${actionCode}&${nestedLinkParams}`;
           })
           .catch((error) => {
-            statusP.innerText =
+            p.innerText =
               "Sorry there was an issue that prevented your email from being verified. Please exit this page and try again in the mobile app.";
           });
+      }
+      function addChildNodes() {
+        let p = document.querySelector("#message p");
+        p.innerText = "Please fill in your new password below.";
+        let newPasswordInput = document.createElement("input");
+        newPasswordInput.id = "new-password";
+        newPasswordInput.type = "password";
+        newPasswordInput.placeholder = "New password";
+        let confirmPasswordInput = document.createElement("input");
+        confirmPasswordInput.id = "confirm-password";
+        confirmPasswordInput.type = "password";
+        confirmPasswordInput.placeholder = "Confirm password";
+        let parent = document.getElementById("message");
+        parent.appendChild(newPasswordInput);
+        parent.appendChild(confirmPasswordInput);
+        addPasswordRequirements();
+        let submitNewPasswordButton = document.createElement("button");
+        submitNewPasswordButton.id = "submit-button";
+        submitNewPasswordButton.type = "submit";
+        submitNewPasswordButton.innerText = "Set new password";
+        parent.appendChild(submitNewPasswordButton);
+        return submitNewPasswordButton;
+      }
+      function addPasswordRequirements() {
+        let ul = document.createElement("ul");
+        const requirements = [
+          "Include at least one uppercase letter",
+          "Include at least one lowercase letter",
+          "Include at least one special character",
+          "Include at least one number",
+          "Be at least eight characters long",
+        ];
+        for (let i = 0; i < requirements.length; i++) {
+          let li = document.createElement("li");
+          li.innerText = requirements[i];
+          ul.appendChild(li);
+        }
+        let parent = document.getElementById("message");
+        parent.appendChild(ul);
+      }
+      function handlePasswordReset(auth, actionCode, continueUrl, lang) {
+        const submitNewPasswordButton = addChildNodes();
+        const newPasswordInput = document.getElementById("new-password");
+        const confirmPasswordInput =
+          document.getElementById("confirm-password");
+        submitNewPasswordButton.addEventListener("click", async () => {
+          try {
+            if (
+              newPasswordInput.value.trim() !==
+              confirmPasswordInput.value.trim()
+            ) {
+              throw new Error("Passwords must match.");
+            }
+            const passwordStatus = await auth.validatePassword(
+              newPasswordInput.value,
+            );
+            if (!passwordStatus.isValid) {
+              throw new Error(
+                "The password you provided does not meet all the requirements.",
+              );
+            }
+          } catch (error) {
+            const errorMessage = error.message;
+            alert(errorMessage);
+          }
+        });
       }
 
       function getParameterByName(queryParamName) {
@@ -133,7 +199,7 @@
 
         switch (mode) {
           case "resetPassword":
-            // handleResetPassword(auth, actionCode, continueUrl, lang);
+            handleResetPassword(auth, actionCode, continueUrl, lang);
             break;
           case "recoverEmail":
             // handleRecoverEmail(auth, actionCode, lang);
