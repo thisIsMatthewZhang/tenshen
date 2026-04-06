@@ -135,13 +135,12 @@ export default function YourName() {
               setError("Please give your full name and preferred name");
             } else {
               setError("");
+              const fullName = firstName.trim() + "-" + lastName.trim();
               router.push({
                 pathname: "/pickworkoutbuddy",
                 params: {
-                  firstName,
-                  lastName,
+                  fullName,
                   preferredName,
-                  screenName: "Pick your workout buddy",
                 },
               });
             }
