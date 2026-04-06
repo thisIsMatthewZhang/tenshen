@@ -8,7 +8,6 @@ import {
   PATTERN,
   TEXT_INPUT,
 } from "@/src/constants/theme";
-import { useRouter } from "expo-router";
 import { initializeApp } from "firebase/app";
 import {
   ActionCodeSettings,
@@ -30,7 +29,6 @@ const app = initializeApp(firebaseConfigWeb);
 const auth = getAuth(app);
 
 export default function ResetPassword() {
-  const router = useRouter();
   const [keyboardHeight, setKeyboardHeight] = useState(0);
   const translateY = useMemo(() => new Animated.Value(0), []);
   const [focused, setFocused] = useState<boolean>(false);
@@ -143,7 +141,14 @@ export default function ResetPassword() {
           onPress={() => {
             setShowSpinner(true);
             sendPasswordResetEmail(auth, email, actionCodeSettings)
-              .then((response) => {})
+              .then((response) => {
+                setAuthMessage("");
+              })
+              .catch((error) => {
+                setAuthMessage(
+                  "Sorry! There was an issue and we couldn't send the password reset email.",
+                );
+              })
               .finally(() => setShowSpinner(false));
           }}
           customStyle={[BIG_GOLDEN_BUTTON.pressable, { width: "60%" }]}
