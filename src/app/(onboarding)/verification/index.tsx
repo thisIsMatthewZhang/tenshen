@@ -7,6 +7,7 @@ import {
   ActionCodeSettings,
   getAuth,
   sendEmailVerification,
+  updateProfile,
   User,
 } from "firebase/auth";
 import { useState } from "react";
@@ -44,8 +45,12 @@ export default function EmailVerification() {
   if (params.oobCode && params.emailVerified) {
     user
       .reload()
-      .then(() => {
+      .then(async () => {
         if (user.emailVerified) setUserReloaded(true);
+        await updateProfile(user, {
+          displayName: params.preferredName,
+          photoURL: null,
+        });
       })
       .catch((error) => setUserReloaded(false));
   }
