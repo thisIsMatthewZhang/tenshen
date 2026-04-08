@@ -10,11 +10,13 @@ import {
   updateProfile,
   User,
 } from "firebase/auth";
+import { addDoc, collection, getFirestore } from "firebase/firestore";
 import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 const app = initializeApp(firebaseConfigWeb);
 const auth = getAuth(app);
+const db = getFirestore(app); // https://firebase.google.com/docs/firestore/manage-data/enable-offline
 
 export default function EmailVerification() {
   const router = useRouter();
@@ -47,10 +49,6 @@ export default function EmailVerification() {
       .reload()
       .then(async () => {
         if (user.emailVerified) setUserReloaded(true);
-        await updateProfile(user, {
-          displayName: params.preferredName,
-          photoURL: null,
-        });
       })
       .catch((error) => setUserReloaded(false));
   }
@@ -74,9 +72,27 @@ export default function EmailVerification() {
           textColor="black"
           bgColor={MAIN_COLOR}
           title="Time to work out!"
-          onPress={() => {
+          onPress={async () => {
             if (!userReloaded) {
             } else {
+              await updateProfile(user, {
+                displayName: params.preferredName,
+                photoURL: null,
+              });
+              await addDoc(collection(db, "users"), {
+                name: {
+                  first: params.fullName.split("-").at(0),
+                  last: params.fullName.split("-").at(1),
+                },
+                preferred: params.preferredName,
+                email: user.email,
+                photo: user.photoURL,
+                partner: params.selected,
+                workoutsFinished: null,
+                workoutsSaved: null,
+                streak: 0,
+                exp: 0,
+              });
               router.navigate({ pathname: "/home" });
             }
           }}
