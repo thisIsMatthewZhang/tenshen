@@ -1,6 +1,7 @@
 import { firebaseConfigWeb } from "@/config/firebaseConfig";
 import AppButton from "@/src/components/AppButton";
 import { MAIN_COLOR, PATTERN } from "@/src/constants/theme";
+import { User as AppUser } from "@/src/types/user";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { initializeApp } from "firebase/app";
 import {
@@ -10,7 +11,13 @@ import {
   updateProfile,
   User,
 } from "firebase/auth";
-import { addDoc, collection, getFirestore } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  DocumentData,
+  DocumentReference,
+  getFirestore,
+} from "firebase/firestore";
 import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
@@ -44,13 +51,41 @@ export default function EmailVerification() {
       await sendEmailVerification(user, actionCodeSettings);
     })();
   }
-  if (params.oobCode && params.emailVerified) {
+  if (params.oobCode && params.emailVerified === "true") {
     user
       .reload()
       .then(async () => {
         if (user.emailVerified) setUserReloaded(true);
+        await updateProfile(user, {
+          displayName: params.preferredName,
+          photoURL: null,
+        });
       })
       .catch((error) => setUserReloaded(false));
+  }
+  if (userReloaded) {
+    const newUser: AppUser = {
+      name: {
+        first: params.fullName.split("-").at(0)!,
+        last: params.fullName.split("-").at(1)!,
+      },
+      preferredName: params.preferredName,
+      email: user.email!,
+      photo: user.photoURL!,
+      workoutPartner: params.selected,
+      workoutsFinished: null,
+      workoutsSaved: null,
+      streak: 0,
+      exp: 0,
+    };
+    storeNewUser(newUser);
+  }
+
+  async function storeNewUser(
+    newUser: AppUser,
+  ): Promise<DocumentReference<DocumentData, DocumentData>> {
+    const docRef = await addDoc(collection(db, "users"), newUser);
+    return docRef;
   }
 
   return (
@@ -75,24 +110,6 @@ export default function EmailVerification() {
           onPress={async () => {
             if (!userReloaded) {
             } else {
-              await updateProfile(user, {
-                displayName: params.preferredName,
-                photoURL: null,
-              });
-              await addDoc(collection(db, "users"), {
-                name: {
-                  first: params.fullName.split("-").at(0),
-                  last: params.fullName.split("-").at(1),
-                },
-                preferred: params.preferredName,
-                email: user.email,
-                photo: user.photoURL,
-                partner: params.selected,
-                workoutsFinished: null,
-                workoutsSaved: null,
-                streak: 0,
-                exp: 0,
-              });
               router.navigate({ pathname: "/home" });
             }
           }}
