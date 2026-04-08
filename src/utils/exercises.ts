@@ -1,122 +1,135 @@
 import uuid from "react-native-uuid";
-import { ExerciseSetSegmentProps } from "../components/ExerciseCard";
-export type MuscleGroup =
-  | "Quadriceps"
-  | "Glutes"
-  | "Calves"
-  | "Hamstrings"
-  | "Abductors"
-  | "Adductors"
-  | "Upper Back"
-  | "Lower Back"
-  | "Lats"
-  | "Traps"
-  | "Neck"
-  | "Biceps"
-  | "Triceps"
-  | "Forearms"
-  | "Chest"
-  | "Shoulders"
-  | "Abdominals"
-  | "Full Body";
+import { Exercise } from "../exercise";
 
-export type Exercise = {
-  id: string;
-  muscleGroup: MuscleGroup;
-  name: string;
-  isSelected: boolean;
-  sets: ExerciseSetSegmentProps[];
-};
 export const data: Exercise[] = [
   {
     id: uuid.v4(),
-    muscleGroup: "Quadriceps",
+    primary: "Quadriceps",
     name: "Squats (Barbell)",
     isSelected: false,
     sets: [],
+    riveUrl: "",
+    secondary: null,
+    equipment: "Barbell",
   },
   {
     id: uuid.v4(),
-    muscleGroup: "Glutes",
+    primary: "Glutes",
     name: "Deadlift (Barbell)",
     isSelected: false,
     sets: [],
+    riveUrl: "",
+    secondary: null,
+    equipment: "Barbell",
   },
   {
     id: uuid.v4(),
-    muscleGroup: "Chest",
+    primary: "Chest",
     name: "Push Ups",
     isSelected: false,
     sets: [],
+    riveUrl: "",
+    secondary: null,
+    equipment: null,
   },
   {
     id: uuid.v4(),
-    muscleGroup: "Biceps",
+    primary: "Biceps",
     name: "Alternating Bicep Curls",
     isSelected: false,
     sets: [],
+    riveUrl: "",
+    secondary: null,
+    equipment: "Dumbbell",
   },
   {
     id: uuid.v4(),
-    muscleGroup: "Upper Back",
+    primary: "Upper Back",
     name: "Seated Cable Row - V Grip (Cable)",
     isSelected: false,
     sets: [],
+    riveUrl: "",
+    secondary: null,
+    equipment: "Machine",
   },
   {
     id: uuid.v4(),
-    muscleGroup: "Full Body",
+    primary: "Full Body",
     name: "Kettlebell Swing (Kettlebell)",
     isSelected: false,
     sets: [],
+    riveUrl: "",
+    secondary: null,
+    equipment: "Kettlebell",
   },
   {
     id: uuid.v4(),
-    muscleGroup: "Lats",
+    primary: "Lats",
     name: "Lat Pulldown (Machine)",
     isSelected: false,
     sets: [],
+    riveUrl: "",
+    secondary: null,
+    equipment: "Machine",
   },
   {
     id: uuid.v4(),
-    muscleGroup: "Shoulders",
+    primary: "Shoulders",
     name: "Arnold Press (Dumbbell)",
     isSelected: false,
     sets: [],
+    riveUrl: "",
+    secondary: null,
+    equipment: "Dumbbell",
   },
   {
     id: uuid.v4(),
-    muscleGroup: "Triceps",
+    primary: "Triceps",
     name: "Rope Pushdown (Cable Machine)",
     isSelected: false,
     sets: [],
+    riveUrl: "",
+    secondary: null,
+    equipment: "Machine",
   },
   {
     id: uuid.v4(),
-    muscleGroup: "Biceps",
+    primary: "Biceps",
     name: "Preacher Curl (EZ Bar)",
     isSelected: false,
     sets: [],
+    riveUrl: "",
+    secondary: null,
+    equipment: "EZ Barbell",
   },
   {
     id: uuid.v4(),
-    muscleGroup: "Abdominals",
+    primary: "Abdominals",
     name: "Russian Twist (Medicine Ball)",
     isSelected: false,
     sets: [],
+    riveUrl: "",
+    secondary: null,
+    equipment: "Medicine Ball",
   },
   {
     id: uuid.v4(),
-    muscleGroup: "Glutes",
+    primary: "Glutes",
     name: "Hip Thrust (Barbell)",
     isSelected: false,
     sets: [],
+    riveUrl: "",
+    secondary: null,
+    equipment: "Barbell",
   },
   {
     id: uuid.v4(),
-    muscleGroup: "Lower Back",
+    primary: "Lower Back",
     name: "Back Extension (Machine)",
     isSelected: false,
     sets: [],
+    riveUrl: "",
+    secondary: null,
+    equipment: "Machine",
   },
 ];
