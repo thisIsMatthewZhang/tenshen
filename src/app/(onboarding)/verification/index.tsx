@@ -60,32 +60,22 @@ export default function EmailVerification() {
           displayName: params.preferredName,
           photoURL: null,
         });
+        await storeNewUser({
+          name: {
+            first: params.fullName.split("-").at(0)!,
+            last: params.fullName.split("-").at(1)!,
+          },
+          preferredName: params.preferredName,
+          email: user.email!,
+          photo: user.photoURL!,
+          workoutPartner: params.selected,
+          workoutsFinished: null,
+          workoutsSaved: null,
+          streak: 0,
+          exp: 0,
+        });
       })
       .catch((error) => setUserReloaded(false));
-  }
-  if (userReloaded) {
-    const newUser: AppUser = {
-      name: {
-        first: params.fullName.split("-").at(0)!,
-        last: params.fullName.split("-").at(1)!,
-      },
-      preferredName: params.preferredName,
-      email: user.email!,
-      photo: user.photoURL!,
-      workoutPartner: params.selected,
-      workoutsFinished: null,
-      workoutsSaved: null,
-      streak: 0,
-      exp: 0,
-    };
-    storeNewUser(newUser);
-  }
-
-  async function storeNewUser(
-    newUser: AppUser,
-  ): Promise<DocumentReference<DocumentData, DocumentData>> {
-    const docRef = await addDoc(collection(db, "users"), newUser);
-    return docRef;
   }
 
   return (
@@ -128,6 +118,13 @@ export default function EmailVerification() {
       </View>
     </View>
   );
+}
+
+async function storeNewUser(
+  newUser: AppUser,
+): Promise<DocumentReference<DocumentData, DocumentData>> {
+  const docRef = await addDoc(collection(db, "users"), newUser);
+  return docRef;
 }
 
 const styles = StyleSheet.create({
