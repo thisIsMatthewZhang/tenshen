@@ -7,15 +7,9 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { useContext, useState } from "react";
 import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
 import { ExerciseContext } from "../contexts/ExerciseContext";
-import { Exercise } from "../utils/exercises";
+import { Exercise } from "../exercise";
 
-export default function ExerciseCardOptions({
-  id,
-  name,
-  muscleGroup,
-  isSelected,
-  sets,
-}: Exercise) {
+export default function ExerciseCardOptions(props: Exercise) {
   const [modalVisible, setModalVisible] = useState(false);
   const [exercises, setExercises] = useContext(ExerciseContext);
   return (
@@ -73,7 +67,7 @@ export default function ExerciseCardOptions({
               onPress={() => {
                 setExercises(
                   exercises.filter((exercise) => {
-                    return exercise.id !== id;
+                    return exercise.id !== props.id;
                   }),
                 );
                 setModalVisible(!modalVisible);

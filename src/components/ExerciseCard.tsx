@@ -25,7 +25,7 @@ import Reanimated, {
 import { TimerPickerModal } from "react-native-timer-picker";
 import uuid from "react-native-uuid";
 import { ExerciseContext } from "../contexts/ExerciseContext";
-import { Exercise } from "../utils/exercises";
+import { Exercise } from "../exercise";
 import AppButton from "./AppButton";
 import ExerciseCardOptions from "./ExerciseCardOptions";
 export interface ExerciseSetSegmentProps {
@@ -139,13 +139,7 @@ const ExerciseSetSegment = ({
   );
 };
 
-export default function ExerciseCard({
-  id: exerciseId,
-  name,
-  muscleGroup,
-  isSelected,
-  sets,
-}: Exercise) {
+export default function ExerciseCard(props: Exercise) {
   const [showTimerPicker, setShowTimerPicker] = useState<boolean>(false);
   const [timer, setTimer] = useState<"Rest Timer" | string>("Rest Timer");
   const [exercises, setExercises] = useContext(ExerciseContext);
@@ -155,12 +149,12 @@ export default function ExerciseCard({
     type: "weight" | "reps",
     value: string,
   ) => {
-    const updatedSegments = sets.map((seg) =>
+    const updatedSegments = props.sets.map((seg) =>
       seg.id === id ? { ...seg, [type]: value } : seg,
     );
     setExercises((prevExercises) =>
       prevExercises.map((ex) =>
-        ex.id === exerciseId ? { ...ex, sets: updatedSegments } : ex,
+        ex.id === props.id ? { ...ex, sets: updatedSegments } : ex,
       ),
     );
   };
@@ -168,12 +162,14 @@ export default function ExerciseCard({
   const handleSegmentDeletion = (seg: ExerciseSetSegmentProps) => {
     setExercises((prev) => {
       return prev.map((ex) =>
-        ex.id === exerciseId
+        ex.id === props.id
           ? {
               ...ex,
               sets: ex.sets
-                .filter((s) => s.setNumber !== seg.setNumber)
-                .map((s, i) => {
+                .filter(
+                  (s: ExerciseSetSegmentProps) => s.setNumber !== seg.setNumber,
+                )
+                .map((s: ExerciseSetSegmentProps, i: number) => {
                   return { ...s, setNumber: i + 1 };
                 }),
             }
@@ -188,7 +184,7 @@ export default function ExerciseCard({
         <View style={styles.title}>
           <View>
             <Text style={[PATTERN.mediumText, styles.exerciseNameText]}>
-              {name}
+              {props.name}
             </Text>
             <Pressable onPress={() => setShowTimerPicker(true)}>
               <Text
@@ -236,11 +232,14 @@ export default function ExerciseCard({
             </Pressable>
           </View>
           <ExerciseCardOptions
-            id={exerciseId}
-            name={name}
-            muscleGroup={muscleGroup}
+            id={props.id}
+            name={props.name}
+            primary={props.primary}
+            secondary={props.secondary}
+            riveUrl={props.riveUrl}
+            equipment={props.equipment}
             isSelected
-            sets={sets}
+            sets={props.sets}
           />
         </View>
         <View style={styles.cardBottom}>
@@ -276,7 +275,7 @@ export default function ExerciseCard({
               { backgroundColor: "black", marginVertical: 0 },
             ]}
           />
-          {sets.map((seg) => {
+          {props.sets.map((seg) => {
             return (
               // these are the segments being rerendered each time a set is added or deleted
               <ExerciseSetSegment
@@ -298,7 +297,7 @@ export default function ExerciseCard({
               onPress={() => {
                 setExercises((prev) =>
                   prev.map((ex) =>
-                    ex.id === exerciseId
+                    ex.id === props.id
                       ? {
                           ...ex,
                           sets: [

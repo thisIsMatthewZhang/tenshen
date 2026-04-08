@@ -102,7 +102,10 @@ export default function WorkoutBuilder({
                   key={item.id}
                   id={item.id}
                   name={item.name}
-                  muscleGroup={item.muscleGroup}
+                  primary={item.primary}
+                  secondary={null}
+                  riveUrl=""
+                  equipment={item.equipment}
                   isSelected
                   sets={item.sets}
                 />

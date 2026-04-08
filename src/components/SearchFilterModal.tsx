@@ -1,17 +1,17 @@
 import AppButton from "@/src/components/AppButton";
 import ExercisePhoto from "@/src/components/ExercisePhoto";
 import {
-    BLUE_LIGHTER,
-    ICON_SIZE,
-    MAIN_COLOR,
-    PATTERN,
+  BLUE_LIGHTER,
+  ICON_SIZE,
+  MAIN_COLOR,
+  PATTERN,
 } from "@/src/constants/theme";
 import { useSearchFilter } from "@/src/hooks/useSearchFilter";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useContext, useState } from "react";
 import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
 import { ExerciseContext } from "../contexts/ExerciseContext";
-import { Exercise } from "../utils/exercises";
+import { Exercise } from "../exercise";
 import ReusableModal, { ReusableModalProps } from "./ReusableModal";
 import SearchBar from "./SearchBar";
 
@@ -26,7 +26,7 @@ export default function SearchFilterModal({
 }: SearchModalProps<Exercise>) {
   const { filteredData, searchQuery, setSearchQuery } = useSearchFilter(data, [
     "name",
-    "muscleGroup",
+    "primary",
   ]);
   const [selectedItems, setSelectedItems] = useState<Exercise[]>([]); // selectedItems acts as a bucket that appends selected exercises to preexisting exercises (exercises context)
   const [exercises, setExercises] = useContext(ExerciseContext);
@@ -124,7 +124,7 @@ export default function SearchFilterModal({
                 <View style={{ marginLeft: 12 }}>
                   <Text style={PATTERN.smallText}>{item.name}</Text>
                   <Text style={[PATTERN.smallText, { opacity: 0.5 }]}>
-                    {item.muscleGroup}
+                    {item.primary}
                   </Text>
                 </View>
               </Pressable>

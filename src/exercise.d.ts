@@ -9,6 +9,6 @@ export type Exercise = {
   readonly secondary: MuscleGroup | null;
   readonly riveUrl: string;
   readonly equipment: Equipment | null;
-  readonly isSelected: boolean;
+  isSelected: boolean;
   sets: ExerciseSetSegmentProps[];
 };

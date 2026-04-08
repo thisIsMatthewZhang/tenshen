@@ -1,14 +1,8 @@
 import { MAIN_COLOR, PATTERN } from "@/src/constants/theme";
 import { StyleSheet, Text, View } from "react-native";
-import { Exercise } from "../utils/exercises";
+import { Exercise } from "../exercise";
 
-export default function WorkoutOverviewCard({
-  id,
-  name,
-  muscleGroup,
-  isSelected,
-  sets,
-}: Exercise) {
+export default function WorkoutOverviewCard(props: Exercise) {
   return (
     <View style={styles.cardContainer}>
       <View style={styles.cardHeader}>
@@ -23,7 +17,7 @@ export default function WorkoutOverviewCard({
             },
           ]}
         >
-          {name}
+          {props.name}
         </Text>
       </View>
       <View
@@ -37,7 +31,7 @@ export default function WorkoutOverviewCard({
           <Text
             style={[PATTERN.smallText, { color: "black", fontWeight: "bold" }]}
           >
-            Sets: {sets.length > 0 ? sets.length : "?"}
+            Sets: {props.sets.length > 0 ? props.sets.length : "?"}
           </Text>
         </View>
         <View style={styles.cardBodyText}>
@@ -45,8 +39,8 @@ export default function WorkoutOverviewCard({
             style={[PATTERN.smallText, { color: "black", fontWeight: "bold" }]}
           >
             Lbs:{" "}
-            {sets.length > 0
-              ? sets
+            {props.sets.length > 0
+              ? props.sets
                   .map((item) => (item.weight ? item.weight : "?"))
                   .join(" -> ")
               : "?"}
@@ -57,8 +51,10 @@ export default function WorkoutOverviewCard({
             style={[PATTERN.smallText, { color: "black", fontWeight: "bold" }]}
           >
             Reps:{" "}
-            {sets.length > 0
-              ? sets.map((item) => (item.reps ? item.reps : "?")).join(" -> ")
+            {props.sets.length > 0
+              ? props.sets
+                  .map((item) => (item.reps ? item.reps : "?"))
+                  .join(" -> ")
               : "?"}
           </Text>
         </View>

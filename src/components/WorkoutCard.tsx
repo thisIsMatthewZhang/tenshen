@@ -19,7 +19,7 @@ import {
   View,
 } from "react-native";
 import { WorkoutsContext } from "../contexts/WorkoutsContext";
-import { Exercise } from "../utils/exercises";
+import { Exercise } from "../exercise";
 import WorkoutCardOptions from "./WorkoutCardOptions";
 import WorkoutOverviewCard from "./WorkoutOverviewCard";
 // const ruby = require("../../../../assets/avatars/Ruby.png");
@@ -129,7 +129,7 @@ export default function WorkoutCard({
                   <WorkoutOverviewCard
                     id={item.id}
                     name={item.name}
-                    muscleGroup={item.muscleGroup}
+                    primary={item.primary}
                     isSelected
                     sets={item.sets}
                   />
