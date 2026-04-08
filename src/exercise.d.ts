@@ -1,4 +1,5 @@
 import { ExerciseSetSegmentProps } from "./components/ExerciseCard";
+import { Equipment } from "./equipment";
 import { MuscleGroup } from "./musclegroup";
 
 export type Exercise = {
@@ -7,7 +8,7 @@ export type Exercise = {
   readonly primary: MuscleGroup;
   readonly secondary: MuscleGroup | null;
   readonly riveUrl: string;
-  readonly equipment: string | null;
+  readonly equipment: Equipment | null;
   readonly isSelected: boolean;
   sets: ExerciseSetSegmentProps[];
 };
