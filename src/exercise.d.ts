@@ -1,24 +1,5 @@
 import { ExerciseSetSegmentProps } from "./components/ExerciseCard";
-
-type MuscleGroup =
-  | "Quadriceps"
-  | "Glutes"
-  | "Calves"
-  | "Hamstrings"
-  | "Abductors"
-  | "Adductors"
-  | "Upper Back"
-  | "Lower Back"
-  | "Lats"
-  | "Traps"
-  | "Neck"
-  | "Biceps"
-  | "Triceps"
-  | "Forearms"
-  | "Chest"
-  | "Shoulders"
-  | "Abdominals"
-  | "Full Body";
+import { MuscleGroup } from "./musclegroup";
 
 export type Exercise = {
   readonly id: string;
