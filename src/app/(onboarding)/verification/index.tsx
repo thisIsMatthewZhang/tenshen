@@ -11,13 +11,7 @@ import {
   updateProfile,
   User,
 } from "firebase/auth";
-import {
-  addDoc,
-  collection,
-  DocumentData,
-  DocumentReference,
-  getFirestore,
-} from "firebase/firestore";
+import { doc, getFirestore, setDoc } from "firebase/firestore";
 import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
@@ -36,6 +30,7 @@ export default function EmailVerification() {
   }>();
   const user: User = auth.currentUser!;
   const [userReloaded, setUserReloaded] = useState(false); // needed as 'user.emailVerfied' update does not seem to reflect in the render
+  const [authMessage, setAuthMessage] = useState("");
   const actionCodeSettings: ActionCodeSettings = {
     android: {
       packageName: "app.tenshen.tenshenfitnessapp",
@@ -60,26 +55,42 @@ export default function EmailVerification() {
           displayName: params.preferredName,
           photoURL: null,
         });
-        await storeNewUser({
-          name: {
-            first: params.fullName.split("-").at(0)!,
-            last: params.fullName.split("-").at(1)!,
-          },
-          preferredName: params.preferredName,
-          email: user.email!,
-          photo: user.photoURL!,
-          workoutPartner: params.selected,
-          workoutsFinished: null,
-          workoutsSaved: null,
-          streak: 0,
-          exp: 0,
-        });
       })
       .catch((error) => setUserReloaded(false));
+  }
+  if (userReloaded) {
+    storeFBUser(
+      user.uid,
+      {
+        name: {
+          first: params.fullName.split("-").at(0)!,
+          last: params.fullName.split("-").at(1)!,
+        },
+        preferredName: params.preferredName,
+        email: user.email!,
+        photo: user.photoURL!,
+        workoutPartner: params.selected,
+        workoutsFinished: null,
+        workoutsSaved: null,
+        streak: 0,
+        exp: 0,
+      },
+      () =>
+        setAuthMessage(
+          "Sorry! We encountered an issue and failed to process your information.",
+        ),
+    );
   }
 
   return (
     <View style={PATTERN.container}>
+      {authMessage ? (
+        <View style={styles.authErrorContainer}>
+          <Text style={PATTERN.smallText}>{authMessage}</Text>
+        </View>
+      ) : (
+        <></>
+      )}
       <View style={styles.headerContainer}>
         <Text style={PATTERN.bigText}>Email verification sent!</Text>
         <Text style={[PATTERN.mediumText, { marginTop: 12 }]}>
@@ -120,11 +131,13 @@ export default function EmailVerification() {
   );
 }
 
-async function storeNewUser(
-  newUser: AppUser,
-): Promise<DocumentReference<DocumentData, DocumentData>> {
-  const docRef = await addDoc(collection(db, "users"), newUser);
-  return docRef;
+async function storeFBUser(
+  uid: string,
+  userData: AppUser,
+  errorHandler?: () => void,
+) {
+  const docRef = doc(db, "users", uid);
+  await setDoc(docRef, userData).catch(errorHandler);
 }
 
 const styles = StyleSheet.create({
@@ -140,5 +153,13 @@ const styles = StyleSheet.create({
   },
   button: {
     width: "100%",
+  },
+  authErrorContainer: {
+    width: "75%",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "grey",
+    padding: 12,
+    marginTop: 20,
   },
 });
