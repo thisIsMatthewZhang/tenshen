@@ -1,6 +1,7 @@
 import { firebaseConfigWeb } from "@/config/firebaseConfig";
 import AppButton from "@/src/components/AppButton";
 import { MAIN_COLOR, PATTERN } from "@/src/constants/theme";
+import { User as AppUser } from "@/src/types/user";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { initializeApp } from "firebase/app";
 import {
@@ -10,11 +11,13 @@ import {
   updateProfile,
   User,
 } from "firebase/auth";
+import { doc, getFirestore, setDoc } from "firebase/firestore";
 import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 const app = initializeApp(firebaseConfigWeb);
 const auth = getAuth(app);
+const db = getFirestore(app); // https://firebase.google.com/docs/firestore/manage-data/enable-offline
 
 export default function EmailVerification() {
   const router = useRouter();
@@ -27,6 +30,7 @@ export default function EmailVerification() {
   }>();
   const user: User = auth.currentUser!;
   const [userReloaded, setUserReloaded] = useState(false); // needed as 'user.emailVerfied' update does not seem to reflect in the render
+  const [authMessage, setAuthMessage] = useState("");
   const actionCodeSettings: ActionCodeSettings = {
     android: {
       packageName: "app.tenshen.tenshenfitnessapp",
@@ -42,7 +46,7 @@ export default function EmailVerification() {
       await sendEmailVerification(user, actionCodeSettings);
     })();
   }
-  if (params.oobCode && params.emailVerified) {
+  if (params.oobCode && params.emailVerified === "true") {
     user
       .reload()
       .then(async () => {
@@ -54,9 +58,39 @@ export default function EmailVerification() {
       })
       .catch((error) => setUserReloaded(false));
   }
+  if (userReloaded) {
+    storeFBUser(
+      user.uid,
+      {
+        name: {
+          first: params.fullName.split("-").at(0)!,
+          last: params.fullName.split("-").at(1)!,
+        },
+        preferredName: params.preferredName,
+        email: user.email!,
+        photo: user.photoURL!,
+        workoutPartner: params.selected,
+        workoutsFinished: null,
+        workoutsSaved: null,
+        streak: 0,
+        exp: 0,
+      },
+      () =>
+        setAuthMessage(
+          "Sorry! We encountered an issue and failed to process your information.",
+        ),
+    );
+  }
 
   return (
     <View style={PATTERN.container}>
+      {authMessage ? (
+        <View style={styles.authErrorContainer}>
+          <Text style={PATTERN.smallText}>{authMessage}</Text>
+        </View>
+      ) : (
+        <></>
+      )}
       <View style={styles.headerContainer}>
         <Text style={PATTERN.bigText}>Email verification sent!</Text>
         <Text style={[PATTERN.mediumText, { marginTop: 12 }]}>
@@ -74,7 +108,7 @@ export default function EmailVerification() {
           textColor="black"
           bgColor={MAIN_COLOR}
           title="Time to work out!"
-          onPress={() => {
+          onPress={async () => {
             if (!userReloaded) {
             } else {
               router.navigate({ pathname: "/home" });
@@ -97,6 +131,15 @@ export default function EmailVerification() {
   );
 }
 
+async function storeFBUser(
+  uid: string,
+  userData: AppUser,
+  errorHandler?: () => void,
+) {
+  const docRef = doc(db, "users", uid);
+  await setDoc(docRef, userData).catch(errorHandler);
+}
+
 const styles = StyleSheet.create({
   headerContainer: {
     padding: 12,
@@ -110,5 +153,13 @@ const styles = StyleSheet.create({
   },
   button: {
     width: "100%",
+  },
+  authErrorContainer: {
+    width: "75%",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "grey",
+    padding: 12,
+    marginTop: 20,
   },
 });
