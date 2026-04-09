@@ -7,6 +7,7 @@ import {
   MAIN_COLOR,
   PATTERN,
 } from "@/src/constants/theme";
+import { Exercise } from "@/src/types/exercise";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { useContext, useState } from "react";
@@ -19,7 +20,6 @@ import {
   View,
 } from "react-native";
 import { WorkoutsContext } from "../contexts/WorkoutsContext";
-import { Exercise } from "../exercise";
 import WorkoutCardOptions from "./WorkoutCardOptions";
 import WorkoutOverviewCard from "./WorkoutOverviewCard";
 // const ruby = require("../../../../assets/avatars/Ruby.png");
@@ -130,6 +130,9 @@ export default function WorkoutCard({
                     id={item.id}
                     name={item.name}
                     primary={item.primary}
+                    secondary={item.secondary}
+                    riveUrl={item.riveUrl}
+                    equipment={item.equipment}
                     isSelected
                     sets={item.sets}
                   />

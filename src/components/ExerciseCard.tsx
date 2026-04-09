@@ -4,6 +4,7 @@ import {
   MAIN_COLOR,
   PATTERN,
 } from "@/src/constants/theme";
+import { Exercise } from "@/src/types/exercise";
 import { LinearGradient } from "expo-linear-gradient";
 import { useContext, useState } from "react";
 import {
@@ -25,7 +26,6 @@ import Reanimated, {
 import { TimerPickerModal } from "react-native-timer-picker";
 import uuid from "react-native-uuid";
 import { ExerciseContext } from "../contexts/ExerciseContext";
-import { Exercise } from "../exercise";
 import AppButton from "./AppButton";
 import ExerciseCardOptions from "./ExerciseCardOptions";
 export interface ExerciseSetSegmentProps {
