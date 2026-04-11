@@ -135,7 +135,7 @@ async function storeFBUser(
   uid: string,
   userData: AppUser,
   errorHandler?: () => void,
-) {
+): Promise<void> {
   const docRef = doc(db, "users", uid);
   await setDoc(docRef, userData).catch(errorHandler);
 }

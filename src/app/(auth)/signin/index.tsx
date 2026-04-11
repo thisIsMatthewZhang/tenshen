@@ -11,7 +11,13 @@ import {
 } from "@/src/constants/theme";
 import { useRouter } from "expo-router";
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import {
+  getAuth,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut,
+  updateCurrentUser,
+} from "firebase/auth";
 import { useEffect, useMemo, useState } from "react";
 import {
   ActivityIndicator,
@@ -168,6 +174,9 @@ export default function SignIn() {
                     setTimeout(() => router.navigate("/"), 5000);
                   });
                 } else {
+                  onAuthStateChanged(auth, async (user) => {
+                    if (user) await updateCurrentUser(auth, user);
+                  });
                   setShowSpinner(false);
                   router.navigate("/home");
                   setAuthMessage("");

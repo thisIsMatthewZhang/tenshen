@@ -1,4 +1,4 @@
-import { ExerciseSetSegmentProps } from "./components/ExerciseCard";
+import { ExerciseSetSegmentProps } from "@/src/components/ExerciseCard";
 import { Equipment } from "./equipment";
 import { MuscleGroup } from "./musclegroup";
 

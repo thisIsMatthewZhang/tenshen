@@ -1,9 +1,9 @@
+import { Exercise } from "@/src/types/exercise";
 import { Slot } from "expo-router";
 import { useState } from "react";
 import { WorkoutCardProps } from "../components/WorkoutCard";
 import { ExerciseContext } from "../contexts/ExerciseContext";
 import { WorkoutsContext } from "../contexts/WorkoutsContext";
-import { Exercise } from "../utils/exercises";
 
 export default function RootLayout() {
   const [exercises, setExercises] = useState<Exercise[]>([]);

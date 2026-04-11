@@ -1,5 +1,5 @@
+import { Exercise } from "@/src/types/exercise";
 import uuid from "react-native-uuid";
-import { Exercise } from "../exercise";
 
 export const data: Exercise[] = [
   {
