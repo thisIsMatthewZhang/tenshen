@@ -1,7 +1,12 @@
+import { firebaseConfigWeb } from "@/config/firebaseConfig";
 import ProfilePhoto from "@/src/components/ProfilePhoto";
 import WorkoutHistory from "@/src/components/WorkoutHistory";
 import { ICON_SIZE, MAIN_COLOR, PATTERN } from "@/src/constants/theme";
+import { User as AppUser } from "@/src/types/user";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { initializeApp } from "firebase/app";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { doc, Firestore, getDoc, getFirestore } from "firebase/firestore";
 import { ComponentPropsWithoutRef } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
@@ -16,6 +21,19 @@ interface DashboardButtonProps {
   icon: ComponentPropsWithoutRef<typeof Ionicons>["name"];
 }
 
+const app = initializeApp(firebaseConfigWeb);
+const auth = getAuth(app);
+const db = getFirestore(app);
+let userData: {
+  [K in keyof AppUser]?: AppUser[K];
+};
+
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    const appUserData = await getUserData(user.uid, db);
+    userData = { ...appUserData };
+  }
+});
 export default function Profile() {
   const Counter = ({ title, count }: CounterProps) => {
     return (
@@ -85,7 +103,7 @@ export default function Profile() {
             <Text
               style={[PATTERN.mediumText, { fontWeight: "bold", marginTop: 8 }]}
             >
-              Matthew Zhang
+              {userData.name?.first + " " + userData.name?.last}
             </Text>
             <Text style={[PATTERN.smallText, { opacity: 0.5 }]}>
               zhangmatt22
@@ -138,6 +156,17 @@ export default function Profile() {
       </SafeAreaView>
     </SafeAreaProvider>
   );
+}
+
+async function getUserData(uid: string, db: Firestore) {
+  try {
+    const userData = await getDoc(doc(db, "users", uid));
+    if (!userData.exists()) throw new Error("User data could not be found. ");
+    return userData.data();
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
 }
 
 const styles = StyleSheet.create({
