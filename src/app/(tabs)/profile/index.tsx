@@ -106,7 +106,7 @@ export default function Profile() {
               {userData.name?.first + " " + userData.name?.last}
             </Text>
             <Text style={[PATTERN.smallText, { opacity: 0.5 }]}>
-              zhangmatt22
+              {userData.email?.split("@").at(0)}
             </Text>
           </View>
           <View style={styles.counters}>
