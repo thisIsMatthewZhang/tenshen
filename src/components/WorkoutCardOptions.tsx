@@ -7,13 +7,13 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { useContext, useState } from "react";
 import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
 import { WorkoutsContext } from "../contexts/WorkoutsContext";
-import { WorkoutCardProps } from "./WorkoutCard";
+import { Workout } from "../types/workout";
 
 export default function WorkoutCardExtraOptions({
   id,
-  workoutName,
+  name,
   exercises,
-}: WorkoutCardProps) {
+}: Workout) {
   const [modalVisible, setModalVisible] = useState(false);
   const [workouts, setWorkouts] = useContext(WorkoutsContext);
   return (
@@ -39,7 +39,7 @@ export default function WorkoutCardExtraOptions({
           <Pressable style={styles.innerView}>
             <View style={styles.header}>
               <Text style={[PATTERN.mediumText, { textAlign: "center" }]}>
-                {workoutName}
+                {name}
               </Text>
               <Pressable
                 onPress={() => setModalVisible(false)}

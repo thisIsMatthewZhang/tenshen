@@ -7,10 +7,9 @@ import {
   MAIN_COLOR,
   PATTERN,
 } from "@/src/constants/theme";
-import { Exercise } from "@/src/types/exercise";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import {
   Dimensions,
   FlatList,
@@ -19,27 +18,17 @@ import {
   Text,
   View,
 } from "react-native";
-import { WorkoutsContext } from "../contexts/WorkoutsContext";
+import { Workout } from "../types/workout";
 import WorkoutCardOptions from "./WorkoutCardOptions";
 import WorkoutOverviewCard from "./WorkoutOverviewCard";
 // const ruby = require("../../../../assets/avatars/Ruby.png");
-export interface WorkoutCardProps {
-  id: string;
-  workoutName: string;
-  exercises: Exercise[];
-}
 
-export default function WorkoutCard({
-  id,
-  workoutName,
-  exercises,
-}: WorkoutCardProps) {
+export default function WorkoutCard({ id, name, exercises }: Workout) {
   const [buttonHighlight, setButtonColor] = useState<
     typeof BLUE_LIGHTER | typeof BLUE_DARKER
   >(BLUE_LIGHTER);
   const [showWorkoutOverview, setShowWorkoutOverview] =
     useState<boolean>(false);
-  const [workouts, setWorkouts] = useContext(WorkoutsContext);
   const router = useRouter();
 
   return (
@@ -50,12 +39,8 @@ export default function WorkoutCard({
         locations={[0.1, 0.5, 0.75] as const}
         dither={false}
       >
-        <Text style={styles.workoutName}>{workoutName}</Text>
-        <WorkoutCardOptions
-          id={id}
-          workoutName={workoutName}
-          exercises={exercises}
-        />
+        <Text style={styles.workoutName}>{name}</Text>
+        <WorkoutCardOptions id={id} name={name} exercises={exercises} />
         <Text numberOfLines={2}>
           {exercises
             .map((item) => item.name)
@@ -113,7 +98,7 @@ export default function WorkoutCard({
                     pathname: "/session/[workoutId]",
                     params: {
                       workoutId: id,
-                      workoutName: workoutName,
+                      workoutName: name,
                       exerciseIndex: "0",
                       setIndex: "1",
                     },

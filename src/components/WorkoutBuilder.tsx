@@ -28,7 +28,9 @@ export default function WorkoutBuilder({
     useState<boolean>(false);
   const [workouts, setWorkouts] = useContext(WorkoutsContext);
   let disableDoneButton =
-    !exercises.every((ex) => ex.sets.length) || !exercises.length;
+    !exercises.every((ex) => ex.sets.length) ||
+    !exercises.length ||
+    !workoutName;
 
   return (
     <ReusableModal
@@ -60,7 +62,7 @@ export default function WorkoutBuilder({
                 setWorkouts([
                   {
                     id: uuid.v4(),
-                    workoutName: workoutName,
+                    name: workoutName,
                     exercises: exercises,
                   },
                   ...workouts,
