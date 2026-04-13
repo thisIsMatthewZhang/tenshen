@@ -1,6 +1,6 @@
 import { createContext } from "react";
-import { Exercise } from "../utils/exercises";
+import { ExerciseCard } from "../types/exercisecard";
 
 export const ExerciseContext = createContext<
-  [Exercise[], React.Dispatch<React.SetStateAction<Exercise[]>>]
+  [ExerciseCard[], React.Dispatch<React.SetStateAction<ExerciseCard[]>>]
 >([[], () => {}]);

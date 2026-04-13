@@ -55,7 +55,7 @@ export default function Workout() {
               <WorkoutCard
                 key={item.id}
                 id={item.id}
-                workoutName={item.workoutName}
+                name={item.name}
                 exercises={item.exercises}
               />
             )}

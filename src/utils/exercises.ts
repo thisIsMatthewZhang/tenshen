@@ -1,7 +1,7 @@
-import { Exercise } from "@/src/types/exercise";
+import { ExerciseCard } from "@/src/types/exercisecard";
 import uuid from "react-native-uuid";
 
-export const data: Exercise[] = [
+export const data: ExerciseCard[] = [
   {
     id: uuid.v4(),
     primary: "Quadriceps",

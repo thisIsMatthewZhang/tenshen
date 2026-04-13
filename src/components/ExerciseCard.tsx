@@ -4,7 +4,7 @@ import {
   MAIN_COLOR,
   PATTERN,
 } from "@/src/constants/theme";
-import { Exercise } from "@/src/types/exercise";
+import { ExerciseCard as ExerciseCardType } from "@/src/types/exercisecard";
 import { LinearGradient } from "expo-linear-gradient";
 import { useContext, useState } from "react";
 import {
@@ -139,7 +139,7 @@ const ExerciseSetSegment = ({
   );
 };
 
-export default function ExerciseCard(props: Exercise) {
+export default function ExerciseCard(props: ExerciseCardType) {
   const [showTimerPicker, setShowTimerPicker] = useState<boolean>(false);
   const [timer, setTimer] = useState<"Rest Timer" | string>("Rest Timer");
   const [exercises, setExercises] = useContext(ExerciseContext);

@@ -7,7 +7,7 @@ import {
   PATTERN,
 } from "@/src/constants/theme";
 import { useSearchFilter } from "@/src/hooks/useSearchFilter";
-import { Exercise } from "@/src/types/exercise";
+import { ExerciseCard } from "@/src/types/exercisecard";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useContext, useState } from "react";
 import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
@@ -23,12 +23,12 @@ export default function SearchFilterModal({
   data,
   showModal,
   setShowModal,
-}: SearchModalProps<Exercise>) {
+}: SearchModalProps<ExerciseCard>) {
   const { filteredData, searchQuery, setSearchQuery } = useSearchFilter(data, [
     "name",
     "primary",
   ]);
-  const [selectedItems, setSelectedItems] = useState<Exercise[]>([]); // selectedItems acts as a bucket that appends selected exercises to preexisting exercises (exercises context)
+  const [selectedItems, setSelectedItems] = useState<ExerciseCard[]>([]); // selectedItems acts as a bucket that appends selected exercises to preexisting exercises (exercises context)
   const [exercises, setExercises] = useContext(ExerciseContext);
 
   return (

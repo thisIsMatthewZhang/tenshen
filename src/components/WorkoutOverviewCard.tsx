@@ -1,8 +1,8 @@
 import { MAIN_COLOR, PATTERN } from "@/src/constants/theme";
-import { Exercise } from "@/src/types/exercise";
+import { ExerciseCard } from "@/src/types/exercisecard";
 import { StyleSheet, Text, View } from "react-native";
 
-export default function WorkoutOverviewCard(props: Exercise) {
+export default function WorkoutOverviewCard(props: ExerciseCard) {
   return (
     <View style={styles.cardContainer}>
       <View style={styles.cardHeader}>

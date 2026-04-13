@@ -3,13 +3,13 @@ import {
   ICON_SIZE,
   PATTERN,
 } from "@/src/constants/theme";
-import { Exercise } from "@/src/types/exercise";
+import { ExerciseCard } from "@/src/types/exercisecard";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useContext, useState } from "react";
 import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
 import { ExerciseContext } from "../contexts/ExerciseContext";
 
-export default function ExerciseCardOptions(props: Exercise) {
+export default function ExerciseCardOptions(props: ExerciseCard) {
   const [modalVisible, setModalVisible] = useState(false);
   const [exercises, setExercises] = useContext(ExerciseContext);
   return (
