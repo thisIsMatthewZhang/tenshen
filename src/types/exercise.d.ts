@@ -1,6 +1,9 @@
 import { Equipment } from "./equipment";
 import { MuscleGroup } from "./musclegroup";
 
+/**
+ * Base type for an Exercise
+ */
 export type Exercise = {
   readonly id: string;
   readonly name: string;

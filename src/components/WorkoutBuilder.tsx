@@ -1,7 +1,5 @@
 import { firebaseConfigWeb } from "@/config/firebaseConfig";
-import ExerciseCard, {
-  ExerciseSetSegmentProps,
-} from "@/src/components/ExerciseCard";
+import ExerciseCard from "@/src/components/ExerciseCard";
 import ReusableModal, {
   ReusableModalProps,
 } from "@/src/components/ReusableModal";
@@ -26,7 +24,7 @@ import { ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import uuid from "react-native-uuid";
 import { ExerciseContext } from "../contexts/ExerciseContext";
 import { WorkoutsContext } from "../contexts/WorkoutsContext";
-import { Exercise } from "../types/exercise";
+import { FirebaseExercise } from "../types/firebaseexercise";
 import { data } from "../utils/exercises";
 import AppButton from "./AppButton";
 import SearchFilterModal from "./SearchFilterModal";
@@ -41,10 +39,6 @@ onAuthStateChanged(auth, (user) => {
     userDocRef = doc(db, "users", user.uid);
   }
 });
-
-type FirebaseExercise = Exercise & {
-  sets: Omit<ExerciseSetSegmentProps, "onUpdate" | "onDelete">[];
-};
 
 export default function WorkoutBuilder({
   showModal,
