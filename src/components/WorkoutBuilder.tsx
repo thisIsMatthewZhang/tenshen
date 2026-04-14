@@ -1,4 +1,7 @@
-import ExerciseCard from "@/src/components/ExerciseCard";
+import { firebaseConfigWeb } from "@/config/firebaseConfig";
+import ExerciseCard, {
+  ExerciseSetSegmentProps,
+} from "@/src/components/ExerciseCard";
 import ReusableModal, {
   ReusableModalProps,
 } from "@/src/components/ReusableModal";
@@ -8,15 +11,40 @@ import {
   MAX_INPUT_LENGTH,
   PATTERN,
 } from "@/src/constants/theme";
+import { initializeApp } from "firebase/app";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import {
+  arrayUnion,
+  doc,
+  DocumentReference,
+  getFirestore,
+  Timestamp,
+  updateDoc,
+} from "firebase/firestore";
 import { useContext, useState } from "react";
 import { ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import uuid from "react-native-uuid";
 import { ExerciseContext } from "../contexts/ExerciseContext";
 import { WorkoutsContext } from "../contexts/WorkoutsContext";
+import { Exercise } from "../types/exercise";
 import { data } from "../utils/exercises";
 import AppButton from "./AppButton";
 import SearchFilterModal from "./SearchFilterModal";
 // const ruby = require("../../../../assets/avatars/Ruby.png");
+
+const app = initializeApp(firebaseConfigWeb);
+const auth = getAuth(app);
+const db = getFirestore(app);
+let userDocRef: DocumentReference;
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    userDocRef = doc(db, "users", user.uid);
+  }
+});
+
+type FirebaseExercise = Exercise & {
+  sets: Omit<ExerciseSetSegmentProps, "onUpdate" | "onDelete">[];
+};
 
 export default function WorkoutBuilder({
   showModal,
@@ -31,6 +59,18 @@ export default function WorkoutBuilder({
     !exercises.every((ex) => ex.sets.length) ||
     !exercises.length ||
     !workoutName;
+
+  const firebaseExercises: FirebaseExercise[] = exercises.map((ex) => {
+    return {
+      ...ex,
+      sets: ex.sets.map((s) => ({
+        id: s.id,
+        setNumber: s.setNumber,
+        weight: s.weight,
+        reps: s.reps,
+      })),
+    };
+  });
 
   return (
     <ReusableModal
@@ -55,7 +95,7 @@ export default function WorkoutBuilder({
               title="Done 👍"
               bgColor={BLUE_LIGHTER}
               textColor="white"
-              onPress={() => {
+              onPress={async () => {
                 setExercises([]);
                 setShowModal(!showModal);
                 setWorkoutName("");
@@ -67,6 +107,19 @@ export default function WorkoutBuilder({
                   },
                   ...workouts,
                 ]);
+                const date: Date = new Date();
+                const newFirebaseExercise = {
+                  id: uuid.v4(),
+                  name: workoutName,
+                  exercises: firebaseExercises,
+                  savedAt: new Timestamp(
+                    date.getUTCSeconds(),
+                    date.getUTCMilliseconds() * 1000000,
+                  ),
+                };
+                await updateDoc(userDocRef, {
+                  workoutsSaved: arrayUnion(newFirebaseExercise),
+                });
               }}
               customStyle={({ pressed }) => {
                 return {

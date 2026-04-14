@@ -1,4 +1,5 @@
-import { ExerciseCard } from "./exercisecard";
+/**For client-side logic */
+import { ExerciseCard } from "./exercise";
 export type Workout = {
   id: string;
   name: string;
