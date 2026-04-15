@@ -1,13 +1,35 @@
+import { firebaseConfigWeb } from "@/config/firebaseConfig";
 import {
   APP_BACKGROUND_COLOR,
   ICON_SIZE,
   PATTERN,
 } from "@/src/constants/theme";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { initializeApp } from "firebase/app";
+import { getAuth, onAuthStateChanged, User } from "firebase/auth";
+import {
+  arrayRemove,
+  doc,
+  DocumentReference,
+  getFirestore,
+  updateDoc,
+} from "firebase/firestore";
 import { useContext, useState } from "react";
 import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
 import { WorkoutsContext } from "../contexts/WorkoutsContext";
 import { Workout } from "../types/workout";
+
+const app = initializeApp(firebaseConfigWeb);
+const auth = getAuth(app);
+const db = getFirestore(app);
+let appUser: User | null;
+let appUserDocRef: DocumentReference | null;
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    appUser = user;
+    appUserDocRef = doc(db, "users", appUser.uid);
+  }
+});
 
 export default function WorkoutCardExtraOptions({
   id,
@@ -84,11 +106,17 @@ export default function WorkoutCardExtraOptions({
             <Pressable
               style={styles.option}
               onPress={() => {
+                const workoutToDelete: Workout = workouts.find(
+                  (workout) => workout.id === id,
+                )!;
                 setWorkouts(
-                  workouts.filter((workout) => {
-                    return workout.id !== id;
-                  }),
+                  workouts.filter(
+                    (workout) => workout.id !== workoutToDelete.id,
+                  ),
                 );
+                updateDoc(appUserDocRef!, {
+                  workoutsSaved: arrayRemove({ ...workoutToDelete }),
+                });
                 setModalVisible(!modalVisible);
               }}
             >
