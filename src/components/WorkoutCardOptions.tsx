@@ -1,6 +1,7 @@
 import { firebaseConfigWeb } from "@/config/firebaseConfig";
 import {
   APP_BACKGROUND_COLOR,
+  BLUE_LIGHTER,
   ICON_SIZE,
   PATTERN,
 } from "@/src/constants/theme";
@@ -18,6 +19,8 @@ import { useContext, useState } from "react";
 import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
 import { WorkoutsContext } from "../contexts/WorkoutsContext";
 import { Workout } from "../types/workout";
+import AppButton from "./AppButton";
+import ReusableModal from "./ReusableModal";
 
 const app = initializeApp(firebaseConfigWeb);
 const auth = getAuth(app);
@@ -36,26 +39,87 @@ export default function WorkoutCardExtraOptions({
   name,
   exercises,
 }: Workout) {
-  const [modalVisible, setModalVisible] = useState(false);
+  const [workoutOptionsModal, setWorkoutOptionsModal] = useState(false);
+  const [confirmDeleteWorkoutModal, setConfirmDeleteWorkoutModal] =
+    useState(false);
   const [workouts, setWorkouts] = useContext(WorkoutsContext);
   return (
-    <Pressable onPress={() => setModalVisible(!modalVisible)}>
+    <Pressable onPress={() => setWorkoutOptionsModal(!workoutOptionsModal)}>
       <Ionicons
         style={{ position: "absolute", alignSelf: "flex-end", bottom: 0 }}
         name="ellipsis-vertical"
         size={ICON_SIZE}
       />
+      <ReusableModal
+        showModal={confirmDeleteWorkoutModal}
+        setShowModal={setConfirmDeleteWorkoutModal}
+        modalProps={{
+          animationType: "fade",
+          allowSwipeDismissal: false,
+          transparent: true,
+        }}
+      >
+        <View style={styles.deleteWorkoutModalBgView}>
+          <View style={styles.deleteWorkoutModalInnerView}>
+            <Text style={PATTERN.smallText}>
+              Are you sure you want to delete this workout?
+            </Text>
+            <View style={styles.btnOptions}>
+              <AppButton
+                title="Cancel"
+                bgColor="red"
+                textColor="black"
+                onPress={() => {
+                  setConfirmDeleteWorkoutModal(false);
+                }}
+                textStyle={{ fontWeight: "bold" }}
+                customStyle={{
+                  width: "50%",
+                  borderRadius: 0,
+                  borderBottomStartRadius: 20,
+                }}
+              />
+              <AppButton
+                title="Confirm"
+                bgColor={BLUE_LIGHTER}
+                textColor="white"
+                onPress={() => {
+                  const workoutToDelete: Workout = workouts.find(
+                    (workout) => workout.id === id,
+                  )!;
+                  setWorkouts(
+                    workouts.filter(
+                      (workout) => workout.id !== workoutToDelete.id,
+                    ),
+                  );
+                  updateDoc(appUserDocRef!, {
+                    workoutsSaved: arrayRemove({ ...workoutToDelete }),
+                  });
+                  setConfirmDeleteWorkoutModal(false);
+                  setWorkoutOptionsModal(false);
+                }}
+                textStyle={{ fontWeight: "bold" }}
+                customStyle={{
+                  width: "50%",
+                  borderRadius: 0,
+                  borderBottomEndRadius: 20,
+                }}
+              />
+            </View>
+          </View>
+        </View>
+      </ReusableModal>
       <Modal
         animationType="slide"
-        visible={modalVisible}
+        visible={workoutOptionsModal}
         transparent={true}
         onRequestClose={() => {
-          setModalVisible(false);
+          setWorkoutOptionsModal(false);
         }}
         allowSwipeDismissal={true}
       >
         <Pressable
-          onPress={() => setModalVisible(false)}
+          onPress={() => setWorkoutOptionsModal(false)}
           style={styles.outerView}
         >
           <Pressable style={styles.innerView}>
@@ -64,7 +128,7 @@ export default function WorkoutCardExtraOptions({
                 {name}
               </Text>
               <Pressable
-                onPress={() => setModalVisible(false)}
+                onPress={() => setWorkoutOptionsModal(false)}
                 style={{ marginHorizontal: 12 }}
               >
                 <Ionicons name="close-sharp" size={ICON_SIZE} color={"white"} />
@@ -106,18 +170,7 @@ export default function WorkoutCardExtraOptions({
             <Pressable
               style={styles.option}
               onPress={() => {
-                const workoutToDelete: Workout = workouts.find(
-                  (workout) => workout.id === id,
-                )!;
-                setWorkouts(
-                  workouts.filter(
-                    (workout) => workout.id !== workoutToDelete.id,
-                  ),
-                );
-                updateDoc(appUserDocRef!, {
-                  workoutsSaved: arrayRemove({ ...workoutToDelete }),
-                });
-                setModalVisible(!modalVisible);
+                setConfirmDeleteWorkoutModal(true);
               }}
             >
               <Ionicons
@@ -167,5 +220,25 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-start",
+  },
+  deleteWorkoutModalBgView: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: APP_BACKGROUND_COLOR,
+    opacity: 0.95,
+  },
+  deleteWorkoutModalInnerView: {
+    width: "75%",
+    height: 125,
+    alignItems: "center",
+    justifyContent: "space-between",
+    backgroundColor: "black",
+    borderRadius: 20,
+    paddingTop: 20,
+  },
+  btnOptions: {
+    width: "100%",
+    flexDirection: "row",
   },
 });
