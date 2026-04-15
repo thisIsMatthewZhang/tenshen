@@ -13,7 +13,6 @@ export default function Workout() {
   const [workouts, setWorkouts] = useContext(WorkoutsContext);
 
   return (
-    // <WorkoutsContext.Provider value={[workouts, setWorkouts]}>
     <SafeAreaProvider>
       <SafeAreaView style={PATTERN.container}>
         <View
@@ -64,7 +63,6 @@ export default function Workout() {
         </View>
       </SafeAreaView>
     </SafeAreaProvider>
-    // </WorkoutsContext.Provider>
   );
 }
 
