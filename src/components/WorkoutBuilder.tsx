@@ -90,12 +90,13 @@ export default function WorkoutBuilder({
               bgColor={BLUE_LIGHTER}
               textColor="white"
               onPress={async () => {
+                const workoutId = uuid.v4();
                 setExercises([]);
                 setShowModal(!showModal);
                 setWorkoutName("");
                 setWorkouts([
                   {
-                    id: uuid.v4(),
+                    id: workoutId,
                     name: workoutName,
                     exercises: exercises,
                   },
@@ -103,7 +104,7 @@ export default function WorkoutBuilder({
                 ]);
                 const date: Date = new Date();
                 const newFirebaseExercise = {
-                  id: uuid.v4(),
+                  id: workoutId,
                   name: workoutName,
                   exercises: firebaseExercises,
                   savedAt: new Timestamp(
