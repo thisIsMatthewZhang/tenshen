@@ -16,7 +16,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { useContext, useState } from "react";
-import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { WorkoutsContext } from "../contexts/WorkoutsContext";
 import { Workout } from "../types/workout";
 import AppButton from "./AppButton";
@@ -44,7 +44,7 @@ export default function WorkoutCardExtraOptions({
     useState(false);
   const [workouts, setWorkouts] = useContext(WorkoutsContext);
   return (
-    <Pressable onPress={() => setWorkoutOptionsModal(!workoutOptionsModal)}>
+    <Pressable onPress={() => setWorkoutOptionsModal(true)}>
       <Ionicons
         style={{ position: "absolute", alignSelf: "flex-end", bottom: 0 }}
         name="ellipsis-vertical"
@@ -61,7 +61,7 @@ export default function WorkoutCardExtraOptions({
       >
         <View style={styles.deleteWorkoutModalBgView}>
           <View style={styles.deleteWorkoutModalInnerView}>
-            <Text style={PATTERN.smallText}>
+            <Text style={styles.deleteWorkoutModalText}>
               Are you sure you want to delete this workout?
             </Text>
             <View style={styles.btnOptions}>
@@ -109,14 +109,14 @@ export default function WorkoutCardExtraOptions({
           </View>
         </View>
       </ReusableModal>
-      <Modal
-        animationType="slide"
-        visible={workoutOptionsModal}
-        transparent={true}
-        onRequestClose={() => {
-          setWorkoutOptionsModal(false);
+      <ReusableModal
+        showModal={workoutOptionsModal}
+        setShowModal={setWorkoutOptionsModal}
+        modalProps={{
+          animationType: "slide",
+          allowSwipeDismissal: true,
+          transparent: true,
         }}
-        allowSwipeDismissal={true}
       >
         <Pressable
           onPress={() => setWorkoutOptionsModal(false)}
@@ -170,6 +170,7 @@ export default function WorkoutCardExtraOptions({
             <Pressable
               style={styles.option}
               onPress={() => {
+                setWorkoutOptionsModal(false);
                 setConfirmDeleteWorkoutModal(true);
               }}
             >
@@ -189,7 +190,7 @@ export default function WorkoutCardExtraOptions({
             </Pressable>
           </Pressable>
         </Pressable>
-      </Modal>
+      </ReusableModal>
     </Pressable>
   );
 }
@@ -216,6 +217,7 @@ const styles = StyleSheet.create({
     alignSelf: "flex-end",
   },
   option: {
+    width: "100%",
     marginHorizontal: 8,
     flexDirection: "row",
     alignItems: "center",
@@ -236,6 +238,10 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
     borderRadius: 20,
     paddingTop: 20,
+  },
+  deleteWorkoutModalText: {
+    ...PATTERN.smallText,
+    textAlign: "center",
   },
   btnOptions: {
     width: "100%",
