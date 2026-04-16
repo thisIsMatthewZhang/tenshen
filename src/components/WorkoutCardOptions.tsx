@@ -17,10 +17,12 @@ import {
 } from "firebase/firestore";
 import { useContext, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
+import { ExerciseContext } from "../contexts/ExerciseContext";
 import { WorkoutsContext } from "../contexts/WorkoutsContext";
 import { Workout } from "../types/workout";
 import AppButton from "./AppButton";
 import ReusableModal from "./ReusableModal";
+import WorkoutBuilder from "./WorkoutBuilder";
 
 const app = initializeApp(firebaseConfigWeb);
 const auth = getAuth(app);
@@ -42,7 +44,9 @@ export default function WorkoutCardExtraOptions({
   const [workoutOptionsModal, setWorkoutOptionsModal] = useState(false);
   const [confirmDeleteWorkoutModal, setConfirmDeleteWorkoutModal] =
     useState(false);
-  const [workouts, setWorkouts] = useContext(WorkoutsContext);
+  const [workoutBuilderModal, setWorkoutBuilderModal] = useState(false);
+  const [workoutsContext, setWorkoutsContext] = useContext(WorkoutsContext);
+  const [exerciseContext, setExerciseContext] = useContext(ExerciseContext);
   return (
     <Pressable onPress={() => setWorkoutOptionsModal(true)}>
       <Ionicons
@@ -84,11 +88,11 @@ export default function WorkoutCardExtraOptions({
                 bgColor={BLUE_LIGHTER}
                 textColor="white"
                 onPress={() => {
-                  const workoutToDelete: Workout = workouts.find(
+                  const workoutToDelete: Workout = workoutsContext.find(
                     (workout) => workout.id === id,
                   )!;
-                  setWorkouts(
-                    workouts.filter(
+                  setWorkoutsContext(
+                    workoutsContext.filter(
                       (workout) => workout.id !== workoutToDelete.id,
                     ),
                   );
@@ -149,12 +153,23 @@ export default function WorkoutCardExtraOptions({
 
             <View style={PATTERN.separator} />
 
-            <Pressable style={styles.option}>
+            <Pressable
+              style={styles.option}
+              onPress={() => {
+                setExerciseContext(exercises);
+                setWorkoutOptionsModal(false);
+                setWorkoutBuilderModal(true);
+              }}
+            >
               <Ionicons name="pencil-sharp" size={ICON_SIZE} color="white" />
               <Text style={[PATTERN.smallText, { marginHorizontal: 8 }]}>
                 Edit Workout
               </Text>
             </Pressable>
+            <WorkoutBuilder
+              showModal={workoutBuilderModal}
+              setShowModal={setWorkoutBuilderModal}
+            />
 
             <View style={PATTERN.separator} />
 
