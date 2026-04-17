@@ -50,7 +50,7 @@ interface BuilderProps {
 
 export default function WorkoutBuilder({
   type = "create",
-  workoutId = undefined,
+  workoutId: oldWorkoutId = undefined,
   workoutName: workoutNameProp,
   showModal,
   setShowModal,
@@ -63,7 +63,7 @@ export default function WorkoutBuilder({
   let disableDoneButton =
     !exercises.every((ex) => ex.sets.length) ||
     !exercises.length ||
-    !workoutName;
+    !workoutNameProp;
   const firebaseExercises: FirebaseExercise[] = exercises.map((ex) => {
     return {
       ...ex,
@@ -100,27 +100,36 @@ export default function WorkoutBuilder({
               bgColor={BLUE_LIGHTER}
               textColor="white"
               onPress={async () => {
-                const workoutId = uuid.v4();
+                const newWorkoutId = uuid.v4();
                 const date: Date = new Date();
                 const timeStamp = new Timestamp(
                   date.getSeconds(),
                   date.getMilliseconds() * 1000000,
                 );
                 const newFirebaseWorkout: FirebaseWorkout = {
-                  id: workoutId,
+                  id: newWorkoutId,
                   name: workoutName,
                   exercises: firebaseExercises,
                   savedAt: timeStamp,
                 };
-                setWorkouts([newFirebaseWorkout, ...workouts]);
                 setWorkoutName("");
                 setExercises([]);
                 setShowModal(!showModal);
-                if (type === "edit") {
+                if (type === "create")
+                  setWorkouts([newFirebaseWorkout, ...workouts]);
+                else if (type === "edit") {
                   // remove old workout from server first
                   const oldFirebaseWorkout = workouts.find(
-                    (workout) => workout.id === workoutId,
+                    (workout) => workout.id === oldWorkoutId,
                   );
+                  const oldFirebaseWorkoutIndex = workouts.findIndex(
+                    (workout) => workout.id === oldWorkoutId,
+                  );
+                  setWorkouts([
+                    ...workouts.slice(0, oldFirebaseWorkoutIndex),
+                    newFirebaseWorkout,
+                    ...workouts.slice(oldFirebaseWorkoutIndex + 1),
+                  ]);
                   await updateDoc(userDocRef, {
                     workoutsSaved: arrayRemove(oldFirebaseWorkout),
                   });
