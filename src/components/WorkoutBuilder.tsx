@@ -59,7 +59,7 @@ export default function WorkoutBuilder({
   const [exercises, setExercises] = useContext(ExerciseContext);
   const [showSearchExerciseModal, setShowSearchExerciseModal] =
     useState<boolean>(false);
-  const [workouts, setWorkouts] = useContext(WorkoutsContext);
+  const [workoutsContext, setWorkoutsContext] = useContext(WorkoutsContext);
   let disableDoneButton =
     !exercises.every((ex) => ex.sets.length) ||
     !exercises.length ||
@@ -91,7 +91,7 @@ export default function WorkoutBuilder({
               onPress={() => {
                 setExercises([]);
                 setShowModal(!showModal);
-                setWorkoutName("");
+                setWorkoutName(workoutNameProp);
               }}
               customStyle={{ margin: 8 }}
             />
@@ -112,23 +112,24 @@ export default function WorkoutBuilder({
                   exercises: firebaseExercises,
                   savedAt: timeStamp,
                 };
-                setWorkoutName("");
                 setExercises([]);
                 setShowModal(!showModal);
                 if (type === "create")
-                  setWorkouts([newFirebaseWorkout, ...workouts]);
+                  setWorkoutsContext([newFirebaseWorkout, ...workoutsContext]);
                 else if (type === "edit") {
                   // remove old workout from server first
-                  const oldFirebaseWorkout = workouts.find(
-                    (workout) => workout.id === oldWorkoutId,
-                  );
-                  const oldFirebaseWorkoutIndex = workouts.findIndex(
-                    (workout) => workout.id === oldWorkoutId,
-                  );
-                  setWorkouts([
-                    ...workouts.slice(0, oldFirebaseWorkoutIndex),
+                  const [oldFirebaseWorkout, oldFirebaseWorkoutIndex] = [
+                    workoutsContext.find(
+                      (workout) => workout.id === oldWorkoutId,
+                    ),
+                    workoutsContext.findIndex(
+                      (workout) => workout.id === oldWorkoutId,
+                    ),
+                  ];
+                  setWorkoutsContext([
+                    ...workoutsContext.slice(0, oldFirebaseWorkoutIndex),
                     newFirebaseWorkout,
-                    ...workouts.slice(oldFirebaseWorkoutIndex + 1),
+                    ...workoutsContext.slice(oldFirebaseWorkoutIndex + 1),
                   ]);
                   await updateDoc(userDocRef, {
                     workoutsSaved: arrayRemove(oldFirebaseWorkout),
