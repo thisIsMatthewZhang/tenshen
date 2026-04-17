@@ -1,5 +1,5 @@
 import { CollectionReference } from "firebase/firestore";
-import { Workout } from "./workout";
+import { FirebaseWorkout } from "./firebaseworkout";
 export type User = {
   name: {
     first: string;
@@ -9,7 +9,7 @@ export type User = {
   email: string;
   workoutPartner: string;
   workoutsFinished: CollectionReference | null;
-  workoutsSaved: Workout[] | null;
+  workoutsSaved: FirebaseWorkout[] | null;
   streak: number;
   exp: number;
   photo?: string;

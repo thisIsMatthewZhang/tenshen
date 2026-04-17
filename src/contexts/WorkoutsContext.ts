@@ -1,8 +1,8 @@
 // retrieve this from the database once that is set up
 
 import { createContext } from "react";
-import { Workout } from "../types/workout";
+import { FirebaseWorkout } from "../types/firebaseworkout";
 
 export const WorkoutsContext = createContext<
-  [Workout[], React.Dispatch<React.SetStateAction<Workout[]>>]
+  [FirebaseWorkout[], React.Dispatch<React.SetStateAction<FirebaseWorkout[]>>]
 >([[], () => {}]);

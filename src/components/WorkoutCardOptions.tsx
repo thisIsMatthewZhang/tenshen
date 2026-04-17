@@ -113,6 +113,13 @@ export default function WorkoutCardExtraOptions({
           </View>
         </View>
       </ReusableModal>
+      <WorkoutBuilder
+        workoutId={id}
+        workoutName={name}
+        type="edit"
+        showModal={workoutBuilderModal}
+        setShowModal={setWorkoutBuilderModal}
+      />
       <ReusableModal
         showModal={workoutOptionsModal}
         setShowModal={setWorkoutOptionsModal}
@@ -166,11 +173,6 @@ export default function WorkoutCardExtraOptions({
                 Edit Workout
               </Text>
             </Pressable>
-            <WorkoutBuilder
-              showModal={workoutBuilderModal}
-              setShowModal={setWorkoutBuilderModal}
-            />
-
             <View style={PATTERN.separator} />
 
             <Pressable style={styles.option}>

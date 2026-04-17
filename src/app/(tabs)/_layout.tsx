@@ -3,8 +3,8 @@ import { ICON_SIZE, MAIN_COLOR } from "@/src/constants/theme";
 import { ExerciseContext } from "@/src/contexts/ExerciseContext";
 import { WorkoutsContext } from "@/src/contexts/WorkoutsContext";
 import { ExerciseCard } from "@/src/types/exercisecard";
+import { FirebaseWorkout } from "@/src/types/firebaseworkout";
 import { User as AppUser } from "@/src/types/user";
-import { Workout } from "@/src/types/workout";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Tabs } from "expo-router";
 import { initializeApp } from "firebase/app";
@@ -22,7 +22,7 @@ export default function TabLayout() {
   const user = auth.currentUser!;
   const isVerified = user.emailVerified;
   const [exercises, setExercises] = useState<ExerciseCard[]>([]);
-  const [workouts, setWorkouts] = useState<Workout[]>([]);
+  const [workouts, setWorkouts] = useState<FirebaseWorkout[]>([]);
   let appUserData: {
     [K in keyof AppUser]?: AppUser[K];
   };

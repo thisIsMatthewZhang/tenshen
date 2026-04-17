@@ -12,6 +12,7 @@ import {
 import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import {
+  arrayRemove,
   arrayUnion,
   doc,
   DocumentReference,
@@ -25,6 +26,7 @@ import uuid from "react-native-uuid";
 import { ExerciseContext } from "../contexts/ExerciseContext";
 import { WorkoutsContext } from "../contexts/WorkoutsContext";
 import { FirebaseExercise } from "../types/firebaseexercise";
+import { FirebaseWorkout } from "../types/firebaseworkout";
 import { data } from "../utils/exercises";
 import AppButton from "./AppButton";
 import SearchFilterModal from "./SearchFilterModal";
@@ -40,11 +42,20 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
+interface BuilderProps {
+  type?: "create" | "edit";
+  workoutId: undefined | string;
+  workoutName: string;
+}
+
 export default function WorkoutBuilder({
+  type = "create",
+  workoutId = undefined,
+  workoutName: workoutNameProp,
   showModal,
   setShowModal,
-}: ReusableModalProps) {
-  const [workoutName, setWorkoutName] = useState<string>("");
+}: ReusableModalProps & BuilderProps) {
+  const [workoutName, setWorkoutName] = useState<string>(workoutNameProp || "");
   const [exercises, setExercises] = useContext(ExerciseContext);
   const [showSearchExerciseModal, setShowSearchExerciseModal] =
     useState<boolean>(false);
@@ -53,7 +64,6 @@ export default function WorkoutBuilder({
     !exercises.every((ex) => ex.sets.length) ||
     !exercises.length ||
     !workoutName;
-
   const firebaseExercises: FirebaseExercise[] = exercises.map((ex) => {
     return {
       ...ex,
@@ -91,29 +101,32 @@ export default function WorkoutBuilder({
               textColor="white"
               onPress={async () => {
                 const workoutId = uuid.v4();
-                setExercises([]);
-                setShowModal(!showModal);
-                setWorkoutName("");
-                setWorkouts([
-                  {
-                    id: workoutId,
-                    name: workoutName,
-                    exercises: exercises,
-                  },
-                  ...workouts,
-                ]);
                 const date: Date = new Date();
-                const newFirebaseExercise = {
+                const timeStamp = new Timestamp(
+                  date.getSeconds(),
+                  date.getMilliseconds() * 1000000,
+                );
+                const newFirebaseWorkout: FirebaseWorkout = {
                   id: workoutId,
                   name: workoutName,
                   exercises: firebaseExercises,
-                  savedAt: new Timestamp(
-                    date.getUTCSeconds(),
-                    date.getUTCMilliseconds() * 1000000,
-                  ),
+                  savedAt: timeStamp,
                 };
+                setWorkouts([newFirebaseWorkout, ...workouts]);
+                setWorkoutName("");
+                setExercises([]);
+                setShowModal(!showModal);
+                if (type === "edit") {
+                  // remove old workout from server first
+                  const oldFirebaseWorkout = workouts.find(
+                    (workout) => workout.id === workoutId,
+                  );
+                  await updateDoc(userDocRef, {
+                    workoutsSaved: arrayRemove(oldFirebaseWorkout),
+                  });
+                }
                 await updateDoc(userDocRef, {
-                  workoutsSaved: arrayUnion(newFirebaseExercise),
+                  workoutsSaved: arrayUnion(newFirebaseWorkout),
                 });
               }}
               customStyle={({ pressed }) => {
