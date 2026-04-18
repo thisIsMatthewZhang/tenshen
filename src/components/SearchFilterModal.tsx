@@ -28,8 +28,12 @@ export default function SearchFilterModal({
     "name",
     "primary",
   ]);
-  const [selectedItems, setSelectedItems] = useState<ExerciseCard[]>([]); // selectedItems acts as a bucket that appends selected exercises to preexisting exercises (exercises context)
-  const [exercises, setExercises] = useContext(ExerciseContext);
+  const [selectedItems, setSelectedItems] = useState<ExerciseCard[]>([]); // bucket that appends selected exercises to preexisting exercises (exercises context)
+  const [exercisesContext, setExercisesContext] = useContext(ExerciseContext);
+  const exerciseContextIds = exercisesContext.map((ex) => ex.id); // needed b/c ExerciseCard.sets causes mismatching
+  const filteredDataUpdated = filteredData.filter(
+    (data) => !exerciseContextIds.includes(data.id),
+  );
 
   return (
     <ReusableModal
@@ -84,7 +88,7 @@ export default function SearchFilterModal({
         </View> */}
         </View>
         <FlatList
-          data={filteredData}
+          data={filteredDataUpdated}
           renderItem={({ item }) => {
             return (
               <Pressable
@@ -141,7 +145,7 @@ export default function SearchFilterModal({
               textColor={"black"}
               onPress={() => {
                 setShowModal(!showModal);
-                setExercises([...exercises, ...selectedItems]);
+                setExercisesContext([...exercisesContext, ...selectedItems]);
                 for (let data of filteredData) {
                   data.isSelected = false;
                 }

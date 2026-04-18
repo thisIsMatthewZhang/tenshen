@@ -56,15 +56,13 @@ export default function WorkoutBuilder({
   setShowModal,
 }: ReusableModalProps & BuilderProps) {
   const [workoutName, setWorkoutName] = useState<string>(workoutNameProp || "");
-  const [exercises, setExercises] = useContext(ExerciseContext);
+  const [exercisesContext, setExercisesContext] = useContext(ExerciseContext);
   const [showSearchExerciseModal, setShowSearchExerciseModal] =
     useState<boolean>(false);
   const [workoutsContext, setWorkoutsContext] = useContext(WorkoutsContext);
   let disableDoneButton =
-    !exercises.every((ex) => ex.sets.length) ||
-    !exercises.length ||
-    !workoutNameProp;
-  const firebaseExercises: FirebaseExercise[] = exercises.map((ex) => {
+    !exercisesContext.every((ex) => ex.sets.length) || !exercisesContext.length;
+  const firebaseExercises: FirebaseExercise[] = exercisesContext.map((ex) => {
     return {
       ...ex,
       sets: ex.sets.map((s) => ({
@@ -89,7 +87,7 @@ export default function WorkoutBuilder({
               bgColor="red"
               textColor="black"
               onPress={() => {
-                setExercises([]);
+                setExercisesContext([]);
                 setShowModal(!showModal);
                 setWorkoutName(workoutNameProp);
               }}
@@ -112,7 +110,7 @@ export default function WorkoutBuilder({
                   exercises: firebaseExercises,
                   savedAt: timeStamp,
                 };
-                setExercises([]);
+                setExercisesContext([]);
                 setShowModal(!showModal);
                 if (type === "create")
                   setWorkoutsContext([newFirebaseWorkout, ...workoutsContext]);
@@ -161,7 +159,7 @@ export default function WorkoutBuilder({
           />
         </View>
         <ScrollView contentContainerStyle={styles.cardsContainer}>
-          {!exercises.length ? (
+          {!exercisesContext.length ? (
             <View style={styles.emptyState}>
               {/* <Image source={ruby} style={{ width: 25, height: 25 }} /> */}
               <Text style={PATTERN.bigText}>
@@ -169,7 +167,7 @@ export default function WorkoutBuilder({
               </Text>
             </View>
           ) : (
-            exercises.map((item) => {
+            exercisesContext.map((item) => {
               return (
                 <ExerciseCard
                   key={item.id}

@@ -1,9 +1,8 @@
 import { ExerciseCard } from "@/src/types/exercisecard";
-import uuid from "react-native-uuid";
 
 export const data: ExerciseCard[] = [
   {
-    id: uuid.v4(),
+    id: 1,
     primary: "Quadriceps",
     name: "Squats (Barbell)",
     isSelected: false,
@@ -13,7 +12,7 @@ export const data: ExerciseCard[] = [
     equipment: "Barbell",
   },
   {
-    id: uuid.v4(),
+    id: 2,
     primary: "Glutes",
     name: "Deadlift (Barbell)",
     isSelected: false,
@@ -23,7 +22,7 @@ export const data: ExerciseCard[] = [
     equipment: "Barbell",
   },
   {
-    id: uuid.v4(),
+    id: 3,
     primary: "Chest",
     name: "Push Ups",
     isSelected: false,
@@ -33,7 +32,7 @@ export const data: ExerciseCard[] = [
     equipment: null,
   },
   {
-    id: uuid.v4(),
+    id: 4,
     primary: "Biceps",
     name: "Alternating Bicep Curls",
     isSelected: false,
@@ -43,7 +42,7 @@ export const data: ExerciseCard[] = [
     equipment: "Dumbbell",
   },
   {
-    id: uuid.v4(),
+    id: 5,
     primary: "Upper Back",
     name: "Seated Cable Row - V Grip (Cable)",
     isSelected: false,
@@ -53,7 +52,7 @@ export const data: ExerciseCard[] = [
     equipment: "Machine",
   },
   {
-    id: uuid.v4(),
+    id: 6,
     primary: "Full Body",
     name: "Kettlebell Swing (Kettlebell)",
     isSelected: false,
@@ -63,7 +62,7 @@ export const data: ExerciseCard[] = [
     equipment: "Kettlebell",
   },
   {
-    id: uuid.v4(),
+    id: 7,
     primary: "Lats",
     name: "Lat Pulldown (Machine)",
     isSelected: false,
@@ -73,7 +72,7 @@ export const data: ExerciseCard[] = [
     equipment: "Machine",
   },
   {
-    id: uuid.v4(),
+    id: 8,
     primary: "Shoulders",
     name: "Arnold Press (Dumbbell)",
     isSelected: false,
@@ -83,7 +82,7 @@ export const data: ExerciseCard[] = [
     equipment: "Dumbbell",
   },
   {
-    id: uuid.v4(),
+    id: 9,
     primary: "Triceps",
     name: "Rope Pushdown (Cable Machine)",
     isSelected: false,
@@ -93,7 +92,7 @@ export const data: ExerciseCard[] = [
     equipment: "Machine",
   },
   {
-    id: uuid.v4(),
+    id: 10,
     primary: "Biceps",
     name: "Preacher Curl (EZ Bar)",
     isSelected: false,
@@ -103,7 +102,7 @@ export const data: ExerciseCard[] = [
     equipment: "EZ Barbell",
   },
   {
-    id: uuid.v4(),
+    id: 11,
     primary: "Abdominals",
     name: "Russian Twist (Medicine Ball)",
     isSelected: false,
@@ -113,7 +112,7 @@ export const data: ExerciseCard[] = [
     equipment: "Medicine Ball",
   },
   {
-    id: uuid.v4(),
+    id: 12,
     primary: "Glutes",
     name: "Hip Thrust (Barbell)",
     isSelected: false,
@@ -123,7 +122,7 @@ export const data: ExerciseCard[] = [
     equipment: "Barbell",
   },
   {
-    id: uuid.v4(),
+    id: 13,
     primary: "Lower Back",
     name: "Back Extension (Machine)",
     isSelected: false,

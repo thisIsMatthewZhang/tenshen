@@ -5,7 +5,7 @@ import { MuscleGroup } from "./musclegroup";
  * Base type for an Exercise
  */
 export type Exercise = {
-  readonly id: string;
+  readonly id: number;
   readonly name: string;
   readonly primary: MuscleGroup;
   readonly secondary: MuscleGroup | null;
