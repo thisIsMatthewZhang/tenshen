@@ -1,108 +1,25 @@
+import { firebaseConfigWeb } from "@/config/firebaseConfig";
 import { Exercise } from "@/src/types/exercise";
+import { initializeApp } from "firebase/app";
+import { collection, getDocs, getFirestore } from "firebase/firestore";
+import { ExerciseCard } from "../types/exercisecard";
 
-export const data: Exercise[] = [
-  {
-    id: 1,
-    primary: "Quadriceps",
-    name: "Squats (Barbell)",
-    riveUrl: "",
-    secondary: null,
-    equipment: "Barbell",
-  },
-  {
-    id: 2,
-    primary: "Glutes",
-    name: "Deadlift (Barbell)",
-    riveUrl: "",
-    secondary: null,
-    equipment: "Barbell",
-  },
-  {
-    id: 3,
-    primary: "Chest",
-    name: "Push Ups",
-    riveUrl: "",
-    secondary: null,
-    equipment: null,
-  },
-  {
-    id: 4,
-    primary: "Biceps",
-    name: "Alternating Bicep Curls",
-    riveUrl: "",
-    secondary: null,
-    equipment: "Dumbbell",
-  },
-  {
-    id: 5,
-    primary: "Upper Back",
-    name: "Seated Cable Row - V Grip (Cable)",
-    riveUrl: "",
-    secondary: null,
-    equipment: "Machine",
-  },
-  {
-    id: 6,
-    primary: "Full Body",
-    name: "Kettlebell Swing (Kettlebell)",
-    riveUrl: "",
-    secondary: null,
-    equipment: "Kettlebell",
-  },
-  {
-    id: 7,
-    primary: "Lats",
-    name: "Lat Pulldown (Machine)",
-    riveUrl: "",
-    secondary: null,
-    equipment: "Machine",
-  },
-  {
-    id: 8,
-    primary: "Shoulders",
-    name: "Arnold Press (Dumbbell)",
-    riveUrl: "",
-    secondary: null,
-    equipment: "Dumbbell",
-  },
-  {
-    id: 9,
-    primary: "Triceps",
-    name: "Rope Pushdown (Cable Machine)",
-    riveUrl: "",
-    secondary: null,
-    equipment: "Machine",
-  },
-  {
-    id: 10,
-    primary: "Biceps",
-    name: "Preacher Curl (EZ Bar)",
-    riveUrl: "",
-    secondary: null,
-    equipment: "EZ Barbell",
-  },
-  {
-    id: 11,
-    primary: "Abdominals",
-    name: "Russian Twist (Medicine Ball)",
-    riveUrl: "",
-    secondary: null,
-    equipment: "Medicine Ball",
-  },
-  {
-    id: 12,
-    primary: "Glutes",
-    name: "Hip Thrust (Barbell)",
-    riveUrl: "",
-    secondary: null,
-    equipment: "Barbell",
-  },
-  {
-    id: 13,
-    primary: "Lower Back",
-    name: "Back Extension (Machine)",
-    riveUrl: "",
-    secondary: null,
-    equipment: "Machine",
-  },
-];
+const app = initializeApp(firebaseConfigWeb);
+const db = getFirestore(app);
+const collectionRef = collection(db, "exercises");
+export let exercises: Exercise[];
+export let data: ExerciseCard[];
+(async () => await getDocs(collectionRef))().then((snapshot) => {
+  const exerciseArray = snapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  })) as Exercise[];
+
+  const exerciseCardsArray: ExerciseCard[] = exerciseArray.map((data) => ({
+    sets: [],
+    isSelected: false,
+    ...data,
+  }));
+  exercises = [...exerciseArray];
+  data = [...exerciseCardsArray]; // data that is used throughout routes
+});
