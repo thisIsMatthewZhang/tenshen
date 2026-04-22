@@ -1,3 +1,4 @@
+import { firebaseConfigWeb } from "@/config/firebaseConfig";
 import AppButton from "@/src/components/AppButton";
 import ExperienceBar, {
   calculateExpPointsEarned,
@@ -5,8 +6,12 @@ import ExperienceBar, {
   getUserExpProgress,
 } from "@/src/components/ExperienceBar";
 import { BLUE_DARKER, MAIN_COLOR, PATTERN } from "@/src/constants/theme";
+import { WorkoutsContext } from "@/src/contexts/WorkoutsContext";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { useMemo, useState } from "react";
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { arrayUnion, doc, getFirestore, updateDoc } from "firebase/firestore";
+import { useContext, useMemo, useState } from "react";
 import {
   StyleProp,
   StyleSheet,
@@ -22,6 +27,9 @@ interface BlockProps {
   value: number | string;
   category: "Exercises" | "Sets" | "Workout Time" | "Streak🔥";
 }
+const app = initializeApp(firebaseConfigWeb);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
 const Block = ({ value, category }: BlockProps) => {
   return (
@@ -37,6 +45,8 @@ const Block = ({ value, category }: BlockProps) => {
 };
 
 export default function WorkoutComplete() {
+  const user = auth.currentUser!;
+  const userDocRef = doc(db, "users", user.uid);
   const router = useRouter();
   const radioButtons: RadioButtonProps[] = useMemo(() => {
     const containerStyle: StyleProp<ViewStyle> = {
@@ -75,6 +85,7 @@ export default function WorkoutComplete() {
     ];
   }, []);
   const [selectedId, setSelectedId] = useState<string>("1");
+  const [workoutsContext] = useContext(WorkoutsContext);
   const params = useLocalSearchParams<{
     workoutId: string;
     workoutName: string;
@@ -83,6 +94,10 @@ export default function WorkoutComplete() {
     time: string;
     streak: string;
   }>();
+
+  const finishedWorkout = workoutsContext.find(
+    (workout) => workout.id === params.workoutId,
+  );
 
   const expGainedFactors = {
     // time: params.time,
@@ -138,8 +153,11 @@ export default function WorkoutComplete() {
             title="Save Activity"
             bgColor={MAIN_COLOR}
             textColor="black"
-            onPress={() => {
-              router.push("/home"); // TODO: should also save activity to database once implemented
+            onPress={async () => {
+              await updateDoc(userDocRef, {
+                finishedWorkout: arrayUnion(finishedWorkout),
+              });
+              router.navigate("/home");
             }}
             customStyle={{ flex: 1, marginLeft: 12 }}
           />

@@ -19,7 +19,7 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 // workout.exercises -> 0-based index
 // currentExercise.sets -> 1-based index
 export default function WorkoutSession() {
-  const [workouts, setWorkouts] = useContext(WorkoutsContext);
+  const [workoutsContext, setWorkoutsContext] = useContext(WorkoutsContext);
   const [stopwatch, setStopwatch] = useContext(StopwatchContext);
   const [showPopup, setShowPopup] = useState<boolean>(false);
   const router = useRouter();
@@ -30,7 +30,7 @@ export default function WorkoutSession() {
     maxVisitedIndex: string;
     setIndex: string;
   }>();
-  const currentWorkout = workouts.find(
+  const currentWorkout = workoutsContext.find(
     (workout) => workout.id === params.workoutId, // can't pass to WorkoutCard - local search params only accept string | string[] :/
   )!;
   const currentWorkoutExercises = currentWorkout.exercises;
