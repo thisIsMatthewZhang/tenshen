@@ -3,8 +3,9 @@ import { ICON_SIZE, MAIN_COLOR } from "@/src/constants/theme";
 import { ExerciseContext } from "@/src/contexts/ExerciseContext";
 import { WorkoutsContext } from "@/src/contexts/WorkoutsContext";
 import { ExerciseCard } from "@/src/types/exercisecard";
-import { FirebaseWorkout } from "@/src/types/firebaseworkout";
+import { FirebaseSavedWorkout } from "@/src/types/firebaseworkout";
 import { User as AppUser } from "@/src/types/user";
+import { getUserData } from "@/src/utils/getUserData";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Tabs } from "expo-router";
 import { initializeApp } from "firebase/app";
@@ -12,7 +13,6 @@ import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { View } from "react-native";
-import { getUserData } from "./profile";
 
 const app = initializeApp(firebaseConfigWeb);
 const auth = getAuth(app);
@@ -22,7 +22,7 @@ export default function TabLayout() {
   const user = auth.currentUser!;
   const isVerified = user.emailVerified;
   const [exercises, setExercises] = useState<ExerciseCard[]>([]);
-  const [workouts, setWorkouts] = useState<FirebaseWorkout[]>([]);
+  const [workouts, setWorkouts] = useState<FirebaseSavedWorkout[]>([]);
   let appUserData: {
     [K in keyof AppUser]?: AppUser[K];
   };

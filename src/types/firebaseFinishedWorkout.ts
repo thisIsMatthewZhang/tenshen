@@ -2,6 +2,6 @@
 import { Timestamp } from "firebase/firestore";
 import { Workout } from "./workout";
 
-export type FirebaseSavedWorkout = Workout & {
-  savedAt: Timestamp;
+export type FirebaseFinishedWorkout = Workout & {
+  finshedAt: Timestamp;
 };

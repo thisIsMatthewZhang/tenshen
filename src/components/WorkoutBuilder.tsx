@@ -26,7 +26,7 @@ import uuid from "react-native-uuid";
 import { ExerciseContext } from "../contexts/ExerciseContext";
 import { WorkoutsContext } from "../contexts/WorkoutsContext";
 import { FirebaseExercise } from "../types/firebaseexercise";
-import { FirebaseWorkout } from "../types/firebaseworkout";
+import { FirebaseSavedWorkout } from "../types/firebaseworkout";
 import { data } from "../utils/exercises";
 import AppButton from "./AppButton";
 import SearchFilterModal from "./SearchFilterModal";
@@ -104,7 +104,7 @@ export default function WorkoutBuilder({
                   date.getSeconds(),
                   date.getMilliseconds() * 1000000,
                 );
-                const newFirebaseWorkout: FirebaseWorkout = {
+                const newFirebaseWorkout: FirebaseSavedWorkout = {
                   id: newWorkoutId,
                   name: workoutName,
                   exercises: firebaseExercises,
