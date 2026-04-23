@@ -95,7 +95,7 @@ export default function WorkoutCard({ id, name, exercises }: Workout) {
 
                   // in this moment, 'workoutName' would be passed as a *query parameter* (/workout/session/workoutId/exerciseIndex?workoutName=workoutName)
                   router.navigate({
-                    pathname: "/workout/session/[workoutId]",
+                    pathname: "/session/[workoutId]",
                     params: {
                       workoutId: id,
                       workoutName: name,

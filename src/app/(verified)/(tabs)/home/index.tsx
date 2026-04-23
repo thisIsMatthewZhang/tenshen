@@ -1,9 +1,9 @@
+import DateCircle from "@/src/components/DateCircle";
 import WorkoutHistory from "@/src/components/WorkoutHistory";
 import { FONTS, MAIN_COLOR, PATTERN } from "@/src/constants/theme";
 import { useWeeklyDates } from "@/src/hooks/useWeeklyDates";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import DateCircle from "../../../components/DateCircle";
 // const fireIcon = require("../../../assets/fire-icon.png");
 
 export default function Home() {
