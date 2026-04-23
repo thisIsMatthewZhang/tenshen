@@ -38,6 +38,7 @@ export default function WorkoutSession() {
   const currentExercise = currentWorkoutExercises[currentExerciseIndex];
   const currentExerciseSetNumber = parseInt(params.setIndex);
   const exerciseIsEmpty = currentExercise.sets.length === 0 ? true : false;
+  console.log(currentExercise.sets.length);
   const isFirstSetAndFirstExercise =
     currentExerciseIndex === 0 && currentExerciseSetNumber === 1;
   const isLastExerciseSet =
@@ -96,7 +97,7 @@ export default function WorkoutSession() {
                       streak: 5,
                     };
                     router.navigate({
-                      pathname: "/session/[workoutId]/workoutComplete",
+                      pathname: "/workout/session/[workoutId]/workoutComplete",
                       params: completed,
                     });
                   }}
@@ -224,7 +225,7 @@ export default function WorkoutSession() {
               }
               onPress={() => {
                 router.push({
-                  pathname: "/session/[workoutId]",
+                  pathname: "/workout/session/[workoutId]",
                   params: {
                     workoutId: params.workoutId,
                     workoutName: params.workoutName,

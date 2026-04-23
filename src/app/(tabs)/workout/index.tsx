@@ -33,6 +33,8 @@ export default function Workout() {
             <WorkoutBuilder
               showModal={modalVisible}
               setShowModal={setModalVisible}
+              workoutId={undefined}
+              workoutName={""}
             />
             <Text
               style={[

@@ -155,7 +155,7 @@ export default function WorkoutComplete() {
             textColor="black"
             onPress={async () => {
               await updateDoc(userDocRef, {
-                finishedWorkout: arrayUnion(finishedWorkout),
+                workoutsFinished: arrayUnion(finishedWorkout),
               });
               router.navigate("/home");
             }}
