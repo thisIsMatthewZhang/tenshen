@@ -1,20 +1,30 @@
 // Parent component for a user's completed workout on the Home page
 // Will display all DoneExercise components for a given workout, with a max display of 3
-import DoneExercise from "@/src/components/DoneExercise";
+import FinishedExercise from "@/src/components/FinishedExercise";
 import ProfilePhoto from "@/src/components/ProfilePhoto";
 import { PATTERN } from "@/src/constants/theme";
 import { useEffect, useState } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
+import { FirebaseFinishedWorkout } from "../types/firebaseFinishedWorkout";
+import { FirebaseExercise } from "../types/firebaseexercise";
 
-const exercises = [{}, {}, {}, {}];
+const MAX_EXERCISES = 3;
 
-export default function PreviousWorkout() {
-  const [displayedExercises, setDisplayedExercises] = useState<object[]>([]);
-  const maxExercises = 3;
+export default function PreviousWorkout({
+  userName,
+  workout,
+}: {
+  workout: FirebaseFinishedWorkout;
+  userName: string;
+}) {
+  const exercises = workout.exercises;
+  const [displayedExercises, setDisplayedExercises] = useState<
+    FirebaseExercise[]
+  >([]);
 
   useEffect(() => {
-    setDisplayedExercises(exercises.slice(0, maxExercises));
-  }, []);
+    setDisplayedExercises(exercises.slice(0, MAX_EXERCISES));
+  }, [exercises]);
 
   return (
     <>
@@ -24,19 +34,19 @@ export default function PreviousWorkout() {
           <Text
             style={[PATTERN.mediumText, { fontWeight: "bold", marginLeft: 8 }]}
           >
-            Matthew Zhang
+            {userName}
           </Text>
         </View>
 
         <View style={styles.workoutTitle}>
           <Text style={[PATTERN.mediumText, { fontWeight: "bold" }]}>
-            PULL DAY BABYYY
+            {workout.name}
           </Text>
           <View style={styles.workoutDateAndDuration}>
             <Text
               style={[PATTERN.smallText, { fontWeight: "bold", opacity: 0.5 }]}
             >
-              1/24/2026 • 1hr 12min
+              {workout.duration}
             </Text>
           </View>
         </View>
@@ -44,17 +54,17 @@ export default function PreviousWorkout() {
           scrollEnabled={false}
           data={displayedExercises}
           renderItem={({ item }) => {
-            return <DoneExercise />;
+            return <FinishedExercise exercise={item} />;
           }}
         />
-        {exercises.length > maxExercises ? (
+        {exercises.length > MAX_EXERCISES ? (
           <Text
             style={[
               PATTERN.smallText,
               { fontWeight: "bold", textDecorationLine: "underline", top: 4 },
             ]}
           >
-            View {exercises.length - maxExercises} more exercise(s)
+            View {exercises.length - MAX_EXERCISES} more exercise(s)
           </Text>
         ) : (
           <></>

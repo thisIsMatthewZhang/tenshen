@@ -1,8 +1,13 @@
 import { StyleSheet, Text, View } from "react-native";
 import { PATTERN } from "../constants/theme";
+import { FirebaseExercise } from "../types/firebaseexercise";
 import ExercisePhoto from "./ExercisePhoto";
 
-export default function DoneExercise() {
+export default function FinishedExercise({
+  exercise,
+}: {
+  exercise: FirebaseExercise;
+}) {
   return (
     <View
       style={[
@@ -18,9 +23,11 @@ export default function DoneExercise() {
       <ExercisePhoto />
       <View style={styles.exerciseName}>
         <Text style={[PATTERN.smallText, { fontWeight: "bold" }]}>
-          Incline Bench Press (Barbell)
+          {exercise.name}
         </Text>
-        <Text style={[PATTERN.smallText, { opacity: 0.75 }]}>3 sets</Text>
+        <Text style={[PATTERN.smallText, { opacity: 0.75 }]}>
+          {exercise.sets.length} sets
+        </Text>
       </View>
     </View>
   );

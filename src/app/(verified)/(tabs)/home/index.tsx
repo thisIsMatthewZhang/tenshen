@@ -5,10 +5,38 @@ import { useWeeklyDates } from "@/src/hooks/useWeeklyDates";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 // const fireIcon = require("../../../assets/fire-icon.png");
+import { firebaseConfigWeb } from "@/config/firebaseConfig";
+import { User as AppUser } from "@/src/types/user";
+import { getUserData } from "@/src/utils/getUserData";
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+import { useEffect, useRef } from "react";
+
+const app = initializeApp(firebaseConfigWeb);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
 export default function Home() {
+  const user = auth.currentUser!;
   const dates = useWeeklyDates();
+  let appUserData: React.RefObject<
+    | {
+        [K in keyof AppUser]?: AppUser[K];
+      }
+    | null
+  > = useRef(null);
 
+  useEffect(() => {
+    async function fetchData() {
+      const userData = await getUserData(user.uid, db);
+      appUserData.current = { ...userData };
+      return appUserData;
+    }
+    fetchData();
+  }, [user.uid]);
+
+  const userWorkoutHistory = appUserData.current?.workoutsFinished!;
   return (
     <SafeAreaProvider style={PATTERN.container}>
       <SafeAreaView>
@@ -46,7 +74,14 @@ export default function Home() {
               </Text>
             </Text>
           </View>
-          <WorkoutHistory />
+          <WorkoutHistory
+            userName={
+              appUserData.current?.name?.first +
+              " " +
+              appUserData.current?.name?.last
+            }
+            data={userWorkoutHistory}
+          />
         </ScrollView>
       </SafeAreaView>
     </SafeAreaProvider>
