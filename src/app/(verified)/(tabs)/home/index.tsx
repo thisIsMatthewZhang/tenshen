@@ -6,12 +6,13 @@ import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 // const fireIcon = require("../../../assets/fire-icon.png");
 import { firebaseConfigWeb } from "@/config/firebaseConfig";
+import { FinishedWorkoutsContext } from "@/src/contexts/FinishedWorkoutsContext";
 import { User as AppUser } from "@/src/types/user";
 import { getUserData } from "@/src/utils/getUserData";
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-import { useEffect, useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
 
 const app = initializeApp(firebaseConfigWeb);
 const auth = getAuth(app);
@@ -36,7 +37,7 @@ export default function Home() {
     fetchData();
   }, [user.uid]);
 
-  const userWorkoutHistory = appUserData.current?.workoutsFinished!;
+  const [userWorkoutHistory] = useContext(FinishedWorkoutsContext);
   return (
     <SafeAreaProvider style={PATTERN.container}>
       <SafeAreaView>
