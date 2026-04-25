@@ -2,13 +2,14 @@ import { firebaseConfigWeb } from "@/config/firebaseConfig";
 import ProfilePhoto from "@/src/components/ProfilePhoto";
 import WorkoutHistory from "@/src/components/WorkoutHistory";
 import { ICON_SIZE, MAIN_COLOR, PATTERN } from "@/src/constants/theme";
+import { FinishedWorkoutsContext } from "@/src/contexts/FinishedWorkoutsContext";
 import { User as AppUser } from "@/src/types/user";
 import { getUserData } from "@/src/utils/getUserData";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-import { ComponentPropsWithoutRef } from "react";
+import { ComponentPropsWithoutRef, useContext } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
@@ -25,17 +26,18 @@ interface DashboardButtonProps {
 const app = initializeApp(firebaseConfigWeb);
 const auth = getAuth(app);
 const db = getFirestore(app);
-let userData: {
+let appUserData: {
   [K in keyof AppUser]?: AppUser[K];
 };
 
 onAuthStateChanged(auth, async (user) => {
   if (user) {
-    const appUserData = await getUserData(user.uid, db);
-    userData = { ...appUserData };
+    const userData = await getUserData(user.uid, db);
+    appUserData = { ...userData };
   }
 });
 export default function Profile() {
+  const [finishedWorkouts] = useContext(FinishedWorkoutsContext);
   const Counter = ({ title, count }: CounterProps) => {
     return (
       <View style={{ alignItems: "center", justifyContent: "center" }}>
@@ -104,10 +106,10 @@ export default function Profile() {
             <Text
               style={[PATTERN.mediumText, { fontWeight: "bold", marginTop: 8 }]}
             >
-              {userData.name?.first + " " + userData.name?.last}
+              {appUserData.name?.first + " " + appUserData.name?.last}
             </Text>
             <Text style={[PATTERN.smallText, { opacity: 0.5 }]}>
-              {userData.email?.split("@").at(0)}
+              {appUserData.email?.split("@").at(0)}
             </Text>
           </View>
           <View style={styles.counters}>
@@ -151,7 +153,10 @@ export default function Profile() {
               </Text>
               <View style={[PATTERN.separator, { marginVertical: 4 }]} />
             </View>
-            <WorkoutHistory />
+            <WorkoutHistory
+              userName={appUserData.name?.first + " " + appUserData.name?.last}
+              data={finishedWorkouts}
+            />
           </View>
         </ScrollView>
       </SafeAreaView>
