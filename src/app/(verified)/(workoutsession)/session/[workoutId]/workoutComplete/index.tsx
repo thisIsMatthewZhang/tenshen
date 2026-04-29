@@ -7,10 +7,20 @@ import ExperienceBar, {
 } from "@/src/components/ExperienceBar";
 import { BLUE_DARKER, MAIN_COLOR, PATTERN } from "@/src/constants/theme";
 import { WorkoutsContext } from "@/src/contexts/WorkoutsContext";
+import {
+  FirebaseFinishedWorkout,
+  Time,
+} from "@/src/types/firebaseFinishedWorkout";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { arrayUnion, doc, getFirestore, updateDoc } from "firebase/firestore";
+import {
+  arrayUnion,
+  doc,
+  getFirestore,
+  Timestamp,
+  updateDoc,
+} from "firebase/firestore";
 import { useContext, useMemo, useState } from "react";
 import {
   StyleProp,
@@ -94,10 +104,23 @@ export default function WorkoutComplete() {
     time: string;
     streak: string;
   }>();
-
-  const finishedWorkout = workoutsContext.find(
+  const date = new Date();
+  const originalWorkout = workoutsContext.find(
     (workout) => workout.id === params.workoutId,
-  );
+  )!;
+  const workout = {
+    id: originalWorkout.id,
+    name: originalWorkout.name,
+    exercises: originalWorkout.exercises,
+  };
+  const finishedWorkout: FirebaseFinishedWorkout = {
+    ...workout,
+    duration: params.time as Time,
+    finishedAt: new Timestamp(
+      date.getSeconds(),
+      date.getMilliseconds() * 1000000,
+    ),
+  };
 
   const expGainedFactors = {
     // time: params.time,
