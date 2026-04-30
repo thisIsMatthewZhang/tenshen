@@ -1,6 +1,9 @@
 import { firebaseConfigWeb } from "@/config/firebaseConfig";
 import { ExerciseContext } from "@/src/contexts/ExerciseContext";
 import { FinishedWorkoutsContext } from "@/src/contexts/FinishedWorkoutsContext";
+import {
+  FirebaseAuthProvider
+} from "@/src/contexts/FirebaseAuthContext";
 import { WorkoutsContext } from "@/src/contexts/WorkoutsContext";
 import { ExerciseCard } from "@/src/types/exercisecard";
 import { FirebaseFinishedWorkout } from "@/src/types/firebaseFinishedWorkout";
@@ -39,14 +42,16 @@ export default function VerifiedGroups() {
   }, []);
 
   return (
-    <WorkoutsContext.Provider value={[workouts, setWorkouts]}>
-      <FinishedWorkoutsContext.Provider
-        value={[finishedWorkouts, setFinishedWorkouts]}
-      >
-        <ExerciseContext.Provider value={[exercises, setExercises]}>
-          <Slot />
-        </ExerciseContext.Provider>
-      </FinishedWorkoutsContext.Provider>
-    </WorkoutsContext.Provider>
+    <FirebaseAuthProvider>
+      <WorkoutsContext.Provider value={[workouts, setWorkouts]}>
+        <FinishedWorkoutsContext.Provider
+          value={[finishedWorkouts, setFinishedWorkouts]}
+        >
+          <ExerciseContext.Provider value={[exercises, setExercises]}>
+            <Slot />
+          </ExerciseContext.Provider>
+        </FinishedWorkoutsContext.Provider>
+      </WorkoutsContext.Provider>
+    </FirebaseAuthProvider>
   );
 }
