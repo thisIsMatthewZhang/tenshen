@@ -1,5 +1,10 @@
 import { Slot } from "expo-router";
+import { FirebaseAuthProvider } from "../contexts/FirebaseAuthContext";
 
 export default function RootLayout() {
-  return <Slot />;
+  return (
+    <FirebaseAuthProvider>
+      <Slot />
+    </FirebaseAuthProvider>
+  );
 }

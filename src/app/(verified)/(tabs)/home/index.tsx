@@ -7,19 +7,18 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 // const fireIcon = require("../../../assets/fire-icon.png");
 import { firebaseConfigWeb } from "@/config/firebaseConfig";
 import { FinishedWorkoutsContext } from "@/src/contexts/FinishedWorkoutsContext";
+import { useFirebaseAuth } from "@/src/contexts/FirebaseAuthContext";
 import { User as AppUser } from "@/src/types/user";
 import { getUserData } from "@/src/utils/getUserData";
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { useContext, useEffect, useRef } from "react";
 
 const app = initializeApp(firebaseConfigWeb);
-const auth = getAuth(app);
 const db = getFirestore(app);
 
 export default function Home() {
-  const user = auth.currentUser!;
+  const user = useFirebaseAuth()!;
   const dates = useWeeklyDates();
   let appUserData: React.RefObject<
     | {
