@@ -3,6 +3,7 @@ import ProfilePhoto from "@/src/components/ProfilePhoto";
 import WorkoutHistory from "@/src/components/WorkoutHistory";
 import { ICON_SIZE, MAIN_COLOR, PATTERN } from "@/src/constants/theme";
 import { FinishedWorkoutsContext } from "@/src/contexts/FinishedWorkoutsContext";
+import { useFirebaseAuth } from "@/src/contexts/FirebaseAuthContext";
 import { User as AppUser } from "@/src/types/user";
 import { getUserData } from "@/src/utils/getUserData";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -37,6 +38,7 @@ onAuthStateChanged(auth, async (user) => {
   }
 });
 export default function Profile() {
+  const user = useFirebaseAuth()!;
   const [finishedWorkouts] = useContext(FinishedWorkoutsContext);
   const Counter = ({ title, count }: CounterProps) => {
     return (
@@ -109,7 +111,7 @@ export default function Profile() {
               {appUserData.name?.first + " " + appUserData.name?.last}
             </Text>
             <Text style={[PATTERN.smallText, { opacity: 0.5 }]}>
-              {appUserData.email?.split("@").at(0)}
+              {user.displayName}
             </Text>
           </View>
           <View style={styles.counters}>
