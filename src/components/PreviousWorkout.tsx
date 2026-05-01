@@ -30,7 +30,6 @@ export default function PreviousWorkout({
   const exercises = workout.exercises;
   const displayedExercises = exercises.slice(0, MAX_EXERCISES);
   const [showFullView, setShowFullView] = useState(false);
-  console.log(workout.duration);
 
   return (
     <>

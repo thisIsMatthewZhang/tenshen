@@ -1,6 +1,7 @@
 import { firebaseConfigWeb } from "@/config/firebaseConfig";
 import { ExerciseContext } from "@/src/contexts/ExerciseContext";
 import { FinishedWorkoutsContext } from "@/src/contexts/FinishedWorkoutsContext";
+import { useFirebaseAuth } from "@/src/contexts/FirebaseAuthContext";
 import { WorkoutsContext } from "@/src/contexts/WorkoutsContext";
 import { ExerciseCard } from "@/src/types/exercisecard";
 import { FirebaseFinishedWorkout } from "@/src/types/firebaseFinishedWorkout";
@@ -18,7 +19,7 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 export default function VerifiedGroups() {
-  const user = auth.currentUser!;
+  const user = useFirebaseAuth()!;
   const isVerified = user.emailVerified;
   const [exercises, setExercises] = useState<ExerciseCard[]>([]);
   const [workouts, setWorkouts] = useState<FirebaseSavedWorkout[]>([]);
