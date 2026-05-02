@@ -30,6 +30,7 @@ import {
   View,
   ViewStyle,
 } from "react-native";
+import uuid from "react-native-uuid";
 
 import RadioGroup, { RadioButtonProps } from "react-native-radio-buttons-group";
 
@@ -108,13 +109,11 @@ export default function WorkoutComplete() {
   const originalWorkout = workoutsContext.find(
     (workout) => workout.id === params.workoutId,
   )!;
-  const workout = {
-    id: originalWorkout.id,
+
+  const finishedWorkout: FirebaseFinishedWorkout = {
+    id: uuid.v4(),
     name: originalWorkout.name,
     exercises: originalWorkout.exercises,
-  };
-  const finishedWorkout: FirebaseFinishedWorkout = {
-    ...workout,
     duration: params.time as Time,
     finishedAt: new Timestamp(
       date.getSeconds(),
