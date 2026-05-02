@@ -6,6 +6,7 @@ import ExperienceBar, {
   getUserExpProgress,
 } from "@/src/components/ExperienceBar";
 import { BLUE_DARKER, MAIN_COLOR, PATTERN } from "@/src/constants/theme";
+import { FinishedWorkoutsContext } from "@/src/contexts/FinishedWorkoutsContext";
 import { WorkoutsContext } from "@/src/contexts/WorkoutsContext";
 import {
   FirebaseFinishedWorkout,
@@ -56,6 +57,9 @@ const Block = ({ value, category }: BlockProps) => {
 };
 
 export default function WorkoutComplete() {
+  const [finishedWorkoutsContext, setFinishedWorkoutsContext] = useContext(
+    FinishedWorkoutsContext,
+  );
   const user = auth.currentUser!;
   const userDocRef = doc(db, "users", user.uid);
   const router = useRouter();
@@ -176,6 +180,10 @@ export default function WorkoutComplete() {
             bgColor={MAIN_COLOR}
             textColor="black"
             onPress={async () => {
+              setFinishedWorkoutsContext([
+                finishedWorkout,
+                ...finishedWorkoutsContext,
+              ]);
               await updateDoc(userDocRef, {
                 workoutsFinished: arrayUnion(finishedWorkout),
               });
